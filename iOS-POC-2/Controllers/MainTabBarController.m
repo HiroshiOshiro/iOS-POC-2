@@ -11,6 +11,8 @@
     TodoInputViewController *todoVC = [[TodoInputViewController alloc] init];
     UINavigationController *todoNav =
         [[UINavigationController alloc] initWithRootViewController:todoVC];
+    // システムのナビゲーションバーは隠し、各画面で独自の CustomNavigationBar を使う。
+    todoNav.navigationBarHidden = YES;
     todoNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"tab.todo", nil)
                                                        image:[UIImage imageNamed:@"todo"]
                                                          tag:0];
@@ -19,6 +21,7 @@
     MusicListViewController *musicVC = [[MusicListViewController alloc] init];
     UINavigationController *musicNav =
         [[UINavigationController alloc] initWithRootViewController:musicVC];
+    musicNav.navigationBarHidden = YES;
     musicNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"tab.music", nil)
                                                         image:[UIImage imageNamed:@"music"]
                                                           tag:1];

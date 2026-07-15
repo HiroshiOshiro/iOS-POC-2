@@ -1,5 +1,6 @@
 #import "Confirm2ViewController.h"
 #import "CompletionViewController.h"
+#import "UIViewController+CustomNavBar.h"
 #import "FakeAPIClient.h"
 #import "TodoStore.h"
 #import "TodoItem.h"
@@ -28,6 +29,9 @@
 }
 
 - (void)setupViews {
+    [self installCustomNavigationBarWithTitle:NSLocalizedString(@"confirm2.title", nil)
+                              showsBackButton:YES];
+
     UILabel *captionLabel = [[UILabel alloc] init];
     captionLabel.translatesAutoresizingMaskIntoConstraints = NO;
     captionLabel.text = NSLocalizedString(@"confirm2.caption", nil);

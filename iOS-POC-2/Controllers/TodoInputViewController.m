@@ -2,6 +2,7 @@
 #import "Confirm1ViewController.h"
 #import "TodoStore.h"
 #import "TodoItem.h"
+#import "UIViewController+CustomNavBar.h"
 
 static NSString *const kCellIdentifier = @"TodoCell";
 
@@ -70,9 +71,14 @@ static NSString *const kCellIdentifier = @"TodoCell";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kCellIdentifier];
     [self.view addSubview:self.tableView];
 
+    // 独自ナビゲーションバー（ルート画面なので戻るボタンなし）
+    CustomNavigationBar *navBar =
+        [self installCustomNavigationBarWithTitle:NSLocalizedString(@"todo.input.title", nil)
+                                  showsBackButton:NO];
+
     UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
     [NSLayoutConstraint activateConstraints:@[
-        [self.textField.topAnchor constraintEqualToAnchor:guide.topAnchor constant:16],
+        [self.textField.topAnchor constraintEqualToAnchor:navBar.bottomAnchor constant:16],
         [self.textField.leadingAnchor constraintEqualToAnchor:guide.leadingAnchor constant:16],
         [self.textField.trailingAnchor constraintEqualToAnchor:guide.trailingAnchor constant:-16],
 

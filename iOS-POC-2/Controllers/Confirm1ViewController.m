@@ -1,5 +1,6 @@
 #import "Confirm1ViewController.h"
 #import "Confirm2ViewController.h"
+#import "UIViewController+CustomNavBar.h"
 
 @interface Confirm1ViewController ()
 @property (nonatomic, copy) NSString *inputText;
@@ -23,6 +24,9 @@
 }
 
 - (void)setupViews {
+    [self installCustomNavigationBarWithTitle:NSLocalizedString(@"confirm1.title", nil)
+                              showsBackButton:YES];
+
     UILabel *captionLabel = [[UILabel alloc] init];
     captionLabel.translatesAutoresizingMaskIntoConstraints = NO;
     captionLabel.text = NSLocalizedString(@"confirm1.caption", nil);

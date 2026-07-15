@@ -15,6 +15,8 @@
 		55C2DD5C117538D6E9995FB4 /* TodoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A04008AB61FCF78C7A66E588 /* TodoItem.m */; };
 		569FF400FAA181D1DED5D43A /* TodoInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F226B36ACDEA14D59749F0 /* TodoInputViewController.m */; };
 		622EBA655D965EC2827D66CB /* Confirm2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5CC8867A3565398718DA430 /* Confirm2ViewController.m */; };
+		6DC983426CBB3A52A745887D /* AppAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 226B972BB272FA837953A4C9 /* AppAppearance.m */; };
+		7CBD0BC40A0F71F5C53DE408 /* UIViewController+CustomNavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E46FA10B7F4B73C8E98EBD04 /* UIViewController+CustomNavBar.m */; };
 		7CD3EFE26E2C1961864789E9 /* Confirm1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE00C3F21F743C667010E53A /* Confirm1ViewController.m */; };
 		8260074E4EFA41135BEE4672 /* Track.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D80D0859E978A12F421EF6A /* Track.m */; };
 		866C9A0B0397EE323FBD15C4 /* ITunesAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DD48C2A4EE97AAC2546974F3 /* ITunesAPIClient.m */; };
@@ -23,11 +25,13 @@
 		B47018C5BE2E6BED6DAAEA9E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8191AABA9F0EB2897E07F4F7 /* Localizable.strings */; };
 		B7243A7F6CA9D9C31E0D5C2F /* MusicListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4241A0BEB69A8B28E25204 /* MusicListViewController.m */; };
 		C0630B309725B4E0350EF0F4 /* ImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F704BE7DBBDC70CFD4341B /* ImageLoader.m */; };
+		C073964661109D3840AC1155 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DB2E43966D9FC1A986BE69 /* CustomNavigationBar.m */; };
 		D6BA11F2CA77FEDC1AB3029C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C7A28F71FBA8BB7671ED99 /* SceneDelegate.m */; };
 		D6BE366FBF8C882EBA1A8432 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBC548C84515A99A922E805E /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		226B972BB272FA837953A4C9 /* AppAppearance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppAppearance.m; sourceTree = "<group>"; };
 		290B614528EF70A51FE1DFA1 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		48F226B36ACDEA14D59749F0 /* TodoInputViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodoInputViewController.m; sourceTree = "<group>"; };
 		490CAFEFD142F5F55773DD5A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -52,18 +56,23 @@
 		A6F1696E02FDB33DC9BD2A5D /* CompletionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompletionViewController.h; sourceTree = "<group>"; };
 		A7A786D82ACE7AAB20F6EE13 /* MusicDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusicDetailViewController.m; sourceTree = "<group>"; };
 		AE97E15DFAB62770D6709AB5 /* Confirm1ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Confirm1ViewController.h; sourceTree = "<group>"; };
+		B26A8CB3F6192FD9D886F437 /* AppAppearance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppAppearance.h; sourceTree = "<group>"; };
 		B61FC8AFC68BE60B0933726A /* Track.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Track.h; sourceTree = "<group>"; };
 		B853D1E3384869856E60A008 /* TodoStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodoStore.h; sourceTree = "<group>"; };
 		BC082B1AF7892CF91A5E6A77 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC7186145FA62764022C9044 /* CustomNavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomNavigationBar.h; sourceTree = "<group>"; };
 		BE00C3F21F743C667010E53A /* Confirm1ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Confirm1ViewController.m; sourceTree = "<group>"; };
 		D5CC8867A3565398718DA430 /* Confirm2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Confirm2ViewController.m; sourceTree = "<group>"; };
+		D8DB2E43966D9FC1A986BE69 /* CustomNavigationBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationBar.m; sourceTree = "<group>"; };
 		DA4241A0BEB69A8B28E25204 /* MusicListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusicListViewController.m; sourceTree = "<group>"; };
 		DBC548C84515A99A922E805E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD48C2A4EE97AAC2546974F3 /* ITunesAPIClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ITunesAPIClient.m; sourceTree = "<group>"; };
+		E46FA10B7F4B73C8E98EBD04 /* UIViewController+CustomNavBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+CustomNavBar.m"; sourceTree = "<group>"; };
 		F1D3C0AD8D8570E9A86BD381 /* CompletionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompletionViewController.m; sourceTree = "<group>"; };
 		F67DC02991B7C7B3F86BCB2E /* FakeAPIClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FakeAPIClient.m; sourceTree = "<group>"; };
 		F71DB87C040026C7C1B9EA34 /* ITunesAPIClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ITunesAPIClient.h; sourceTree = "<group>"; };
 		FC5AB93AA70E3269BB9F3CBA /* TodoInputViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodoInputViewController.h; sourceTree = "<group>"; };
+		FD5A1DE93614354520A2ED0C /* UIViewController+CustomNavBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+CustomNavBar.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -99,12 +108,26 @@
 				490CAFEFD142F5F55773DD5A /* main.m */,
 				290B614528EF70A51FE1DFA1 /* SceneDelegate.h */,
 				A0C7A28F71FBA8BB7671ED99 /* SceneDelegate.m */,
+				275FD05D008814E4C50E986D /* Common */,
 				05AC0E5515D1A4909F72D897 /* Controllers */,
 				8191AABA9F0EB2897E07F4F7 /* Localizable.strings */,
 				2967DC558233541927051BD1 /* Models */,
 				706981818B516FD61CB434D3 /* Services */,
 			);
 			path = "iOS-POC-2";
+			sourceTree = "<group>";
+		};
+		275FD05D008814E4C50E986D /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				B26A8CB3F6192FD9D886F437 /* AppAppearance.h */,
+				226B972BB272FA837953A4C9 /* AppAppearance.m */,
+				BC7186145FA62764022C9044 /* CustomNavigationBar.h */,
+				D8DB2E43966D9FC1A986BE69 /* CustomNavigationBar.m */,
+				FD5A1DE93614354520A2ED0C /* UIViewController+CustomNavBar.h */,
+				E46FA10B7F4B73C8E98EBD04 /* UIViewController+CustomNavBar.m */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		2967DC558233541927051BD1 /* Models */ = {
@@ -217,10 +240,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DC983426CBB3A52A745887D /* AppAppearance.m in Sources */,
 				31036B4E971EE2E1E6CD416B /* AppDelegate.m in Sources */,
 				26D01EBA228CE536FBE5CE8B /* CompletionViewController.m in Sources */,
 				7CD3EFE26E2C1961864789E9 /* Confirm1ViewController.m in Sources */,
 				622EBA655D965EC2827D66CB /* Confirm2ViewController.m in Sources */,
+				C073964661109D3840AC1155 /* CustomNavigationBar.m in Sources */,
 				051593E9855995D7733DAE0F /* FakeAPIClient.m in Sources */,
 				866C9A0B0397EE323FBD15C4 /* ITunesAPIClient.m in Sources */,
 				C0630B309725B4E0350EF0F4 /* ImageLoader.m in Sources */,
@@ -232,6 +257,7 @@
 				55C2DD5C117538D6E9995FB4 /* TodoItem.m in Sources */,
 				059087537C407E18AFB11F91 /* TodoStore.m in Sources */,
 				8260074E4EFA41135BEE4672 /* Track.m in Sources */,
+				7CBD0BC40A0F71F5C53DE408 /* UIViewController+CustomNavBar.m in Sources */,
 				29BA494D9C0877C8A399FEB6 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -3,6 +3,7 @@
 #import "ITunesAPIClient.h"
 #import "ImageLoader.h"
 #import "Track.h"
+#import "UIViewController+CustomNavBar.h"
 
 static NSString *const kCellIdentifier = @"MusicCell";
 static NSString *const kDefaultSearchTerm = @"J-POP";
@@ -59,9 +60,14 @@ static NSString *const kDefaultSearchTerm = @"J-POP";
     self.emptyLabel.hidden = YES;
     [self.view addSubview:self.emptyLabel];
 
+    // 独自ナビゲーションバー（ルート画面なので戻るボタンなし）
+    CustomNavigationBar *navBar =
+        [self installCustomNavigationBarWithTitle:NSLocalizedString(@"music.title", nil)
+                                  showsBackButton:NO];
+
     UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
     [NSLayoutConstraint activateConstraints:@[
-        [self.searchBar.topAnchor constraintEqualToAnchor:guide.topAnchor],
+        [self.searchBar.topAnchor constraintEqualToAnchor:navBar.bottomAnchor],
         [self.searchBar.leadingAnchor constraintEqualToAnchor:guide.leadingAnchor constant:8],
         [self.searchBar.trailingAnchor constraintEqualToAnchor:guide.trailingAnchor constant:-8],
 

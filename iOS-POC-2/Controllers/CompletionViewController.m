@@ -1,4 +1,5 @@
 #import "CompletionViewController.h"
+#import "UIViewController+CustomNavBar.h"
 
 @implementation CompletionViewController
 
@@ -12,6 +13,10 @@
 }
 
 - (void)setupViews {
+    // 完了画面は戻れないので戻るボタンなし。
+    [self installCustomNavigationBarWithTitle:NSLocalizedString(@"completion.title", nil)
+                              showsBackButton:NO];
+
     // 「完了しました」メッセージ
     UILabel *messageLabel = [[UILabel alloc] init];
     messageLabel.translatesAutoresizingMaskIntoConstraints = NO;

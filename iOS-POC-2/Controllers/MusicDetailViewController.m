@@ -1,5 +1,6 @@
 #import "MusicDetailViewController.h"
 #import "ImageLoader.h"
+#import "UIViewController+CustomNavBar.h"
 #import <AVFoundation/AVFoundation.h>
 #import <SafariServices/SafariServices.h>
 
@@ -104,9 +105,14 @@
     openButton.enabled = (self.track.trackViewUrl.length > 0);
     [stack addArrangedSubview:openButton];
 
+    // 独自ナビゲーションバー（戻るボタンあり）
+    CustomNavigationBar *navBar =
+        [self installCustomNavigationBarWithTitle:NSLocalizedString(@"music.detail.title", nil)
+                                  showsBackButton:YES];
+
     UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
     [NSLayoutConstraint activateConstraints:@[
-        [scrollView.topAnchor constraintEqualToAnchor:guide.topAnchor],
+        [scrollView.topAnchor constraintEqualToAnchor:navBar.bottomAnchor],
         [scrollView.leadingAnchor constraintEqualToAnchor:guide.leadingAnchor],
         [scrollView.trailingAnchor constraintEqualToAnchor:guide.trailingAnchor],
         [scrollView.bottomAnchor constraintEqualToAnchor:guide.bottomAnchor],
