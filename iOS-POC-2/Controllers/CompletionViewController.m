@@ -4,7 +4,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"完了";
+    self.title = NSLocalizedString(@"completion.title", nil);
     self.view.backgroundColor = [UIColor systemBackgroundColor];
     // 完了画面からは戻るジェスチャ・戻るボタンを無効化する。
     self.navigationItem.hidesBackButton = YES;
@@ -15,7 +15,7 @@
     // 「完了しました」メッセージ
     UILabel *messageLabel = [[UILabel alloc] init];
     messageLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    messageLabel.text = @"完了しました";
+    messageLabel.text = NSLocalizedString(@"completion.message", nil);
     messageLabel.font = [UIFont boldSystemFontOfSize:28];
     messageLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:messageLabel];
@@ -23,7 +23,7 @@
     // 「入力に戻る」ボタン
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeSystem];
     backButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [backButton setTitle:@"入力に戻る" forState:UIControlStateNormal];
+    [backButton setTitle:NSLocalizedString(@"completion.back", nil) forState:UIControlStateNormal];
     backButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     [backButton addTarget:self
                    action:@selector(didTapBackToInput)

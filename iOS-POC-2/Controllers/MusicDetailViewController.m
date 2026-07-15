@@ -28,7 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"詳細";
+    self.navigationItem.title = NSLocalizedString(@"music.detail.title", nil);
     self.view.backgroundColor = [UIColor systemBackgroundColor];
     [self setupViews];
 }
@@ -66,7 +66,7 @@
     // 曲名
     UILabel *titleLabel = [self labelWithFont:[UIFont boldSystemFontOfSize:22]
                                         color:[UIColor labelColor]];
-    titleLabel.text = self.track.trackName ?: @"(タイトル不明)";
+    titleLabel.text = self.track.trackName ?: NSLocalizedString(@"music.detail.unknown_title", nil);
     [stack addArrangedSubview:titleLabel];
 
     // アーティスト
@@ -97,7 +97,7 @@
     // iTunes で開くボタン
     UIButton *openButton = [UIButton buttonWithType:UIButtonTypeSystem];
     openButton.titleLabel.font = [UIFont systemFontOfSize:16];
-    [openButton setTitle:@"iTunes で開く" forState:UIControlStateNormal];
+    [openButton setTitle:NSLocalizedString(@"music.detail.open_itunes", nil) forState:UIControlStateNormal];
     [openButton addTarget:self
                    action:@selector(didTapOpenITunes)
          forControlEvents:UIControlEventTouchUpInside];
@@ -194,7 +194,9 @@
 }
 
 - (void)updatePreviewButtonTitle {
-    NSString *title = self.isPlaying ? @"■ 停止" : @"▶ 30秒試聴";
+    NSString *title = self.isPlaying
+                          ? NSLocalizedString(@"music.detail.preview_stop", nil)
+                          : NSLocalizedString(@"music.detail.preview_play", nil);
     [self.previewButton setTitle:title forState:UIControlStateNormal];
 }
 

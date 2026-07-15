@@ -17,7 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"確認①";
+    self.title = NSLocalizedString(@"confirm1.title", nil);
     self.view.backgroundColor = [UIColor systemBackgroundColor];
     [self setupViews];
 }
@@ -25,7 +25,7 @@
 - (void)setupViews {
     UILabel *captionLabel = [[UILabel alloc] init];
     captionLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    captionLabel.text = @"入力内容を確認してください";
+    captionLabel.text = NSLocalizedString(@"confirm1.caption", nil);
     captionLabel.textColor = [UIColor secondaryLabelColor];
     captionLabel.font = [UIFont systemFontOfSize:14];
     [self.view addSubview:captionLabel];
@@ -42,7 +42,7 @@
     // 「次へ」ボタン
     UIButton *nextButton = [UIButton buttonWithType:UIButtonTypeSystem];
     nextButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [nextButton setTitle:@"次へ" forState:UIControlStateNormal];
+    [nextButton setTitle:NSLocalizedString(@"confirm1.next", nil) forState:UIControlStateNormal];
     nextButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     [nextButton addTarget:self
                    action:@selector(didTapNext)

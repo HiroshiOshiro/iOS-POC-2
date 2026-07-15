@@ -19,7 +19,7 @@ static NSString *const kDefaultSearchTerm = @"J-POP";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"Music";
+    self.navigationItem.title = NSLocalizedString(@"music.title", nil);
     self.view.backgroundColor = [UIColor systemBackgroundColor];
     [self setupViews];
     // 初期表示として既定の検索語で読み込む。
@@ -32,7 +32,7 @@ static NSString *const kDefaultSearchTerm = @"J-POP";
 - (void)setupViews {
     self.searchBar = [[UISearchBar alloc] init];
     self.searchBar.translatesAutoresizingMaskIntoConstraints = NO;
-    self.searchBar.placeholder = @"曲名・アーティストで検索";
+    self.searchBar.placeholder = NSLocalizedString(@"music.search_placeholder", nil);
     self.searchBar.delegate = self;
     self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     [self.view addSubview:self.searchBar];
@@ -54,7 +54,7 @@ static NSString *const kDefaultSearchTerm = @"J-POP";
 
     self.emptyLabel = [[UILabel alloc] init];
     self.emptyLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    self.emptyLabel.text = @"結果がありません";
+    self.emptyLabel.text = NSLocalizedString(@"music.empty", nil);
     self.emptyLabel.textColor = [UIColor secondaryLabelColor];
     self.emptyLabel.hidden = YES;
     [self.view addSubview:self.emptyLabel];
@@ -115,10 +115,10 @@ static NSString *const kDefaultSearchTerm = @"J-POP";
 
 - (void)showErrorAlert:(NSError *)error {
     UIAlertController *alert =
-        [UIAlertController alertControllerWithTitle:@"読み込みに失敗しました"
+        [UIAlertController alertControllerWithTitle:NSLocalizedString(@"music.error_title", nil)
                                             message:error.localizedDescription
                                      preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"OK"
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"common.ok", nil)
                                               style:UIAlertActionStyleDefault
                                             handler:nil]];
     [self presentViewController:alert animated:YES completion:nil];

@@ -11,6 +11,8 @@ Objective-C 製 iOS アプリへの **Swift 段階導入** を検証するため
 | OSサポート下限 | iOS 14.0 |
 | UI | コードベース（ストーリーボードなし・Auto Layout） |
 | 永続化 | `NSUserDefaults`（Android の SharedPreference 相当） |
+| 文言 | `Localizable.strings`（`ja.lproj`）に集約し `NSLocalizedString` で参照 |
+| タブアイコン | 自作のテンプレート画像（`Assets.xcassets`、CoreGraphics で生成） |
 
 ## 機能
 

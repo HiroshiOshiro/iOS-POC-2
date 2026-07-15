@@ -16,7 +16,7 @@ static NSString *const kCellIdentifier = @"TodoCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // ナビバーのタイトルのみ設定する（タブ名は MainTabBarController 側で "Todo" に固定）。
-    self.navigationItem.title = @"入力";
+    self.navigationItem.title = NSLocalizedString(@"todo.input.title", nil);
     self.view.backgroundColor = [UIColor systemBackgroundColor];
     [self setupViews];
 
@@ -47,7 +47,7 @@ static NSString *const kCellIdentifier = @"TodoCell";
     self.textField = [[UITextField alloc] init];
     self.textField.translatesAutoresizingMaskIntoConstraints = NO;
     self.textField.borderStyle = UITextBorderStyleRoundedRect;
-    self.textField.placeholder = @"Todo を入力";
+    self.textField.placeholder = NSLocalizedString(@"todo.input.placeholder", nil);
     self.textField.returnKeyType = UIReturnKeyDone;
     self.textField.delegate = self;
     [self.view addSubview:self.textField];
@@ -55,7 +55,7 @@ static NSString *const kCellIdentifier = @"TodoCell";
     // 保存ボタン
     UIButton *saveButton = [UIButton buttonWithType:UIButtonTypeSystem];
     saveButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [saveButton setTitle:@"保存" forState:UIControlStateNormal];
+    [saveButton setTitle:NSLocalizedString(@"todo.input.save", nil) forState:UIControlStateNormal];
     saveButton.titleLabel.font = [UIFont boldSystemFontOfSize:17];
     [saveButton addTarget:self
                    action:@selector(didTapSave)
@@ -92,7 +92,7 @@ static NSString *const kCellIdentifier = @"TodoCell";
     NSString *text = [self.textField.text stringByTrimmingCharactersInSet:
                       [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if (text.length == 0) {
-        [self showAlertWithMessage:@"Todo を入力してください"];
+        [self showAlertWithMessage:NSLocalizedString(@"todo.input.empty_alert", nil)];
         return;
     }
     [self.textField resignFirstResponder];
@@ -107,7 +107,7 @@ static NSString *const kCellIdentifier = @"TodoCell";
         [UIAlertController alertControllerWithTitle:nil
                                             message:message
                                      preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"OK"
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"common.ok", nil)
                                               style:UIAlertActionStyleDefault
                                             handler:nil]];
     [self presentViewController:alert animated:YES completion:nil];
@@ -144,7 +144,7 @@ static NSString *const kCellIdentifier = @"TodoCell";
     __weak typeof(self) weakSelf = self;
     UIContextualAction *delete =
         [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive
-                                                title:@"削除"
+                                                title:NSLocalizedString(@"todo.input.delete", nil)
                                               handler:^(UIContextualAction *action,
                                                         UIView *sourceView,
                                                         void (^completionHandler)(BOOL)) {

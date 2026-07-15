@@ -27,7 +27,9 @@ static NSString *const kBaseURL = @"https://itunes.apple.com/search";
 
     NSURL *url = components.URL;
     if (!url) {
-        [self callCompletion:completion tracks:nil error:[self errorWithMessage:@"URL の生成に失敗しました"]];
+        [self callCompletion:completion
+                      tracks:nil
+                       error:[self errorWithMessage:NSLocalizedString(@"api.error.invalid_url", nil)]];
         return;
     }
 
@@ -51,7 +53,7 @@ static NSString *const kBaseURL = @"https://itunes.apple.com/search";
         if (jsonError || ![json isKindOfClass:[NSDictionary class]]) {
             [self callCompletion:completion
                           tracks:nil
-                           error:jsonError ?: [self errorWithMessage:@"レスポンスの解析に失敗しました"]];
+                           error:jsonError ?: [self errorWithMessage:NSLocalizedString(@"api.error.parse_failed", nil)]];
             return;
         }
 

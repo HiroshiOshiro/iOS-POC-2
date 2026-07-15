@@ -1,6 +1,7 @@
 name: iOS-POC-2
 options:
   bundleIdPrefix: com.example
+  developmentLanguage: ja
   deploymentTarget:
     iOS: "14.0"
   createIntermediateGroups: true
@@ -19,6 +20,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.iOS-POC-2
         INFOPLIST_FILE: iOS-POC-2/Info.plist
+        # POC のため AppIcon は未設定（アセットカタログの AppIcon 要求を無効化）
+        ASSETCATALOG_COMPILER_APPICON_NAME: ""
         GENERATE_INFOPLIST_FILE: NO
         TARGETED_DEVICE_FAMILY: "1,2"
         CLANG_ENABLE_MODULES: YES

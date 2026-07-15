@@ -1,0 +1,45 @@
+/* Tabs */
+"tab.todo" = "Todo";
+"tab.music" = "Music";
+
+/* Common */
+"common.ok" = "OK";
+
+/* Todo 入力画面 */
+"todo.input.title" = "入力";
+"todo.input.placeholder" = "Todo を入力";
+"todo.input.save" = "保存";
+"todo.input.empty_alert" = "Todo を入力してください";
+"todo.input.delete" = "削除";
+
+/* 確認画面① */
+"confirm1.title" = "確認①";
+"confirm1.caption" = "入力内容を確認してください";
+"confirm1.next" = "次へ";
+
+/* 確認画面② */
+"confirm2.title" = "確認②";
+"confirm2.caption" = "この内容で保存します";
+"confirm2.save" = "保存";
+
+/* 完了画面 */
+"completion.title" = "完了";
+"completion.message" = "完了しました";
+"completion.back" = "入力に戻る";
+
+/* API エラー */
+"api.error.invalid_url" = "URL の生成に失敗しました";
+"api.error.parse_failed" = "レスポンスの解析に失敗しました";
+
+/* Music 一覧画面 */
+"music.title" = "Music";
+"music.search_placeholder" = "曲名・アーティストで検索";
+"music.empty" = "結果がありません";
+"music.error_title" = "読み込みに失敗しました";
+
+/* Music 詳細画面 */
+"music.detail.title" = "詳細";
+"music.detail.unknown_title" = "(タイトル不明)";
+"music.detail.preview_play" = "▶ 30秒試聴";
+"music.detail.preview_stop" = "■ 停止";
+"music.detail.open_itunes" = "iTunes で開く";

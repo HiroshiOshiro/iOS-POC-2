@@ -22,7 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"確認②";
+    self.title = NSLocalizedString(@"confirm2.title", nil);
     self.view.backgroundColor = [UIColor systemBackgroundColor];
     [self setupViews];
 }
@@ -30,7 +30,7 @@
 - (void)setupViews {
     UILabel *captionLabel = [[UILabel alloc] init];
     captionLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    captionLabel.text = @"この内容で保存します";
+    captionLabel.text = NSLocalizedString(@"confirm2.caption", nil);
     captionLabel.textColor = [UIColor secondaryLabelColor];
     captionLabel.font = [UIFont systemFontOfSize:14];
     [self.view addSubview:captionLabel];
@@ -47,7 +47,7 @@
     // 「保存」ボタン
     self.saveButton = [UIButton buttonWithType:UIButtonTypeSystem];
     self.saveButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.saveButton setTitle:@"保存" forState:UIControlStateNormal];
+    [self.saveButton setTitle:NSLocalizedString(@"confirm2.save", nil) forState:UIControlStateNormal];
     self.saveButton.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     [self.saveButton addTarget:self
                         action:@selector(didTapSave)
