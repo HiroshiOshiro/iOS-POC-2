@@ -1,0 +1,9 @@
+/* 確認画面① */
+"confirm1.title" = "確認①";
+"confirm1.caption" = "入力内容を確認してください";
+"confirm1.next" = "次へ";
+
+/* 確認画面② */
+"confirm2.title" = "確認②";
+"confirm2.caption" = "この内容で保存します";
+"confirm2.save" = "保存";

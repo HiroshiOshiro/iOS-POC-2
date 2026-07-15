@@ -1,6 +1,12 @@
 #import "MainTabBarController.h"
 #import "TodoInputViewController.h"
 #import "MusicListViewController.h"
+#import "TodoFlowCoordinator.h"
+
+@interface MainTabBarController ()
+// Todo フローの遷移を所有する Coordinator を保持する。
+@property (nonatomic, strong) TodoFlowCoordinator *todoFlowCoordinator;
+@end
 
 @implementation MainTabBarController
 
@@ -16,6 +22,10 @@
     todoNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"tab.todo", nil)
                                                        image:[UIImage imageNamed:@"todo"]
                                                          tag:0];
+    // Todo フローの遷移管理は Coordinator が担う。
+    self.todoFlowCoordinator =
+        [[TodoFlowCoordinator alloc] initWithNavigationController:todoNav
+                                             inputViewController:todoVC];
 
     // タブ②: Music（iTunes Search API で一覧→詳細）
     MusicListViewController *musicVC = [[MusicListViewController alloc] init];

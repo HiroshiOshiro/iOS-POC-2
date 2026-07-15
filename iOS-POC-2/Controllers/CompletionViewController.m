@@ -46,8 +46,10 @@
 }
 
 - (void)didTapBackToInput {
-    // スタックの先頭（入力画面）まで戻る。
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    // 遷移は Coordinator に委譲する。
+    if (self.onBackToInput) {
+        self.onBackToInput();
+    }
 }
 
 @end

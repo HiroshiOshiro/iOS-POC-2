@@ -2,8 +2,6 @@
 
 static NSString *const kTodoItemsKey = @"todo_items";
 
-NSNotificationName const TodoStoreDidAddItemNotification = @"TodoStoreDidAddItemNotification";
-
 @interface TodoStore ()
 @property (nonatomic, strong) NSMutableArray<TodoItem *> *items;
 @end
@@ -30,18 +28,14 @@ NSNotificationName const TodoStoreDidAddItemNotification = @"TodoStoreDidAddItem
 #pragma mark - Public
 
 - (NSArray<TodoItem *> *)allItems {
+    // 他レイヤー（Swift の LocalStorage）からの書き込みも反映するため毎回読み直す。
+    [self load];
     return [self.items copy];
 }
 
-- (void)addItem:(TodoItem *)item {
-    // 新しい順で表示するため先頭へ挿入する。
-    [self.items insertObject:item atIndex:0];
-    [self persist];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TodoStoreDidAddItemNotification
-                                                        object:self];
-}
-
 - (void)removeItemAtIndex:(NSUInteger)index {
+    // 表示中の一覧（allItems で読み直した内容）と索引を合わせるため読み直す。
+    [self load];
     if (index >= self.items.count) {
         return;
     }

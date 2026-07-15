@@ -1,5 +1,4 @@
 #import "TodoInputViewController.h"
-#import "Confirm1ViewController.h"
 #import "TodoStore.h"
 #import "TodoItem.h"
 #import "UIViewController+CustomNavBar.h"
@@ -20,19 +19,9 @@ static NSString *const kCellIdentifier = @"TodoCell";
     self.navigationItem.title = NSLocalizedString(@"todo.input.title", nil);
     self.view.backgroundColor = [UIColor systemBackgroundColor];
     [self setupViews];
-
-    // 保存が完了したらテキストフィールドをクリアする。
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didAddTodoItem)
-                                                 name:TodoStoreDidAddItemNotification
-                                               object:nil];
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)didAddTodoItem {
+- (void)resetInput {
     self.textField.text = @"";
 }
 
@@ -103,9 +92,8 @@ static NSString *const kCellIdentifier = @"TodoCell";
     }
     [self.textField resignFirstResponder];
 
-    // 入力したテキストを確認画面①へ渡す。
-    Confirm1ViewController *confirmVC = [[Confirm1ViewController alloc] initWithText:text];
-    [self.navigationController pushViewController:confirmVC animated:YES];
+    // 遷移は Coordinator が管理する。ここでは「確定した」ことだけを通知する。
+    [self.flowDelegate todoInputViewController:self didSubmitText:text];
 }
 
 - (void)showAlertWithMessage:(NSString *)message {

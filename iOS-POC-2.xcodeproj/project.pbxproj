@@ -7,21 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		051593E9855995D7733DAE0F /* FakeAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F67DC02991B7C7B3F86BCB2E /* FakeAPIClient.m */; };
 		059087537C407E18AFB11F91 /* TodoStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B015054E5E290BFE3D43FE7 /* TodoStore.m */; };
 		26D01EBA228CE536FBE5CE8B /* CompletionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1D3C0AD8D8570E9A86BD381 /* CompletionViewController.m */; };
 		29BA494D9C0877C8A399FEB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 490CAFEFD142F5F55773DD5A /* main.m */; };
 		31036B4E971EE2E1E6CD416B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 78244000FBFCFC6FDAC1B193 /* AppDelegate.m */; };
 		55C2DD5C117538D6E9995FB4 /* TodoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A04008AB61FCF78C7A66E588 /* TodoItem.m */; };
 		569FF400FAA181D1DED5D43A /* TodoInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F226B36ACDEA14D59749F0 /* TodoInputViewController.m */; };
-		622EBA655D965EC2827D66CB /* Confirm2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5CC8867A3565398718DA430 /* Confirm2ViewController.m */; };
 		6DC983426CBB3A52A745887D /* AppAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 226B972BB272FA837953A4C9 /* AppAppearance.m */; };
 		7CBD0BC40A0F71F5C53DE408 /* UIViewController+CustomNavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E46FA10B7F4B73C8E98EBD04 /* UIViewController+CustomNavBar.m */; };
-		7CD3EFE26E2C1961864789E9 /* Confirm1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE00C3F21F743C667010E53A /* Confirm1ViewController.m */; };
 		8260074E4EFA41135BEE4672 /* Track.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D80D0859E978A12F421EF6A /* Track.m */; };
 		866C9A0B0397EE323FBD15C4 /* ITunesAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DD48C2A4EE97AAC2546974F3 /* ITunesAPIClient.m */; };
 		8A9892E91F86087B25BE5249 /* MusicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A786D82ACE7AAB20F6EE13 /* MusicDetailViewController.m */; };
+		9DB406632E0947BEED37FEEF /* Feature in Frameworks */ = {isa = PBXBuildFile; productRef = 8CA8A190790D28D08F7D22B2 /* Feature */; };
 		A332279BE72718269A3FBAD4 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */; };
+		A5569468894FF1E6CEB9A27D /* TodoFlowCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = F0172067D571C808706FBA1F /* TodoFlowCoordinator.m */; };
 		B47018C5BE2E6BED6DAAEA9E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8191AABA9F0EB2897E07F4F7 /* Localizable.strings */; };
 		B7243A7F6CA9D9C31E0D5C2F /* MusicListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4241A0BEB69A8B28E25204 /* MusicListViewController.m */; };
 		C0630B309725B4E0350EF0F4 /* ImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F704BE7DBBDC70CFD4341B /* ImageLoader.m */; };
@@ -43,37 +42,46 @@
 		6044742EC5B0AA040D932C8C /* MainTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
 		62CEDE72179A00977F47EF31 /* MusicDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MusicDetailViewController.h; sourceTree = "<group>"; };
 		78244000FBFCFC6FDAC1B193 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		7A7E03CA416D902B3066101D /* Feature */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Feature; path = Packages/Feature; sourceTree = SOURCE_ROOT; };
+		82C55146CF9C469EB783FD77 /* TodoFlowCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodoFlowCoordinator.h; sourceTree = "<group>"; };
 		83F704BE7DBBDC70CFD4341B /* ImageLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageLoader.m; sourceTree = "<group>"; };
 		877457870B130E67DC41C2D4 /* TodoItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodoItem.h; sourceTree = "<group>"; };
 		89CB2013F62F628067AC39B5 /* MusicListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MusicListViewController.h; sourceTree = "<group>"; };
 		8A828054B09B76F985477A85 /* ImageLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageLoader.h; sourceTree = "<group>"; };
-		8AF7598964E73E435F364EDE /* FakeAPIClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FakeAPIClient.h; sourceTree = "<group>"; };
-		8F626FE9C6114666DE711CBD /* Confirm2ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Confirm2ViewController.h; sourceTree = "<group>"; };
 		907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
 		94B68345C2C1A4A210015C24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A04008AB61FCF78C7A66E588 /* TodoItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodoItem.m; sourceTree = "<group>"; };
 		A0C7A28F71FBA8BB7671ED99 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
 		A6F1696E02FDB33DC9BD2A5D /* CompletionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompletionViewController.h; sourceTree = "<group>"; };
 		A7A786D82ACE7AAB20F6EE13 /* MusicDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusicDetailViewController.m; sourceTree = "<group>"; };
-		AE97E15DFAB62770D6709AB5 /* Confirm1ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Confirm1ViewController.h; sourceTree = "<group>"; };
 		B26A8CB3F6192FD9D886F437 /* AppAppearance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppAppearance.h; sourceTree = "<group>"; };
 		B61FC8AFC68BE60B0933726A /* Track.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Track.h; sourceTree = "<group>"; };
 		B853D1E3384869856E60A008 /* TodoStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodoStore.h; sourceTree = "<group>"; };
 		BC082B1AF7892CF91A5E6A77 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC7186145FA62764022C9044 /* CustomNavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomNavigationBar.h; sourceTree = "<group>"; };
-		BE00C3F21F743C667010E53A /* Confirm1ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Confirm1ViewController.m; sourceTree = "<group>"; };
-		D5CC8867A3565398718DA430 /* Confirm2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Confirm2ViewController.m; sourceTree = "<group>"; };
+		C083889403E6496E95DD534F /* Core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Core; path = Packages/Core; sourceTree = SOURCE_ROOT; };
 		D8DB2E43966D9FC1A986BE69 /* CustomNavigationBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationBar.m; sourceTree = "<group>"; };
 		DA4241A0BEB69A8B28E25204 /* MusicListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusicListViewController.m; sourceTree = "<group>"; };
 		DBC548C84515A99A922E805E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD48C2A4EE97AAC2546974F3 /* ITunesAPIClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ITunesAPIClient.m; sourceTree = "<group>"; };
 		E46FA10B7F4B73C8E98EBD04 /* UIViewController+CustomNavBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+CustomNavBar.m"; sourceTree = "<group>"; };
+		F0172067D571C808706FBA1F /* TodoFlowCoordinator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodoFlowCoordinator.m; sourceTree = "<group>"; };
 		F1D3C0AD8D8570E9A86BD381 /* CompletionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompletionViewController.m; sourceTree = "<group>"; };
-		F67DC02991B7C7B3F86BCB2E /* FakeAPIClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FakeAPIClient.m; sourceTree = "<group>"; };
 		F71DB87C040026C7C1B9EA34 /* ITunesAPIClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ITunesAPIClient.h; sourceTree = "<group>"; };
 		FC5AB93AA70E3269BB9F3CBA /* TodoInputViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodoInputViewController.h; sourceTree = "<group>"; };
 		FD5A1DE93614354520A2ED0C /* UIViewController+CustomNavBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+CustomNavBar.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9FAECA6327BA9ADDD9B73098 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9DB406632E0947BEED37FEEF /* Feature in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		05AC0E5515D1A4909F72D897 /* Controllers */ = {
@@ -81,10 +89,6 @@
 			children = (
 				A6F1696E02FDB33DC9BD2A5D /* CompletionViewController.h */,
 				F1D3C0AD8D8570E9A86BD381 /* CompletionViewController.m */,
-				AE97E15DFAB62770D6709AB5 /* Confirm1ViewController.h */,
-				BE00C3F21F743C667010E53A /* Confirm1ViewController.m */,
-				8F626FE9C6114666DE711CBD /* Confirm2ViewController.h */,
-				D5CC8867A3565398718DA430 /* Confirm2ViewController.m */,
 				6044742EC5B0AA040D932C8C /* MainTabBarController.h */,
 				907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */,
 				62CEDE72179A00977F47EF31 /* MusicDetailViewController.h */,
@@ -110,6 +114,7 @@
 				A0C7A28F71FBA8BB7671ED99 /* SceneDelegate.m */,
 				275FD05D008814E4C50E986D /* Common */,
 				05AC0E5515D1A4909F72D897 /* Controllers */,
+				57626097302560B3DA3AD44E /* Coordinators */,
 				8191AABA9F0EB2897E07F4F7 /* Localizable.strings */,
 				2967DC558233541927051BD1 /* Models */,
 				706981818B516FD61CB434D3 /* Services */,
@@ -143,11 +148,18 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		57626097302560B3DA3AD44E /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				82C55146CF9C469EB783FD77 /* TodoFlowCoordinator.h */,
+				F0172067D571C808706FBA1F /* TodoFlowCoordinator.m */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
 		706981818B516FD61CB434D3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				8AF7598964E73E435F364EDE /* FakeAPIClient.h */,
-				F67DC02991B7C7B3F86BCB2E /* FakeAPIClient.m */,
 				8A828054B09B76F985477A85 /* ImageLoader.h */,
 				83F704BE7DBBDC70CFD4341B /* ImageLoader.m */,
 				F71DB87C040026C7C1B9EA34 /* ITunesAPIClient.h */,
@@ -164,10 +176,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C7DB1E41D62A36324A620455 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				C083889403E6496E95DD534F /* Core */,
+				7A7E03CA416D902B3066101D /* Feature */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
 		F7AAE1CEB8ADDFB79BD961C3 = {
 			isa = PBXGroup;
 			children = (
 				165C06D825ACD35229BAB4F8 /* iOS-POC-2 */,
+				C7DB1E41D62A36324A620455 /* Packages */,
 				74BAA08E2E90EB5F25DF1D5E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -181,6 +203,7 @@
 			buildPhases = (
 				711A89E6B8C3E4812F8180D7 /* Sources */,
 				905630DEFCBC8FCBA2442CFD /* Resources */,
+				9FAECA6327BA9ADDD9B73098 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -188,6 +211,7 @@
 			);
 			name = "iOS-POC-2";
 			packageProductDependencies = (
+				8CA8A190790D28D08F7D22B2 /* Feature */,
 			);
 			productName = "iOS-POC-2";
 			productReference = 561C3450CC3BCD8BD844EFD6 /* iOS-POC-2.app */;
@@ -213,6 +237,10 @@
 			);
 			mainGroup = F7AAE1CEB8ADDFB79BD961C3;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A375023E6382740DA4E7ED9B /* XCLocalSwiftPackageReference "Packages/Core" */,
+				7EEB97A30E6B59D36E727BE6 /* XCLocalSwiftPackageReference "Packages/Feature" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 74BAA08E2E90EB5F25DF1D5E /* Products */;
 			projectDirPath = "";
@@ -243,16 +271,14 @@
 				6DC983426CBB3A52A745887D /* AppAppearance.m in Sources */,
 				31036B4E971EE2E1E6CD416B /* AppDelegate.m in Sources */,
 				26D01EBA228CE536FBE5CE8B /* CompletionViewController.m in Sources */,
-				7CD3EFE26E2C1961864789E9 /* Confirm1ViewController.m in Sources */,
-				622EBA655D965EC2827D66CB /* Confirm2ViewController.m in Sources */,
 				C073964661109D3840AC1155 /* CustomNavigationBar.m in Sources */,
-				051593E9855995D7733DAE0F /* FakeAPIClient.m in Sources */,
 				866C9A0B0397EE323FBD15C4 /* ITunesAPIClient.m in Sources */,
 				C0630B309725B4E0350EF0F4 /* ImageLoader.m in Sources */,
 				A332279BE72718269A3FBAD4 /* MainTabBarController.m in Sources */,
 				8A9892E91F86087B25BE5249 /* MusicDetailViewController.m in Sources */,
 				B7243A7F6CA9D9C31E0D5C2F /* MusicListViewController.m in Sources */,
 				D6BA11F2CA77FEDC1AB3029C /* SceneDelegate.m in Sources */,
+				A5569468894FF1E6CEB9A27D /* TodoFlowCoordinator.m in Sources */,
 				569FF400FAA181D1DED5D43A /* TodoInputViewController.m in Sources */,
 				55C2DD5C117538D6E9995FB4 /* TodoItem.m in Sources */,
 				059087537C407E18AFB11F91 /* TodoStore.m in Sources */,
@@ -322,7 +348,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -386,7 +412,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -407,7 +433,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "iOS-POC-2/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -429,7 +455,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "iOS-POC-2/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -465,6 +491,24 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		7EEB97A30E6B59D36E727BE6 /* XCLocalSwiftPackageReference "Packages/Feature" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/Feature;
+		};
+		A375023E6382740DA4E7ED9B /* XCLocalSwiftPackageReference "Packages/Core" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/Core;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8CA8A190790D28D08F7D22B2 /* Feature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Feature;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E211CE98564266A925BE507C /* Project object */;
 }
