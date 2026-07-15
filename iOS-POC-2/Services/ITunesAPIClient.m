@@ -31,11 +31,15 @@ static NSString *const kBaseURL = @"https://itunes.apple.com/search";
         return;
     }
 
+    [self logRequestWithURL:url];
+    NSDate *startedAt = [NSDate date];
+
     NSURLSessionDataTask *task =
         [[NSURLSession sharedSession] dataTaskWithURL:url
                                     completionHandler:^(NSData *data,
                                                         NSURLResponse *response,
                                                         NSError *error) {
+        [self logResponse:response data:data error:error startedAt:startedAt];
         if (error) {
             [self callCompletion:completion tracks:nil error:error];
             return;
@@ -77,6 +81,42 @@ static NSString *const kBaseURL = @"https://itunes.apple.com/search";
     dispatch_async(dispatch_get_main_queue(), ^{
         completion(tracks, error);
     });
+}
+
+#pragma mark - Logging
+
+// リクエスト/レスポンスの内容をコンソールに出力する（DEBUG ビルドのみ）。
+- (void)logRequestWithURL:(NSURL *)url {
+#if DEBUG
+    NSLog(@"[iTunes API] ▶ Request  GET %@", url.absoluteString);
+#endif
+}
+
+- (void)logResponse:(NSURLResponse *)response
+               data:(NSData *)data
+              error:(NSError *)error
+          startedAt:(NSDate *)startedAt {
+#if DEBUG
+    NSTimeInterval elapsedMs = [[NSDate date] timeIntervalSinceDate:startedAt] * 1000.0;
+    if (error) {
+        NSLog(@"[iTunes API] ◀ Response ERROR (%.0f ms): %@", elapsedMs, error.localizedDescription);
+        return;
+    }
+    NSInteger statusCode = 0;
+    if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+        statusCode = ((NSHTTPURLResponse *)response).statusCode;
+    }
+    NSString *body = data.length > 0
+                         ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]
+                         : @"";
+    // ボディが大きいので先頭のみ出力する。
+    const NSUInteger maxLength = 2000;
+    NSString *truncated = body.length > maxLength
+                              ? [[body substringToIndex:maxLength] stringByAppendingString:@" …(truncated)"]
+                              : body;
+    NSLog(@"[iTunes API] ◀ Response %ld (%.0f ms, %lu bytes)\n%@",
+          (long)statusCode, elapsedMs, (unsigned long)data.length, truncated);
+#endif
 }
 
 - (NSError *)errorWithMessage:(NSString *)message {
