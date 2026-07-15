@@ -1,0 +1,22 @@
+# Xcode
+build/
+DerivedData/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+xcuserdata/
+*.xcuserstate
+*.moved-aside
+*.pbxuser
+*.perspectivev3
+*.mode1v3
+*.mode2v3
+
+# macOS
+.DS_Store
+
+# CocoaPods / SPM / Carthage（将来利用時）
+Pods/
+Carthage/Build/
+.build/
+.swiftpm/

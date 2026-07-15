@@ -1,0 +1,28 @@
+name: iOS-POC-2
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    iOS: "14.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  iOS-POC-2:
+    type: application
+    platform: iOS
+    deploymentTarget: "14.0"
+    sources:
+      - iOS-POC-2
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.iOS-POC-2
+        INFOPLIST_FILE: iOS-POC-2/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        TARGETED_DEVICE_FAMILY: "1,2"
+        CLANG_ENABLE_MODULES: YES
+        # Swift 相互運用の準備（POC で一部を Swift 化する際に使用）
+        SWIFT_VERSION: "5.0"
+        SWIFT_OBJC_BRIDGING_HEADER: iOS-POC-2/iOS-POC-2-Bridging-Header.h
+        SWIFT_OBJC_INTERFACE_HEADER_NAME: iOS-POC-2-Swift.h
