@@ -21,15 +21,18 @@ Objective-C 製 iOS アプリへの **Swift 段階導入** を検証するため
   2. **確認画面①** — 入力内容を確認し「次へ」で遷移。
   3. **確認画面②** — 「保存」でフェイク API 呼び出し → `NSUserDefaults` へ保存 → 完了画面へ。
   4. **完了画面** — 「完了しました」メッセージ＋「入力に戻る」ボタン。
-- **タブ②: Memo** — 空タブ。
+- **タブ②: Music** — [iTunes Search API](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/)（キー不要）を使った一覧→詳細
+  1. **一覧画面** — 検索バーで楽曲を検索し、アートワーク＋曲名＋アーティストを一覧表示。
+  2. **詳細画面** — 大アートワーク・アルバム/ジャンル/リリース日/再生時間、30秒試聴（`AVPlayer`）、iTunes ページを `SFSafariViewController` で表示。
 
 ## プロジェクト構成（MVC）
 
 ```
 iOS-POC-2/
-├── Models/       TodoItem, TodoStore（永続化）
-├── Controllers/  MainTabBar / TodoInput / Confirm1 / Confirm2 / Completion / Memo
-└── Services/     FakeAPIClient（保存を模したフェイクAPI）
+├── Models/       TodoItem, TodoStore（永続化） / Track
+├── Controllers/  MainTabBar / TodoInput / Confirm1 / Confirm2 / Completion
+│                 MusicList / MusicDetail
+└── Services/     FakeAPIClient（フェイクAPI） / ITunesAPIClient / ImageLoader
 ```
 
 ## ビルド / 起動

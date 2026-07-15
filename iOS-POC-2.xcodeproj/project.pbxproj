@@ -16,9 +16,13 @@
 		569FF400FAA181D1DED5D43A /* TodoInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F226B36ACDEA14D59749F0 /* TodoInputViewController.m */; };
 		622EBA655D965EC2827D66CB /* Confirm2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5CC8867A3565398718DA430 /* Confirm2ViewController.m */; };
 		7CD3EFE26E2C1961864789E9 /* Confirm1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE00C3F21F743C667010E53A /* Confirm1ViewController.m */; };
+		8260074E4EFA41135BEE4672 /* Track.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D80D0859E978A12F421EF6A /* Track.m */; };
+		866C9A0B0397EE323FBD15C4 /* ITunesAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DD48C2A4EE97AAC2546974F3 /* ITunesAPIClient.m */; };
+		8A9892E91F86087B25BE5249 /* MusicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A786D82ACE7AAB20F6EE13 /* MusicDetailViewController.m */; };
 		A332279BE72718269A3FBAD4 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */; };
+		B7243A7F6CA9D9C31E0D5C2F /* MusicListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4241A0BEB69A8B28E25204 /* MusicListViewController.m */; };
+		C0630B309725B4E0350EF0F4 /* ImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F704BE7DBBDC70CFD4341B /* ImageLoader.m */; };
 		D6BA11F2CA77FEDC1AB3029C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C7A28F71FBA8BB7671ED99 /* SceneDelegate.m */; };
-		DFA6B55336629014DE4A4587 /* MemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7054F57E36F3BAAE9F8344F4 /* MemoViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,10 +33,14 @@
 		49DF2FCAD5F53859134FC247 /* iOS-POC-2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOS-POC-2-Bridging-Header.h"; sourceTree = "<group>"; };
 		4B015054E5E290BFE3D43FE7 /* TodoStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodoStore.m; sourceTree = "<group>"; };
 		561C3450CC3BCD8BD844EFD6 /* iOS-POC-2.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "iOS-POC-2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D80D0859E978A12F421EF6A /* Track.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Track.m; sourceTree = "<group>"; };
 		6044742EC5B0AA040D932C8C /* MainTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
-		7054F57E36F3BAAE9F8344F4 /* MemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MemoViewController.m; sourceTree = "<group>"; };
+		62CEDE72179A00977F47EF31 /* MusicDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MusicDetailViewController.h; sourceTree = "<group>"; };
 		78244000FBFCFC6FDAC1B193 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		83F704BE7DBBDC70CFD4341B /* ImageLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageLoader.m; sourceTree = "<group>"; };
 		877457870B130E67DC41C2D4 /* TodoItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodoItem.h; sourceTree = "<group>"; };
+		89CB2013F62F628067AC39B5 /* MusicListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MusicListViewController.h; sourceTree = "<group>"; };
+		8A828054B09B76F985477A85 /* ImageLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageLoader.h; sourceTree = "<group>"; };
 		8AF7598964E73E435F364EDE /* FakeAPIClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FakeAPIClient.h; sourceTree = "<group>"; };
 		8F626FE9C6114666DE711CBD /* Confirm2ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Confirm2ViewController.h; sourceTree = "<group>"; };
 		907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
@@ -40,13 +48,17 @@
 		A04008AB61FCF78C7A66E588 /* TodoItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodoItem.m; sourceTree = "<group>"; };
 		A0C7A28F71FBA8BB7671ED99 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
 		A6F1696E02FDB33DC9BD2A5D /* CompletionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompletionViewController.h; sourceTree = "<group>"; };
+		A7A786D82ACE7AAB20F6EE13 /* MusicDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusicDetailViewController.m; sourceTree = "<group>"; };
 		AE97E15DFAB62770D6709AB5 /* Confirm1ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Confirm1ViewController.h; sourceTree = "<group>"; };
+		B61FC8AFC68BE60B0933726A /* Track.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Track.h; sourceTree = "<group>"; };
 		B853D1E3384869856E60A008 /* TodoStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodoStore.h; sourceTree = "<group>"; };
 		BE00C3F21F743C667010E53A /* Confirm1ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Confirm1ViewController.m; sourceTree = "<group>"; };
-		C379F0C4F70C6CD2B8B30654 /* MemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemoViewController.h; sourceTree = "<group>"; };
 		D5CC8867A3565398718DA430 /* Confirm2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Confirm2ViewController.m; sourceTree = "<group>"; };
+		DA4241A0BEB69A8B28E25204 /* MusicListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusicListViewController.m; sourceTree = "<group>"; };
+		DD48C2A4EE97AAC2546974F3 /* ITunesAPIClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ITunesAPIClient.m; sourceTree = "<group>"; };
 		F1D3C0AD8D8570E9A86BD381 /* CompletionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompletionViewController.m; sourceTree = "<group>"; };
 		F67DC02991B7C7B3F86BCB2E /* FakeAPIClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FakeAPIClient.m; sourceTree = "<group>"; };
+		F71DB87C040026C7C1B9EA34 /* ITunesAPIClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ITunesAPIClient.h; sourceTree = "<group>"; };
 		FC5AB93AA70E3269BB9F3CBA /* TodoInputViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodoInputViewController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,8 +74,10 @@
 				D5CC8867A3565398718DA430 /* Confirm2ViewController.m */,
 				6044742EC5B0AA040D932C8C /* MainTabBarController.h */,
 				907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */,
-				C379F0C4F70C6CD2B8B30654 /* MemoViewController.h */,
-				7054F57E36F3BAAE9F8344F4 /* MemoViewController.m */,
+				62CEDE72179A00977F47EF31 /* MusicDetailViewController.h */,
+				A7A786D82ACE7AAB20F6EE13 /* MusicDetailViewController.m */,
+				89CB2013F62F628067AC39B5 /* MusicListViewController.h */,
+				DA4241A0BEB69A8B28E25204 /* MusicListViewController.m */,
 				FC5AB93AA70E3269BB9F3CBA /* TodoInputViewController.h */,
 				48F226B36ACDEA14D59749F0 /* TodoInputViewController.m */,
 			);
@@ -94,6 +108,8 @@
 				A04008AB61FCF78C7A66E588 /* TodoItem.m */,
 				B853D1E3384869856E60A008 /* TodoStore.h */,
 				4B015054E5E290BFE3D43FE7 /* TodoStore.m */,
+				B61FC8AFC68BE60B0933726A /* Track.h */,
+				5D80D0859E978A12F421EF6A /* Track.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -103,6 +119,10 @@
 			children = (
 				8AF7598964E73E435F364EDE /* FakeAPIClient.h */,
 				F67DC02991B7C7B3F86BCB2E /* FakeAPIClient.m */,
+				8A828054B09B76F985477A85 /* ImageLoader.h */,
+				83F704BE7DBBDC70CFD4341B /* ImageLoader.m */,
+				F71DB87C040026C7C1B9EA34 /* ITunesAPIClient.h */,
+				DD48C2A4EE97AAC2546974F3 /* ITunesAPIClient.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -183,12 +203,16 @@
 				7CD3EFE26E2C1961864789E9 /* Confirm1ViewController.m in Sources */,
 				622EBA655D965EC2827D66CB /* Confirm2ViewController.m in Sources */,
 				051593E9855995D7733DAE0F /* FakeAPIClient.m in Sources */,
+				866C9A0B0397EE323FBD15C4 /* ITunesAPIClient.m in Sources */,
+				C0630B309725B4E0350EF0F4 /* ImageLoader.m in Sources */,
 				A332279BE72718269A3FBAD4 /* MainTabBarController.m in Sources */,
-				DFA6B55336629014DE4A4587 /* MemoViewController.m in Sources */,
+				8A9892E91F86087B25BE5249 /* MusicDetailViewController.m in Sources */,
+				B7243A7F6CA9D9C31E0D5C2F /* MusicListViewController.m in Sources */,
 				D6BA11F2CA77FEDC1AB3029C /* SceneDelegate.m in Sources */,
 				569FF400FAA181D1DED5D43A /* TodoInputViewController.m in Sources */,
 				55C2DD5C117538D6E9995FB4 /* TodoItem.m in Sources */,
 				059087537C407E18AFB11F91 /* TodoStore.m in Sources */,
+				8260074E4EFA41135BEE4672 /* Track.m in Sources */,
 				29BA494D9C0877C8A399FEB6 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,6 +1,6 @@
 #import "MainTabBarController.h"
 #import "TodoInputViewController.h"
-#import "MemoViewController.h"
+#import "MusicListViewController.h"
 
 @implementation MainTabBarController
 
@@ -15,13 +15,15 @@
                                                        image:[UIImage systemImageNamed:@"checklist"]
                                                          tag:0];
 
-    // タブ②: Memo（空タブ）
-    MemoViewController *memoVC = [[MemoViewController alloc] init];
-    memoVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Memo"
-                                                      image:[UIImage systemImageNamed:@"note.text"]
-                                                        tag:1];
+    // タブ②: Music（iTunes Search API で一覧→詳細）
+    MusicListViewController *musicVC = [[MusicListViewController alloc] init];
+    UINavigationController *musicNav =
+        [[UINavigationController alloc] initWithRootViewController:musicVC];
+    musicNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Music"
+                                                        image:[UIImage systemImageNamed:@"music.note"]
+                                                          tag:1];
 
-    self.viewControllers = @[ todoNav, memoVC ];
+    self.viewControllers = @[ todoNav, musicNav ];
 }
 
 @end
