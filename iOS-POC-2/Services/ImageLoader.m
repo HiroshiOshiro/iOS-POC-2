@@ -25,10 +25,11 @@
 
 - (void)loadImageFromURLString:(NSString *)urlString
                     completion:(void (^)(UIImage *_Nullable))completion {
-    if (urlString.length == 0 || !completion) {
-        if (completion) {
-            completion(nil);
-        }
+    if (!completion) {
+        return;
+    }
+    if (urlString.length == 0) {
+        completion(nil);
         return;
     }
 

@@ -15,8 +15,6 @@ static NSString *const kCellIdentifier = @"TodoCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // ナビバーのタイトルのみ設定する（タブ名は MainTabBarController 側で "Todo" に固定）。
-    self.navigationItem.title = NSLocalizedString(@"todo.input.title", nil);
     self.view.backgroundColor = [UIColor systemBackgroundColor];
     [self setupViews];
 }

@@ -5,10 +5,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = NSLocalizedString(@"completion.title", nil);
     self.view.backgroundColor = [UIColor systemBackgroundColor];
-    // 完了画面からは戻るジェスチャ・戻るボタンを無効化する。
-    self.navigationItem.hidesBackButton = YES;
     [self setupViews];
 }
 

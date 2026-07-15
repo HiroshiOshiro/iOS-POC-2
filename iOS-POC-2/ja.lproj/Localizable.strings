@@ -30,6 +30,7 @@
 /* API エラー */
 "api.error.invalid_url" = "URL の生成に失敗しました";
 "api.error.parse_failed" = "レスポンスの解析に失敗しました";
+"api.error.http_status" = "サーバーエラーが発生しました（%ld）";
 
 /* Music 一覧画面 */
 "music.title" = "Music";

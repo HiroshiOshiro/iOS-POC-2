@@ -20,10 +20,8 @@ static NSString *const kDefaultSearchTerm = @"J-POP";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = NSLocalizedString(@"music.title", nil);
     self.view.backgroundColor = [UIColor systemBackgroundColor];
     [self setupViews];
-    // 初期表示として既定の検索語で読み込む。
     self.searchBar.text = kDefaultSearchTerm;
     [self searchWithTerm:kDefaultSearchTerm];
 }
@@ -175,12 +173,17 @@ static NSString *const kDefaultSearchTerm = @"J-POP";
 }
 
 - (UIImage *)placeholderImage {
-    UIGraphicsImageRenderer *renderer =
-        [[UIGraphicsImageRenderer alloc] initWithSize:CGSizeMake(56, 56)];
-    return [renderer imageWithActions:^(UIGraphicsImageRendererContext *context) {
-        [[UIColor systemGray5Color] setFill];
-        [context fillRect:CGRectMake(0, 0, 56, 56)];
-    }];
+    static UIImage *image = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        UIGraphicsImageRenderer *renderer =
+            [[UIGraphicsImageRenderer alloc] initWithSize:CGSizeMake(56, 56)];
+        image = [renderer imageWithActions:^(UIGraphicsImageRendererContext *context) {
+            [[UIColor systemGray5Color] setFill];
+            [context fillRect:CGRectMake(0, 0, 56, 56)];
+        }];
+    });
+    return image;
 }
 
 #pragma mark - UITableViewDelegate

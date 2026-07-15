@@ -17,14 +17,6 @@ static NSString *const kTodoItemsKey = @"todo_items";
     return shared;
 }
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        [self load];
-    }
-    return self;
-}
-
 #pragma mark - Public
 
 - (NSArray<TodoItem *> *)allItems {

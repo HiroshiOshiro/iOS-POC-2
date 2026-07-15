@@ -46,6 +46,16 @@ static NSString *const kBaseURL = @"https://itunes.apple.com/search";
             [self callCompletion:completion tracks:nil error:error];
             return;
         }
+        if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+            NSInteger statusCode = ((NSHTTPURLResponse *)response).statusCode;
+            if (statusCode < 200 || statusCode >= 300) {
+                NSString *message =
+                    [NSString stringWithFormat:NSLocalizedString(@"api.error.http_status", nil),
+                                               (long)statusCode];
+                [self callCompletion:completion tracks:nil error:[self errorWithMessage:message]];
+                return;
+            }
+        }
         NSError *jsonError = nil;
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data ?: [NSData data]
                                                             options:0

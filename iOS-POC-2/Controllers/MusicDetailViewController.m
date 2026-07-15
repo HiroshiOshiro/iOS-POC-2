@@ -29,7 +29,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = NSLocalizedString(@"music.detail.title", nil);
     self.view.backgroundColor = [UIColor systemBackgroundColor];
     [self setupViews];
 }
