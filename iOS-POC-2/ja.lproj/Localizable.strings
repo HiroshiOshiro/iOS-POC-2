@@ -1,6 +1,7 @@
 /* Tabs */
 "tab.todo" = "Todo";
 "tab.music" = "Music";
+"tab.login" = "Login";
 
 /* Common */
 "common.ok" = "OK";

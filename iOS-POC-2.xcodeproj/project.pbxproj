@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		059087537C407E18AFB11F91 /* TodoStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B015054E5E290BFE3D43FE7 /* TodoStore.m */; };
+		0A16FCA1532D8030ADCB3D61 /* LocalStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 95A88AFD54B008A5CFE7DE1D /* LocalStorage */; };
 		26D01EBA228CE536FBE5CE8B /* CompletionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1D3C0AD8D8570E9A86BD381 /* CompletionViewController.m */; };
 		29BA494D9C0877C8A399FEB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 490CAFEFD142F5F55773DD5A /* main.m */; };
 		31036B4E971EE2E1E6CD416B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 78244000FBFCFC6FDAC1B193 /* AppDelegate.m */; };
@@ -27,11 +28,23 @@
 		C073964661109D3840AC1155 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DB2E43966D9FC1A986BE69 /* CustomNavigationBar.m */; };
 		D6BA11F2CA77FEDC1AB3029C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C7A28F71FBA8BB7671ED99 /* SceneDelegate.m */; };
 		D6BE366FBF8C882EBA1A8432 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBC548C84515A99A922E805E /* Assets.xcassets */; };
+		E75AACD8F89DF526133FDD38 /* KeyChainUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1F0E2370AE252A637B644A /* KeyChainUtilTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		489ACCAA0A5BAEF8B4933076 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E211CE98564266A925BE507C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ADAA2A5DC994B033CC1E1D1A;
+			remoteInfo = "iOS-POC-2";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		226B972BB272FA837953A4C9 /* AppAppearance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppAppearance.m; sourceTree = "<group>"; };
 		290B614528EF70A51FE1DFA1 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		2B1F0E2370AE252A637B644A /* KeyChainUtilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainUtilTests.swift; sourceTree = "<group>"; };
 		48F226B36ACDEA14D59749F0 /* TodoInputViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodoInputViewController.m; sourceTree = "<group>"; };
 		490CAFEFD142F5F55773DD5A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		491E942F459E70DA3AD01F8A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -48,6 +61,7 @@
 		89CB2013F62F628067AC39B5 /* MusicListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MusicListViewController.h; sourceTree = "<group>"; };
 		8A828054B09B76F985477A85 /* ImageLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageLoader.h; sourceTree = "<group>"; };
 		907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
+		9479B3E459B418E462263324 /* iOS-POC-2Tests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = "iOS-POC-2Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94B68345C2C1A4A210015C24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A04008AB61FCF78C7A66E588 /* TodoItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodoItem.m; sourceTree = "<group>"; };
 		A0C7A28F71FBA8BB7671ED99 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
@@ -72,6 +86,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2E21D698F6EBC6D14A3B981D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A16FCA1532D8030ADCB3D61 /* LocalStorage in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9FAECA6327BA9ADDD9B73098 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -170,8 +192,17 @@
 			isa = PBXGroup;
 			children = (
 				561C3450CC3BCD8BD844EFD6 /* iOS-POC-2.app */,
+				9479B3E459B418E462263324 /* iOS-POC-2Tests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A90D72E8BF1683CBD12AE4C6 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				2B1F0E2370AE252A637B644A /* KeyChainUtilTests.swift */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		C7DB1E41D62A36324A620455 /* Packages */ = {
@@ -188,6 +219,7 @@
 			children = (
 				165C06D825ACD35229BAB4F8 /* iOS-POC-2 */,
 				C7DB1E41D62A36324A620455 /* Packages */,
+				A90D72E8BF1683CBD12AE4C6 /* Tests */,
 				74BAA08E2E90EB5F25DF1D5E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -195,6 +227,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8F148398C29E64C2F7D2C58C /* iOS-POC-2Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52E52154593932DC3E575A59 /* Build configuration list for PBXNativeTarget "iOS-POC-2Tests" */;
+			buildPhases = (
+				1F492F0D6E8024E2D987AE18 /* Sources */,
+				2E21D698F6EBC6D14A3B981D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				958E2D17782B7780BF538AB0 /* PBXTargetDependency */,
+			);
+			name = "iOS-POC-2Tests";
+			packageProductDependencies = (
+				95A88AFD54B008A5CFE7DE1D /* LocalStorage */,
+			);
+			productName = "iOS-POC-2Tests";
+			productReference = 9479B3E459B418E462263324 /* iOS-POC-2Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		ADAA2A5DC994B033CC1E1D1A /* iOS-POC-2 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A9BF112F269204BECE3106E5 /* Build configuration list for PBXNativeTarget "iOS-POC-2" */;
@@ -245,6 +297,7 @@
 			projectRoot = "";
 			targets = (
 				ADAA2A5DC994B033CC1E1D1A /* iOS-POC-2 */,
+				8F148398C29E64C2F7D2C58C /* iOS-POC-2Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -262,6 +315,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1F492F0D6E8024E2D987AE18 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E75AACD8F89DF526133FDD38 /* KeyChainUtilTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		711A89E6B8C3E4812F8180D7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -287,6 +348,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		958E2D17782B7780BF538AB0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ADAA2A5DC994B033CC1E1D1A /* iOS-POC-2 */;
+			targetProxy = 489ACCAA0A5BAEF8B4933076 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8191AABA9F0EB2897E07F4F7 /* Localizable.strings */ = {
@@ -423,6 +492,44 @@
 			};
 			name = Debug;
 		};
+		7788F2536E86889464AA64C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.iOS-POC-2.tests";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOS-POC-2.app/iOS-POC-2";
+			};
+			name = Debug;
+		};
+		9CC71AE547E282A52E702055 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.iOS-POC-2.tests";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOS-POC-2.app/iOS-POC-2";
+			};
+			name = Release;
+		};
 		B980EF83CFC0475FD1523CEC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -470,6 +577,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		52E52154593932DC3E575A59 /* Build configuration list for PBXNativeTarget "iOS-POC-2Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7788F2536E86889464AA64C7 /* Debug */,
+				9CC71AE547E282A52E702055 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		6C691BD9D713F80E9A5C8F8F /* Build configuration list for PBXProject "iOS-POC-2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -505,6 +621,10 @@
 		8CA8A190790D28D08F7D22B2 /* Feature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Feature;
+		};
+		95A88AFD54B008A5CFE7DE1D /* LocalStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LocalStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

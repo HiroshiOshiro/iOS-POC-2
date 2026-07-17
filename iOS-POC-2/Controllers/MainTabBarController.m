@@ -2,6 +2,7 @@
 #import "TodoInputViewController.h"
 #import "MusicListViewController.h"
 #import "iOS-POC-2-Swift.h"
+@import Feature;
 
 @interface MainTabBarController ()
 // Todo フローの遷移を所有する Coordinator を保持する。
@@ -36,7 +37,13 @@
                                                         image:[UIImage imageNamed:@"music"]
                                                           tag:1];
 
-    self.viewControllers = @[ todoNav, musicNav ];
+    // タブ③: Login（Swift/SwiftUI。単一画面なのでナビゲーションは持たない）
+    UIViewController *loginVC = [LoginScreenFactory makeLoginScreen];
+    loginVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"tab.login", nil)
+                                                       image:[UIImage imageNamed:@"login"]
+                                                         tag:2];
+
+    self.viewControllers = @[ todoNav, musicNav, loginVC ];
 }
 
 @end

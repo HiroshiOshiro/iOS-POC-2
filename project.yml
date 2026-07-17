@@ -24,6 +24,9 @@ targets:
     dependencies:
       - package: Feature
         product: Feature
+    scheme:
+      testTargets:
+        - iOS-POC-2Tests
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.iOS-POC-2
@@ -37,3 +40,21 @@ targets:
         SWIFT_VERSION: "5.0"
         SWIFT_OBJC_BRIDGING_HEADER: iOS-POC-2/iOS-POC-2-Bridging-Header.h
         SWIFT_OBJC_INTERFACE_HEADER_NAME: iOS-POC-2-Swift.h
+
+  # Keychain はホストアプリが無いと entitlement 不足（-34018）で使えないため、
+  # アプリをテストホストにしたユニットテストターゲットで検証する。
+  iOS-POC-2Tests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources:
+      - Tests
+    dependencies:
+      - target: iOS-POC-2
+      - package: Core
+        product: LocalStorage
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.iOS-POC-2.tests
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_VERSION: "5.0"

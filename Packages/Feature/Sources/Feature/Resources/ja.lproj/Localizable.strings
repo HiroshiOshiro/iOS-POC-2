@@ -7,3 +7,13 @@
 "confirm2.title" = "確認②";
 "confirm2.caption" = "この内容で保存します";
 "confirm2.save" = "保存";
+
+/* ログイン画面 */
+"login.title" = "ログイン";
+"login.email" = "メールアドレス";
+"login.password" = "パスワード";
+"login.button" = "ログイン";
+"login.error" = "ログインに失敗しました";
+"login.saved_title" = "保存済みの情報";
+"login.saved_email" = "メールアドレス（AppStorage）";
+"login.saved_user_id" = "userID（Keychain）";
