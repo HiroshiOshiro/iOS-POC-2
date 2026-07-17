@@ -4,26 +4,29 @@ import Domain
 /// 確認画面2。内容を再確認し「保存」でフェイク API 送信・永続化を行い完了へ進む。
 struct Confirm2View: View {
     @StateObject private var viewModel: Confirm2ViewModel
-    private let onBack: () -> Void
 
     init(
         text: String,
         submitUseCase: any SubmitTodoUseCase,
-        onCompleted: @escaping () -> Void,
+        router: ConfirmFlowRouter,
         onBack: @escaping () -> Void
     ) {
         _viewModel = StateObject(
             wrappedValue: Confirm2ViewModel(
                 text: text,
                 submitUseCase: submitUseCase,
-                onCompleted: onCompleted
+                router: router,
+                onBack: onBack
             )
         )
-        self.onBack = onBack
     }
 
     var body: some View {
-        CustomNavigationBarView(title: L("confirm2.title"), showsBack: true, onBack: onBack) {
+        CustomNavigationBarView(
+            title: L("confirm2.title"),
+            showsBack: true,
+            onBack: { viewModel.backButtonTapped() }
+        ) {
             VStack(spacing: 16) {
                 Spacer()
                 Text(L("confirm2.caption"))
@@ -32,7 +35,7 @@ struct Confirm2View: View {
                 Text(viewModel.text)
                     .font(.system(size: 22, weight: .bold))
                     .multilineTextAlignment(.center)
-                Button(action: { viewModel.save() }) {
+                Button(action: { viewModel.saveButtonTapped() }) {
                     Text(L("confirm2.save")).font(.headline)
                 }
                 .disabled(viewModel.isSubmitting)
@@ -52,11 +55,17 @@ private struct PreviewSubmitTodoUseCase: SubmitTodoUseCase {
     func execute(text: String) async {}
 }
 
+/// プレビュー用の何もしない Router スタブ。
+private final class PreviewConfirmFlowRouter: ConfirmFlowRouter {
+    func navigateToComplete() {}
+    func navigateBack() {}
+}
+
 #Preview {
     Confirm2View(
         text: "牛乳を買う",
         submitUseCase: PreviewSubmitTodoUseCase(),
-        onCompleted: {},
+        router: PreviewConfirmFlowRouter(),
         onBack: {}
     )
 }

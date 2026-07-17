@@ -1,9 +1,10 @@
 import SwiftUI
 import Domain
 
-/// 確認フロー内の遷移状態。
+/// 確認フロー内部の遷移状態（Feature 内で完結する 確認1↔確認2 の切り替え）。
+/// フロー外への遷移は `ConfirmFlowRouter` が担う。
 @MainActor
-final class ConfirmRouter: ObservableObject {
+final class ConfirmFlowState: ObservableObject {
     enum Step {
         case confirm1
         case confirm2
@@ -16,44 +17,37 @@ final class ConfirmRouter: ObservableObject {
 struct ConfirmFlowView: View {
     private let text: String
     private let submitUseCase: any SubmitTodoUseCase
-    private let onCompleted: () -> Void
-    private let onExit: () -> Void
+    private let router: ConfirmFlowRouter
 
-    @StateObject private var router = ConfirmRouter()
+    @StateObject private var state = ConfirmFlowState()
 
-    init(
-        text: String,
-        submitUseCase: any SubmitTodoUseCase,
-        onCompleted: @escaping () -> Void,
-        onExit: @escaping () -> Void
-    ) {
+    init(text: String, submitUseCase: any SubmitTodoUseCase, router: ConfirmFlowRouter) {
         self.text = text
         self.submitUseCase = submitUseCase
-        self.onCompleted = onCompleted
-        self.onExit = onExit
+        self.router = router
     }
 
     var body: some View {
         ZStack {
-            switch router.step {
+            switch state.step {
             case .confirm1:
                 Confirm1View(
                     text: text,
-                    onNext: { router.step = .confirm2 },
-                    onBack: onExit
+                    router: router,
+                    onNext: { state.step = .confirm2 }
                 )
                 .transition(.move(edge: .leading))
             case .confirm2:
                 Confirm2View(
                     text: text,
                     submitUseCase: submitUseCase,
-                    onCompleted: onCompleted,
-                    onBack: { router.step = .confirm1 }
+                    router: router,
+                    onBack: { state.step = .confirm1 }
                 )
                 .transition(.move(edge: .trailing))
             }
         }
-        .animation(.easeInOut, value: router.step)
+        .animation(.easeInOut, value: state.step)
     }
 }
 
@@ -62,11 +56,16 @@ private struct PreviewSubmitTodoUseCase: SubmitTodoUseCase {
     func execute(text: String) async {}
 }
 
+/// プレビュー用の何もしない Router スタブ。
+private final class PreviewConfirmFlowRouter: ConfirmFlowRouter {
+    func navigateToComplete() {}
+    func navigateBack() {}
+}
+
 #Preview {
     ConfirmFlowView(
         text: "牛乳を買う",
         submitUseCase: PreviewSubmitTodoUseCase(),
-        onCompleted: {},
-        onExit: {}
+        router: PreviewConfirmFlowRouter()
     )
 }

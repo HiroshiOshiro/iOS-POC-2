@@ -3,17 +3,19 @@ import SwiftUI
 /// 確認画面1。入力内容を表示し「次へ」で確認画面2 へ進む。
 struct Confirm1View: View {
     @StateObject private var viewModel: Confirm1ViewModel
-    private let onNext: () -> Void
-    private let onBack: () -> Void
 
-    init(text: String, onNext: @escaping () -> Void, onBack: @escaping () -> Void) {
-        _viewModel = StateObject(wrappedValue: Confirm1ViewModel(text: text))
-        self.onNext = onNext
-        self.onBack = onBack
+    init(text: String, router: ConfirmFlowRouter, onNext: @escaping () -> Void) {
+        _viewModel = StateObject(
+            wrappedValue: Confirm1ViewModel(text: text, router: router, onNext: onNext)
+        )
     }
 
     var body: some View {
-        CustomNavigationBarView(title: L("confirm1.title"), showsBack: true, onBack: onBack) {
+        CustomNavigationBarView(
+            title: L("confirm1.title"),
+            showsBack: true,
+            onBack: { viewModel.backButtonTapped() }
+        ) {
             VStack(spacing: 16) {
                 Spacer()
                 Text(L("confirm1.caption"))
@@ -22,7 +24,7 @@ struct Confirm1View: View {
                 Text(viewModel.text)
                     .font(.system(size: 22, weight: .bold))
                     .multilineTextAlignment(.center)
-                Button(action: onNext) {
+                Button(action: { viewModel.nextButtonTapped() }) {
                     Text(L("confirm1.next")).font(.headline)
                 }
                 .padding(.top, 24)
@@ -33,6 +35,12 @@ struct Confirm1View: View {
     }
 }
 
+/// プレビュー用の何もしない Router スタブ。
+private final class PreviewConfirmFlowRouter: ConfirmFlowRouter {
+    func navigateToComplete() {}
+    func navigateBack() {}
+}
+
 #Preview {
-    Confirm1View(text: "牛乳を買う", onNext: {}, onBack: {})
+    Confirm1View(text: "牛乳を買う", router: PreviewConfirmFlowRouter(), onNext: {})
 }

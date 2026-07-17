@@ -3,28 +3,19 @@ import SwiftUI
 import Domain
 import Data
 
-/// ObjC から確認フロー画面を生成するためのファクトリ。
-/// `@import Feature;` して `UIViewController` として push する。
-@MainActor
-@objc public final class ConfirmFlowFactory: NSObject {
+/// Feature の外へ公開する唯一の窓口。
+/// SwiftUI の View（struct）・ViewModel・UIHostingController（ジェネリック）は Feature 内に閉じ込め、
+/// 外へは `UIViewController` という共通の型だけを返す。
+public enum ConfirmFlowFactory {
 
     /// 確認フロー（確認画面1→2）のビューコントローラを生成する。
     /// - Parameters:
     ///   - text: 入力画面で入力されたテキスト
-    ///   - onCompleted: 保存完了時に呼ばれる（アプリ側で完了画面へ遷移する）
-    ///   - onExit: 確認画面1で戻る操作をしたときに呼ばれる（アプリ側で入力画面へ戻す）
-    @objc public static func makeConfirmFlow(
-        text: String,
-        onCompleted: @escaping () -> Void,
-        onExit: @escaping () -> Void
-    ) -> UIViewController {
+    ///   - router: フロー外への遷移（完了画面へ / 入力へ戻る）を担うアプリ側の実装
+    @MainActor
+    public static func makeConfirmFlow(text: String, router: ConfirmFlowRouter) -> UIViewController {
         let useCase = SubmitTodoUseCaseImpl(repository: TodoRepositoryImpl())
-        let root = ConfirmFlowView(
-            text: text,
-            submitUseCase: useCase,
-            onCompleted: onCompleted,
-            onExit: onExit
-        )
+        let root = ConfirmFlowView(text: text, submitUseCase: useCase, router: router)
         return UIHostingController(rootView: root)
     }
 }
