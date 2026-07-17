@@ -1,11 +1,12 @@
 import Foundation
+import Data
 
 /// ログインを実行するユースケース。
 public protocol LoginUseCase: Sendable {
     func execute(email: String, password: String) async throws -> Session
 }
 
-public struct LoginUseCaseImpl: LoginUseCase {
+public struct DefaultLoginUseCase: LoginUseCase {
     private let repository: any AuthRepository
 
     public init(repository: any AuthRepository) {

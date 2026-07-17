@@ -1,23 +1,15 @@
 import SwiftUI
+import FactoryKit
 import Domain
+import Data
 
 /// 確認画面2。内容を再確認し「保存」でフェイク API 送信・永続化を行い完了へ進む。
 struct Confirm2View: View {
     @StateObject private var viewModel: Confirm2ViewModel
 
-    init(
-        text: String,
-        submitUseCase: any SubmitTodoUseCase,
-        router: ConfirmFlowRouter,
-        onBack: @escaping () -> Void
-    ) {
+    init(text: String, router: ConfirmFlowRouter, onBack: @escaping () -> Void) {
         _viewModel = StateObject(
-            wrappedValue: Confirm2ViewModel(
-                text: text,
-                submitUseCase: submitUseCase,
-                router: router,
-                onBack: onBack
-            )
+            wrappedValue: Confirm2ViewModel(text: text, router: router, onBack: onBack)
         )
     }
 
@@ -62,10 +54,6 @@ private final class PreviewConfirmFlowRouter: ConfirmFlowRouter {
 }
 
 #Preview {
-    Confirm2View(
-        text: "牛乳を買う",
-        submitUseCase: PreviewSubmitTodoUseCase(),
-        router: PreviewConfirmFlowRouter(),
-        onBack: {}
-    )
+    let _ = Container.shared.submitTodoUseCase.register { PreviewSubmitTodoUseCase() }
+    Confirm2View(text: "牛乳を買う", router: PreviewConfirmFlowRouter(), onBack: {})
 }

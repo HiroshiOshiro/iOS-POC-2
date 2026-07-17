@@ -1,5 +1,7 @@
 import SwiftUI
+import FactoryKit
 import Domain
+import Data
 
 /// 確認フロー内部の遷移状態（Feature 内で完結する 確認1↔確認2 の切り替え）。
 /// フロー外への遷移は `ConfirmFlowRouter` が担う。
@@ -16,14 +18,12 @@ final class ConfirmFlowState: ObservableObject {
 /// 独自バー＋状態遷移で push/pop 相当を表現する。
 struct ConfirmFlowView: View {
     private let text: String
-    private let submitUseCase: any SubmitTodoUseCase
     private let router: ConfirmFlowRouter
 
     @StateObject private var state = ConfirmFlowState()
 
-    init(text: String, submitUseCase: any SubmitTodoUseCase, router: ConfirmFlowRouter) {
+    init(text: String, router: ConfirmFlowRouter) {
         self.text = text
-        self.submitUseCase = submitUseCase
         self.router = router
     }
 
@@ -40,7 +40,6 @@ struct ConfirmFlowView: View {
             case .confirm2:
                 Confirm2View(
                     text: text,
-                    submitUseCase: submitUseCase,
                     router: router,
                     onBack: { state.step = .confirm1 }
                 )
@@ -63,9 +62,6 @@ private final class PreviewConfirmFlowRouter: ConfirmFlowRouter {
 }
 
 #Preview {
-    ConfirmFlowView(
-        text: "牛乳を買う",
-        submitUseCase: PreviewSubmitTodoUseCase(),
-        router: PreviewConfirmFlowRouter()
-    )
+    let _ = Container.shared.submitTodoUseCase.register { PreviewSubmitTodoUseCase() }
+    ConfirmFlowView(text: "牛乳を買う", router: PreviewConfirmFlowRouter())
 }

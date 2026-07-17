@@ -1,22 +1,15 @@
 import SwiftUI
+import FactoryKit
 import Domain
+import Data
 
 /// ログイン画面。メールアドレス／パスワードを入力し、モック API でログインする。
 struct LoginView: View {
-    @StateObject private var viewModel: LoginViewModel
+    @StateObject private var viewModel = LoginViewModel()
 
     /// メールアドレスは LocalStorage 層が UserDefaults の同じキーへ保存するため、
     /// ここでは @AppStorage で購読して表示する（保存後に自動で反映される）。
     @AppStorage(StorageKeys.loginEmail) private var savedEmail: String = ""
-
-    init(loginUseCase: any LoginUseCase, loadSessionUseCase: any LoadSessionUseCase) {
-        _viewModel = StateObject(
-            wrappedValue: LoginViewModel(
-                loginUseCase: loginUseCase,
-                loadSessionUseCase: loadSessionUseCase
-            )
-        )
-    }
 
     var body: some View {
         CustomNavigationBarView(title: L("login.title")) {
@@ -78,8 +71,7 @@ private struct PreviewLoadSessionUseCase: LoadSessionUseCase {
 }
 
 #Preview {
-    LoginView(
-        loginUseCase: PreviewLoginUseCase(),
-        loadSessionUseCase: PreviewLoadSessionUseCase()
-    )
+    let _ = Container.shared.loginUseCase.register { PreviewLoginUseCase() }
+    let _ = Container.shared.loadSessionUseCase.register { PreviewLoadSessionUseCase() }
+    LoginView()
 }

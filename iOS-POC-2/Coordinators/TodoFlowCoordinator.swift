@@ -23,6 +23,7 @@ import Feature
     func todoInputViewController(_ controller: TodoInputViewController, didSubmitText text: String) {
         // 確認フロー（確認画面1→2）は Swift の Feature パッケージが提供する。
         let flow = ConfirmFlowFactory.makeConfirmFlow(text: text, router: self)
+
         navigationController?.pushViewController(flow, animated: true)
     }
 

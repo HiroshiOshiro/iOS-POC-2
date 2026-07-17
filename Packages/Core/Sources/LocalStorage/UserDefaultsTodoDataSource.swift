@@ -1,5 +1,4 @@
 import Foundation
-import Domain
 
 /// UserDefaults を使った Todo のローカルデータソース。
 ///
@@ -20,18 +19,18 @@ public final class UserDefaultsTodoDataSource: TodoLocalDataSource, @unchecked S
         self.defaults = defaults
     }
 
-    public func load() -> [Todo] {
+    public func load() -> [TodoRecord] {
         guard let raw = defaults.array(forKey: Keys.items) as? [[String: Any]] else {
             return []
         }
         return raw.compactMap { dict in
             guard let text = dict[Keys.text] as? String else { return nil }
             let createdAt = dict[Keys.createdAt] as? Date ?? Date()
-            return Todo(text: text, createdAt: createdAt)
+            return TodoRecord(text: text, createdAt: createdAt)
         }
     }
 
-    public func save(_ todos: [Todo]) {
+    public func save(_ todos: [TodoRecord]) {
         let raw: [[String: Any]] = todos.map { todo in
             [
                 Keys.text: todo.text,

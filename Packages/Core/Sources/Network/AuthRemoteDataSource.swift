@@ -6,8 +6,8 @@ public protocol AuthRemoteDataSource: Sendable {
     func login(email: String, password: String) async throws -> String
 }
 
-/// 実際の通信は行わず、一定時間後に userID を返すモック実装。
-public struct MockAuthRemoteDataSource: AuthRemoteDataSource {
+/// 実際の通信は行わず、一定時間後に userID を返すフェイク実装。
+public struct FakeAuthRemoteDataSource: AuthRemoteDataSource {
     public init() {}
 
     public func login(email: String, password: String) async throws -> String {

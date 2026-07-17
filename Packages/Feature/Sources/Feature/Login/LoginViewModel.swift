@@ -1,5 +1,7 @@
 import Foundation
+import FactoryKit
 import Domain
+import Data
 
 /// ログイン画面の ViewModel。モック API でログインし、結果のセッションを保持する。
 @MainActor
@@ -10,13 +12,8 @@ final class LoginViewModel: ObservableObject {
     @Published private(set) var session: Session?
     @Published private(set) var errorMessage: String?
 
-    private let loginUseCase: any LoginUseCase
-    private let loadSessionUseCase: any LoadSessionUseCase
-
-    init(loginUseCase: any LoginUseCase, loadSessionUseCase: any LoadSessionUseCase) {
-        self.loginUseCase = loginUseCase
-        self.loadSessionUseCase = loadSessionUseCase
-    }
+    @Injected(\.loginUseCase) private var loginUseCase
+    @Injected(\.loadSessionUseCase) private var loadSessionUseCase
 
     var canSubmit: Bool {
         !email.isEmpty && !password.isEmpty && !isLoading

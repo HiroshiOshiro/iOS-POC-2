@@ -1,5 +1,7 @@
 import Foundation
+import FactoryKit
 import Domain
+import Data
 
 /// 確認画面2 の ViewModel。保存ボタンで UseCase を実行し、完了後は Router に遷移を依頼する。
 /// フロー内の遷移（確認1 へ戻る）は `onBack` に委譲する。
@@ -8,18 +10,13 @@ final class Confirm2ViewModel: ObservableObject {
     let text: String
     @Published private(set) var isSubmitting = false
 
-    private let submitUseCase: any SubmitTodoUseCase
+    @Injected(\.submitTodoUseCase) private var submitUseCase
+
     private let router: ConfirmFlowRouter
     private let onBack: () -> Void
 
-    init(
-        text: String,
-        submitUseCase: any SubmitTodoUseCase,
-        router: ConfirmFlowRouter,
-        onBack: @escaping () -> Void
-    ) {
+    init(text: String, router: ConfirmFlowRouter, onBack: @escaping () -> Void) {
         self.text = text
-        self.submitUseCase = submitUseCase
         self.router = router
         self.onBack = onBack
     }

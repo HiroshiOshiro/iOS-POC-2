@@ -11,7 +11,9 @@ let package = Package(
         .library(name: "Feature", targets: ["Feature"])
     ],
     dependencies: [
-        .package(path: "../Core")
+        .package(path: "../Core"),
+        // DI コンテナ。Core は非依存のままにし、コンポジションルートである Feature でのみ使う。
+        .package(url: "https://github.com/hmlongco/Factory.git", from: "3.3.2"),
     ],
     targets: [
         .target(
@@ -19,6 +21,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Domain", package: "Core"),
                 .product(name: "Data", package: "Core"),
+                .product(name: "FactoryKit", package: "Factory"),
             ],
             resources: [
                 .process("Resources")

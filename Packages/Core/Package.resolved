@@ -1,0 +1,15 @@
+{
+  "originHash" : "30428b263c553d096222e2ba47b2128d0cf3ec06a457cc0e5a437905670cd5f8",
+  "pins" : [
+    {
+      "identity" : "factory",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hmlongco/Factory.git",
+      "state" : {
+        "revision" : "27717e148c0c1ed2998f687a8e98d9395d684abf",
+        "version" : "3.3.2"
+      }
+    }
+  ],
+  "version" : 3
+}

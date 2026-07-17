@@ -1,19 +1,26 @@
 import Foundation
-import Domain
 import Network
 import LocalStorage
+
+/// 認証まわりの通信・永続化を抽象化したリポジトリ。
+public protocol AuthRepository: Sendable {
+    /// ログインし、メールアドレスと userID を永続化する。
+    func login(email: String, password: String) async throws -> Session
+    /// 保存済みのセッションを返す（未ログインなら nil）。
+    func currentSession() async -> Session?
+}
 
 /// `AuthRepository` の実装。
 /// モック API でログインし、メールアドレスは UserDefaults（＝@AppStorage と同じ場所）、
 /// userID は Keychain に保存する。
-public actor AuthRepositoryImpl: AuthRepository {
+public actor DefaultAuthRepository: AuthRepository {
     private let remote: any AuthRemoteDataSource
     private let emailStorage: any EmailStorage
     private let userIDStorage: any UserIDStorage
 
     public init(
-        remote: any AuthRemoteDataSource = MockAuthRemoteDataSource(),
-        emailStorage: any EmailStorage = UserDefaultsEmailStorage(),
+        remote: any AuthRemoteDataSource = FakeAuthRemoteDataSource(),
+        emailStorage: any EmailStorage = UserDefaultsEmailStorage(key: StorageKeys.loginEmail),
         userIDStorage: any UserIDStorage = KeychainUserIDStorage()
     ) {
         self.remote = remote
