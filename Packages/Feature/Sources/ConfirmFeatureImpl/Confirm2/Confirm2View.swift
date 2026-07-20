@@ -1,5 +1,6 @@
 import SwiftUI
 import DesignSystem
+import ConfirmFeatureApi
 import FactoryKit
 import Domain
 import Data

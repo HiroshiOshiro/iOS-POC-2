@@ -25,8 +25,13 @@ targets:
     sources:
       - iOS-POC-2
     dependencies:
+      # 機能モジュール（api/impl）。合成ルートとして両方を参照する。
       - package: Feature
-        product: Feature
+        product: ConfirmFeatureApi
+      - package: Feature
+        product: ConfirmFeatureImpl
+      - package: Feature
+        product: LoginFeatureImpl
       # 合成ルートとして ObjC 実装を Factory に登録するための依存。
       - package: Core
         product: Data
