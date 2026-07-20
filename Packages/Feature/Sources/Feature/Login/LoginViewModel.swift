@@ -1,5 +1,6 @@
 import Foundation
 import FactoryKit
+import Model
 import Domain
 import Data
 

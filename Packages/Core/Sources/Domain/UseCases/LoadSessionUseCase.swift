@@ -1,4 +1,5 @@
 import Foundation
+import Model
 import Data
 
 /// 保存済みのセッションを読み出すユースケース。

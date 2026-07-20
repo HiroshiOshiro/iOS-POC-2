@@ -1,4 +1,5 @@
 import Foundation
+import Model
 import Data
 
 /// Todo を確定保存するユースケース。

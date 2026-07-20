@@ -19,6 +19,7 @@ let package = Package(
         .target(
             name: "Feature",
             dependencies: [
+                .product(name: "Model", package: "Core"),
                 .product(name: "Domain", package: "Core"),
                 .product(name: "Data", package: "Core"),
                 .product(name: "FactoryKit", package: "Factory"),

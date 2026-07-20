@@ -1,4 +1,5 @@
 import Foundation
+import Model
 import Data
 
 /// ログインを実行するユースケース。
