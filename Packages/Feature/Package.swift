@@ -16,9 +16,13 @@ let package = Package(
         .package(url: "https://github.com/hmlongco/Factory.git", from: "3.3.2"),
     ],
     targets: [
+        // DesignSystem: テーマ・共通 UI 部品（NiA の core:designsystem 相当）。
+        .target(name: "DesignSystem"),
+
         .target(
             name: "Feature",
             dependencies: [
+                "DesignSystem",
                 .product(name: "Model", package: "Core"),
                 .product(name: "Domain", package: "Core"),
                 .product(name: "Data", package: "Core"),

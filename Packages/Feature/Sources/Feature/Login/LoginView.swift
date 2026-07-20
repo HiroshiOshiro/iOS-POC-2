@@ -1,4 +1,5 @@
 import SwiftUI
+import DesignSystem
 import FactoryKit
 import Model
 import Domain

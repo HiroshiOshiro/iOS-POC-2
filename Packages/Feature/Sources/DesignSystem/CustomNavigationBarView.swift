@@ -2,13 +2,13 @@ import SwiftUI
 
 /// 独自ナビゲーションバー（ブランドカラー背景＋白タイトル＋白の戻るボタン）を上部に持つ
 /// SwiftUI 版の画面コンテナ。ObjC 側 CustomNavigationBar と同じ見た目を SwiftUI で再現する。
-struct CustomNavigationBarView<Content: View>: View {
+public struct CustomNavigationBarView<Content: View>: View {
     private let title: String
     private let showsBack: Bool
     private let onBack: (() -> Void)?
     private let content: Content
 
-    init(
+    public init(
         title: String,
         showsBack: Bool = false,
         onBack: (() -> Void)? = nil,
@@ -20,7 +20,7 @@ struct CustomNavigationBarView<Content: View>: View {
         self.content = content()
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack(alignment: .top) {
             // ステータスバー領域まで含めてブランドカラーで塗る。
             Color.brand.ignoresSafeArea()
