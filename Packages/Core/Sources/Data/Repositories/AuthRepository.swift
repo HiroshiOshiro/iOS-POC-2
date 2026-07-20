@@ -1,7 +1,7 @@
 import Foundation
 import Model
 import Network
-import LocalStorage
+import Datastore
 
 /// 認証まわりの通信・永続化を抽象化したリポジトリ。
 public protocol AuthRepository: Sendable {

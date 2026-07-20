@@ -1,7 +1,7 @@
 import Foundation
 import Model
 import Network
-import LocalStorage
+import Database
 
 /// Todo の永続化を抽象化したリポジトリ。
 public protocol TodoRepository: Sendable {

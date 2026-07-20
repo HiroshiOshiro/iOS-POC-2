@@ -22,6 +22,8 @@ let package = Package(
                 .product(name: "Model", package: "Core"),
                 .product(name: "Domain", package: "Core"),
                 .product(name: "Data", package: "Core"),
+                // @AppStorage が購読する保存キー（StorageKeys）を参照するため。
+                .product(name: "Datastore", package: "Core"),
                 .product(name: "FactoryKit", package: "Factory"),
             ],
             resources: [

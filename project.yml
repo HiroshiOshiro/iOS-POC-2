@@ -60,7 +60,7 @@ targets:
     dependencies:
       - target: iOS-POC-2
       - package: Core
-        product: LocalStorage
+        product: Datastore
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.iOS-POC-2.tests

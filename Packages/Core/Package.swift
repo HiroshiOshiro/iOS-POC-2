@@ -12,7 +12,8 @@ let package = Package(
         .library(name: "Model", targets: ["Model"]),
         .library(name: "Domain", targets: ["Domain"]),
         .library(name: "Network", targets: ["Network"]),
-        .library(name: "LocalStorage", targets: ["LocalStorage"]),
+        .library(name: "Database", targets: ["Database"]),
+        .library(name: "Datastore", targets: ["Datastore"]),
         .library(name: "Data", targets: ["Data"]),
     ],
     dependencies: [
@@ -26,11 +27,14 @@ let package = Package(
         // Model: アプリ全体で使うドメインモデル。他層に依存しない葉。
         .target(name: "Model"),
 
-        // Network: リモートデータソース。プリミティブのみを扱い他層に依存しない。
+        // Network: リモートデータソース。プリミティブ/DTO のみを扱い他層に依存しない。
         .target(name: "Network"),
 
-        // LocalStorage: ローカルデータソース。DTO/プリミティブのみを扱い他層に依存しない。
-        .target(name: "LocalStorage"),
+        // Database: 構造化データのローカル保存（NiA の core:database 相当。Entity を持つ）。
+        .target(name: "Database"),
+
+        // Datastore: 設定値・秘匿情報の保存（NiA の core:datastore 相当。UserDefaults/Keychain）。
+        .target(name: "Datastore"),
 
         // Data: リポジトリ（protocol と実装）。データソースを束ね、モデルへ変換する。
         .target(
@@ -38,7 +42,8 @@ let package = Package(
             dependencies: [
                 "Model",
                 "Network",
-                "LocalStorage",
+                "Database",
+                "Datastore",
                 .product(name: "FactoryKit", package: "Factory"),
             ]
         ),

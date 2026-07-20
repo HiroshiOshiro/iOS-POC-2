@@ -3,6 +3,7 @@ import FactoryKit
 import Model
 import Domain
 import Data
+import Datastore
 
 /// ログイン画面。メールアドレス／パスワードを入力し、モック API でログインする。
 struct LoginView: View {

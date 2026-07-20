@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		059087537C407E18AFB11F91 /* TodoStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B015054E5E290BFE3D43FE7 /* TodoStore.m */; };
-		0A16FCA1532D8030ADCB3D61 /* LocalStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 95A88AFD54B008A5CFE7DE1D /* LocalStorage */; };
+		0A16FCA1532D8030ADCB3D61 /* Datastore in Frameworks */ = {isa = PBXBuildFile; productRef = A2E8C11CB3066DBFCAE57DD5 /* Datastore */; };
 		26D01EBA228CE536FBE5CE8B /* CompletionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1D3C0AD8D8570E9A86BD381 /* CompletionViewController.m */; };
 		29BA494D9C0877C8A399FEB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 490CAFEFD142F5F55773DD5A /* main.m */; };
 		31036B4E971EE2E1E6CD416B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 78244000FBFCFC6FDAC1B193 /* AppDelegate.m */; };
@@ -99,7 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A16FCA1532D8030ADCB3D61 /* LocalStorage in Frameworks */,
+				0A16FCA1532D8030ADCB3D61 /* Datastore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,7 +256,7 @@
 			);
 			name = "iOS-POC-2Tests";
 			packageProductDependencies = (
-				95A88AFD54B008A5CFE7DE1D /* LocalStorage */,
+				A2E8C11CB3066DBFCAE57DD5 /* Datastore */,
 			);
 			productName = "iOS-POC-2Tests";
 			productReference = 9479B3E459B418E462263324 /* iOS-POC-2Tests.xctest */;
@@ -658,9 +658,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Feature;
 		};
-		95A88AFD54B008A5CFE7DE1D /* LocalStorage */ = {
+		A2E8C11CB3066DBFCAE57DD5 /* Datastore */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = LocalStorage;
+			productName = Datastore;
 		};
 		F9178A246ED1187935D0CC02 /* FactoryKit */ = {
 			isa = XCSwiftPackageProductDependency;

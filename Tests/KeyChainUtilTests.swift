@@ -1,5 +1,5 @@
 import XCTest
-@testable import LocalStorage
+@testable import Datastore
 
 final class KeyChainUtilTests: XCTestCase {
 
