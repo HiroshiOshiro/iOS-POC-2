@@ -15,21 +15,26 @@ public protocol AuthRepository: Sendable {
 /// userID は Keychain に保存する。
 public actor DefaultAuthRepository: AuthRepository {
     private let remote: any AuthRemoteDataSource
+    private let passwordEncryptor: any PasswordEncrypting
     private let emailStorage: any EmailStorage
     private let userIDStorage: any UserIDStorage
 
     public init(
         remote: any AuthRemoteDataSource = FakeAuthRemoteDataSource(),
+        passwordEncryptor: any PasswordEncrypting = CryptoKitPasswordEncryptor(),
         emailStorage: any EmailStorage = UserDefaultsEmailStorage(key: StorageKeys.loginEmail),
         userIDStorage: any UserIDStorage = KeychainUserIDStorage()
     ) {
         self.remote = remote
+        self.passwordEncryptor = passwordEncryptor
         self.emailStorage = emailStorage
         self.userIDStorage = userIDStorage
     }
 
     public func login(email: String, password: String) async throws -> Session {
-        let userID = try await remote.login(email: email, password: password)
+        // 通信前にパスワードを暗号化する（interface 経由なので実装が ObjC か Swift かは意識しない）。
+        let encryptedPassword = try passwordEncryptor.encrypt(password)
+        let userID = try await remote.login(email: email, password: encryptedPassword)
         emailStorage.save(email)
         try userIDStorage.save(userID)
         return Session(email: email, userID: userID)

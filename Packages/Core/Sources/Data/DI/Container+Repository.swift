@@ -9,6 +9,8 @@ public extension Container {
     }
 
     var authRepository: Factory<any AuthRepository> {
-        self { DefaultAuthRepository() }.singleton
+        // パスワード暗号化の実装（アプリ本体で ObjC 版に差し替えられる）は
+        // ここで注入する。Repository 自身は DI コンテナを知らない。
+        self { DefaultAuthRepository(passwordEncryptor: self.passwordEncryptor()) }.singleton
     }
 }

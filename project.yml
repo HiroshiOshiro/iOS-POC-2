@@ -10,6 +10,9 @@ packages:
     path: Packages/Feature
   Core:
     path: Packages/Core
+  Factory:
+    url: https://github.com/hmlongco/Factory.git
+    from: 3.3.2
 settings:
   base:
     MARKETING_VERSION: "1.0"
@@ -24,6 +27,11 @@ targets:
     dependencies:
       - package: Feature
         product: Feature
+      # 合成ルートとして ObjC 実装を Factory に登録するための依存。
+      - package: Core
+        product: Data
+      - package: Factory
+        product: FactoryKit
     scheme:
       testTargets:
         - iOS-POC-2Tests
