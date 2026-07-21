@@ -15,10 +15,20 @@ struct LoginView: View {
     /// ここでは @AppStorage で購読して表示する（保存後に自動で反映される）。
     @AppStorage(StorageKeys.loginEmail) private var savedEmail: String = ""
 
+    /// 利用規約アコーディオンの開閉状態。
+    @State private var isTermsExpanded = false
+
     var body: some View {
         CustomNavigationBarView(title: L("login.title")) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
+                    // アイコン（SF Symbol をブランドカラーで大きく表示）
+                    Image(systemName: "person.crop.circle.fill")
+                        .font(.system(size: 72))
+                        .foregroundStyle(Color.brand)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
+
                     TextField(L("login.email"), text: $viewModel.email)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.emailAddress)
@@ -30,14 +40,34 @@ struct LoginView: View {
                         .textFieldStyle(.roundedBorder)
                         .textContentType(.password)
 
+                    // ブランドカラーの塗りボタンに装飾。
                     Button(action: { viewModel.loginButtonTapped() }) {
-                        Text(L("login.button")).font(.headline)
+                        Text(L("login.button"))
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
+                            .background(Color.brand, in: RoundedRectangle(cornerRadius: 10))
                     }
                     .disabled(!viewModel.canSubmit)
+                    .opacity(viewModel.canSubmit ? 1 : 0.5)
 
                     if viewModel.isLoading {
-                        ProgressView()
+                        ProgressView().frame(maxWidth: .infinity)
                     }
+
+                    // 利用規約（アコーディオン表示）
+                    DisclosureGroup(isExpanded: $isTermsExpanded) {
+                        Text(L("login.terms_body"))
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, 4)
+                    } label: {
+                        Text(L("login.terms_title"))
+                            .font(.subheadline.weight(.semibold))
+                    }
+                    .tint(Color.brand)
 
                     if let session = viewModel.session {
                         Divider().padding(.vertical, 8)

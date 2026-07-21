@@ -8,5 +8,9 @@
 "login.saved_email" = "メールアドレス（AppStorage）";
 "login.saved_user_id" = "userID（Keychain）";
 
+/* 利用規約 */
+"login.terms_title" = "利用規約";
+"login.terms_body" = "本サービスを利用することで、以下に同意したものとみなされます。\n1. 本アプリはデモ目的で提供されます。\n2. 入力された情報は端末内にのみ保存されます。\n3. 予告なく仕様が変更される場合があります。";
+
 /* エラー */
 "error.title" = "エラー";
