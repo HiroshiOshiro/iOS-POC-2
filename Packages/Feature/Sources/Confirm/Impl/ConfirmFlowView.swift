@@ -17,7 +17,9 @@ final class ConfirmFlowState: ObservableObject {
 
 /// 確認画面1→2 を内包するフロー。iOS 15 対応のため NavigationStack は使わず、
 /// 独自バー＋状態遷移で push/pop 相当を表現する。
-/// NiA 相当: feature:*:impl の Screen（`TopicScreen` / `InterestsScreen`）。
+/// NiA 相当なし: 確認1↔2 を束ねる feature 内のローカルなナビゲーションホスト。
+/// NiA は遷移を app の NavHost + 各画面の NavKey で表すため、この容器に対応物はない。
+/// （中の `Confirm1View` / `Confirm2View` が NiA の `*Screen` に相当する。）
 struct ConfirmFlowView: View {
     private let text: String
     private let router: ConfirmFlowRouter
