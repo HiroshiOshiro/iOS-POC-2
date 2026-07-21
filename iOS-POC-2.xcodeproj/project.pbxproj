@@ -9,21 +9,20 @@
 /* Begin PBXBuildFile section */
 		059087537C407E18AFB11F91 /* TodoStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B015054E5E290BFE3D43FE7 /* TodoStore.m */; };
 		0A16FCA1532D8030ADCB3D61 /* Datastore in Frameworks */ = {isa = PBXBuildFile; productRef = A2E8C11CB3066DBFCAE57DD5 /* Datastore */; };
+		1CB69093A4906AED47B4F1C2 /* ObjCPasswordEncryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7725781789FA6AB8F53D91EF /* ObjCPasswordEncryptor.swift */; };
 		26D01EBA228CE536FBE5CE8B /* CompletionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1D3C0AD8D8570E9A86BD381 /* CompletionViewController.m */; };
 		29BA494D9C0877C8A399FEB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 490CAFEFD142F5F55773DD5A /* main.m */; };
 		31036B4E971EE2E1E6CD416B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 78244000FBFCFC6FDAC1B193 /* AppDelegate.m */; };
-		3C98951DB476833E5781D361 /* AppDependencyRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C345C78BD93D3F74822C8768 /* AppDependencyRegistration.swift */; };
-		448FC6E274A552CE8A7AE582 /* TodoFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9597740E26C807BDE1C43A0 /* TodoFlowCoordinator.swift */; };
 		55C2DD5C117538D6E9995FB4 /* TodoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A04008AB61FCF78C7A66E588 /* TodoItem.m */; };
 		569FF400FAA181D1DED5D43A /* TodoInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F226B36ACDEA14D59749F0 /* TodoInputViewController.m */; };
 		619C31AA69E13AD4362FFCA3 /* Data in Frameworks */ = {isa = PBXBuildFile; productRef = 1E354F85C0C28280746745C7 /* Data */; };
-		63C2C7C78370F7463E27183C /* ObjCPasswordEncryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D832940D36D54C495359EF8 /* ObjCPasswordEncryptor.swift */; };
 		6DC983426CBB3A52A745887D /* AppAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 226B972BB272FA837953A4C9 /* AppAppearance.m */; };
 		7CBD0BC40A0F71F5C53DE408 /* UIViewController+CustomNavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E46FA10B7F4B73C8E98EBD04 /* UIViewController+CustomNavBar.m */; };
 		8260074E4EFA41135BEE4672 /* Track.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D80D0859E978A12F421EF6A /* Track.m */; };
 		866C9A0B0397EE323FBD15C4 /* ITunesAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DD48C2A4EE97AAC2546974F3 /* ITunesAPIClient.m */; };
 		8A9892E91F86087B25BE5249 /* MusicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A786D82ACE7AAB20F6EE13 /* MusicDetailViewController.m */; };
 		9DB406632E0947BEED37FEEF /* ConfirmFeatureApi in Frameworks */ = {isa = PBXBuildFile; productRef = 68A8B9C130F6CC3CE6885E46 /* ConfirmFeatureApi */; };
+		A29B176DF1DF0BC96D9126D6 /* AppDependencyRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0447D56BDA0066263C2B8F7 /* AppDependencyRegistration.swift */; };
 		A332279BE72718269A3FBAD4 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */; };
 		A36475B073B6BC272702B906 /* PasswordCryptoUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D4A35EE7F36B9DD08232943A /* PasswordCryptoUtil.m */; };
 		AFC09C7F42F47088AC711707 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = F9178A246ED1187935D0CC02 /* FactoryKit */; };
@@ -32,6 +31,7 @@
 		BEA687FA575283685E999006 /* LoginFeatureImpl in Frameworks */ = {isa = PBXBuildFile; productRef = C6744E0CBCB6FAF4967217A3 /* LoginFeatureImpl */; };
 		C0630B309725B4E0350EF0F4 /* ImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F704BE7DBBDC70CFD4341B /* ImageLoader.m */; };
 		C073964661109D3840AC1155 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DB2E43966D9FC1A986BE69 /* CustomNavigationBar.m */; };
+		D168ABB43B7772372BF1B308 /* TodoFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55F0D74E6425272D5DD98C3 /* TodoFlowCoordinator.swift */; };
 		D6BA11F2CA77FEDC1AB3029C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C7A28F71FBA8BB7671ED99 /* SceneDelegate.m */; };
 		D6BE366FBF8C882EBA1A8432 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBC548C84515A99A922E805E /* Assets.xcassets */; };
 		E75AACD8F89DF526133FDD38 /* KeyChainUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1F0E2370AE252A637B644A /* KeyChainUtilTests.swift */; };
@@ -62,6 +62,7 @@
 		5D80D0859E978A12F421EF6A /* Track.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Track.m; sourceTree = "<group>"; };
 		6044742EC5B0AA040D932C8C /* MainTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
 		62CEDE72179A00977F47EF31 /* MusicDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MusicDetailViewController.h; sourceTree = "<group>"; };
+		7725781789FA6AB8F53D91EF /* ObjCPasswordEncryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjCPasswordEncryptor.swift; sourceTree = "<group>"; };
 		78244000FBFCFC6FDAC1B193 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7A7E03CA416D902B3066101D /* Feature */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Feature; path = Packages/Feature; sourceTree = SOURCE_ROOT; };
 		83F704BE7DBBDC70CFD4341B /* ImageLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageLoader.m; sourceTree = "<group>"; };
@@ -71,7 +72,6 @@
 		907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
 		9479B3E459B418E462263324 /* iOS-POC-2Tests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = "iOS-POC-2Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94B68345C2C1A4A210015C24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		9D832940D36D54C495359EF8 /* ObjCPasswordEncryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjCPasswordEncryptor.swift; sourceTree = "<group>"; };
 		A04008AB61FCF78C7A66E588 /* TodoItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodoItem.m; sourceTree = "<group>"; };
 		A0C7A28F71FBA8BB7671ED99 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
 		A6F1696E02FDB33DC9BD2A5D /* CompletionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompletionViewController.h; sourceTree = "<group>"; };
@@ -82,16 +82,16 @@
 		BC082B1AF7892CF91A5E6A77 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC7186145FA62764022C9044 /* CustomNavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomNavigationBar.h; sourceTree = "<group>"; };
 		C083889403E6496E95DD534F /* Core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Core; path = Packages/Core; sourceTree = SOURCE_ROOT; };
-		C345C78BD93D3F74822C8768 /* AppDependencyRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependencyRegistration.swift; sourceTree = "<group>"; };
+		C55F0D74E6425272D5DD98C3 /* TodoFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoFlowCoordinator.swift; sourceTree = "<group>"; };
 		D4A35EE7F36B9DD08232943A /* PasswordCryptoUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PasswordCryptoUtil.m; sourceTree = "<group>"; };
 		D8DB2E43966D9FC1A986BE69 /* CustomNavigationBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationBar.m; sourceTree = "<group>"; };
 		DA4241A0BEB69A8B28E25204 /* MusicListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusicListViewController.m; sourceTree = "<group>"; };
 		DBC548C84515A99A922E805E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD48C2A4EE97AAC2546974F3 /* ITunesAPIClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ITunesAPIClient.m; sourceTree = "<group>"; };
 		E46FA10B7F4B73C8E98EBD04 /* UIViewController+CustomNavBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+CustomNavBar.m"; sourceTree = "<group>"; };
+		F0447D56BDA0066263C2B8F7 /* AppDependencyRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependencyRegistration.swift; sourceTree = "<group>"; };
 		F1D3C0AD8D8570E9A86BD381 /* CompletionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompletionViewController.m; sourceTree = "<group>"; };
 		F71DB87C040026C7C1B9EA34 /* ITunesAPIClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ITunesAPIClient.h; sourceTree = "<group>"; };
-		F9597740E26C807BDE1C43A0 /* TodoFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoFlowCoordinator.swift; sourceTree = "<group>"; };
 		FC5AB93AA70E3269BB9F3CBA /* TodoInputViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodoInputViewController.h; sourceTree = "<group>"; };
 		FD5A1DE93614354520A2ED0C /* UIViewController+CustomNavBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+CustomNavBar.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -120,6 +120,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03F6629AA42014EDEB00A7E2 /* Swift */ = {
+			isa = PBXGroup;
+			children = (
+				F0447D56BDA0066263C2B8F7 /* AppDependencyRegistration.swift */,
+				7725781789FA6AB8F53D91EF /* ObjCPasswordEncryptor.swift */,
+				C55F0D74E6425272D5DD98C3 /* TodoFlowCoordinator.swift */,
+			);
+			path = Swift;
+			sourceTree = "<group>";
+		};
 		05AC0E5515D1A4909F72D897 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,10 +160,10 @@
 				A0C7A28F71FBA8BB7671ED99 /* SceneDelegate.m */,
 				275FD05D008814E4C50E986D /* Common */,
 				05AC0E5515D1A4909F72D897 /* Controllers */,
-				57626097302560B3DA3AD44E /* Coordinators */,
 				8191AABA9F0EB2897E07F4F7 /* Localizable.strings */,
 				2967DC558233541927051BD1 /* Models */,
 				706981818B516FD61CB434D3 /* Services */,
+				03F6629AA42014EDEB00A7E2 /* Swift */,
 			);
 			path = "iOS-POC-2";
 			sourceTree = "<group>";
@@ -163,10 +173,8 @@
 			children = (
 				B26A8CB3F6192FD9D886F437 /* AppAppearance.h */,
 				226B972BB272FA837953A4C9 /* AppAppearance.m */,
-				C345C78BD93D3F74822C8768 /* AppDependencyRegistration.swift */,
 				BC7186145FA62764022C9044 /* CustomNavigationBar.h */,
 				D8DB2E43966D9FC1A986BE69 /* CustomNavigationBar.m */,
-				9D832940D36D54C495359EF8 /* ObjCPasswordEncryptor.swift */,
 				358A5F2E6F092CC3A6403BAE /* PasswordCryptoUtil.h */,
 				D4A35EE7F36B9DD08232943A /* PasswordCryptoUtil.m */,
 				FD5A1DE93614354520A2ED0C /* UIViewController+CustomNavBar.h */,
@@ -186,14 +194,6 @@
 				5D80D0859E978A12F421EF6A /* Track.m */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		57626097302560B3DA3AD44E /* Coordinators */ = {
-			isa = PBXGroup;
-			children = (
-				F9597740E26C807BDE1C43A0 /* TodoFlowCoordinator.swift */,
-			);
-			path = Coordinators;
 			sourceTree = "<group>";
 		};
 		706981818B516FD61CB434D3 /* Services */ = {
@@ -353,7 +353,7 @@
 			files = (
 				6DC983426CBB3A52A745887D /* AppAppearance.m in Sources */,
 				31036B4E971EE2E1E6CD416B /* AppDelegate.m in Sources */,
-				3C98951DB476833E5781D361 /* AppDependencyRegistration.swift in Sources */,
+				A29B176DF1DF0BC96D9126D6 /* AppDependencyRegistration.swift in Sources */,
 				26D01EBA228CE536FBE5CE8B /* CompletionViewController.m in Sources */,
 				C073964661109D3840AC1155 /* CustomNavigationBar.m in Sources */,
 				866C9A0B0397EE323FBD15C4 /* ITunesAPIClient.m in Sources */,
@@ -361,10 +361,10 @@
 				A332279BE72718269A3FBAD4 /* MainTabBarController.m in Sources */,
 				8A9892E91F86087B25BE5249 /* MusicDetailViewController.m in Sources */,
 				B7243A7F6CA9D9C31E0D5C2F /* MusicListViewController.m in Sources */,
-				63C2C7C78370F7463E27183C /* ObjCPasswordEncryptor.swift in Sources */,
+				1CB69093A4906AED47B4F1C2 /* ObjCPasswordEncryptor.swift in Sources */,
 				A36475B073B6BC272702B906 /* PasswordCryptoUtil.m in Sources */,
 				D6BA11F2CA77FEDC1AB3029C /* SceneDelegate.m in Sources */,
-				448FC6E274A552CE8A7AE582 /* TodoFlowCoordinator.swift in Sources */,
+				D168ABB43B7772372BF1B308 /* TodoFlowCoordinator.swift in Sources */,
 				569FF400FAA181D1DED5D43A /* TodoInputViewController.m in Sources */,
 				55C2DD5C117538D6E9995FB4 /* TodoItem.m in Sources */,
 				059087537C407E18AFB11F91 /* TodoStore.m in Sources */,
