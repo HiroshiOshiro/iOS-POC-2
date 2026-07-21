@@ -6,8 +6,8 @@ import Database
 /// Todo の永続化を抽象化したリポジトリ。
 /// NiA 相当: core:data の `TopicsRepository`（リポジトリ抽象）。
 public protocol TodoRepository: Sendable {
-    /// Todo を送信（フェイク API）し、ローカルへ保存する。
-    func submit(_ todo: Todo) async
+    /// Todo を送信（フェイク API）し、ローカルへ保存する。送信失敗時は throw する。
+    func submit(_ todo: Todo) async throws
 }
 
 /// `TodoRepository` の実装。
@@ -25,9 +25,9 @@ public actor DefaultTodoRepository: TodoRepository {
         self.local = local
     }
 
-    public func submit(_ todo: Todo) async {
-        // フェイク API 送信
-        await remote.submit(text: todo.text)
+    public func submit(_ todo: Todo) async throws {
+        // フェイク API 送信（失敗時はここで throw され、以降のローカル保存は行われない）
+        try await remote.submit(text: todo.text)
         // ローカル保存（新しい順で先頭へ挿入。既存 TodoStore と同じ挙動）
         var records = local.load()
         records.insert(TodoRecord(text: todo.text, createdAt: todo.createdAt), at: 0)

@@ -38,6 +38,12 @@ struct Confirm2View: View {
                 if viewModel.isSubmitting {
                     ProgressView().padding(.top, 8)
                 }
+                if let errorMessage = viewModel.errorMessage {
+                    Text(errorMessage)
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                        .padding(.top, 8)
+                }
                 Spacer()
             }
             .padding(.horizontal, 24)
@@ -47,7 +53,7 @@ struct Confirm2View: View {
 
 /// プレビュー用の何もしない UseCase スタブ。
 private struct PreviewSubmitTodoUseCase: SubmitTodoUseCase {
-    func execute(text: String) async {}
+    func execute(text: String) async throws {}
 }
 
 /// プレビュー用の何もしない Router スタブ。

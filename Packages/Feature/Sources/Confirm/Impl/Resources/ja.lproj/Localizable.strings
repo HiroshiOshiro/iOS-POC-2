@@ -7,3 +7,4 @@
 "confirm2.title" = "確認②";
 "confirm2.caption" = "この内容で保存します";
 "confirm2.save" = "保存";
+"confirm2.error" = "保存に失敗しました";

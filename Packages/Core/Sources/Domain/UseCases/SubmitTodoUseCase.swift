@@ -5,7 +5,7 @@ import Data
 /// Todo を確定保存するユースケース。
 /// NiA 相当: core:domain の UseCase（例: `GetFollowableTopicsUseCase`）。
 public protocol SubmitTodoUseCase: Sendable {
-    func execute(text: String) async
+    func execute(text: String) async throws
 }
 
 public struct DefaultSubmitTodoUseCase: SubmitTodoUseCase {
@@ -15,7 +15,7 @@ public struct DefaultSubmitTodoUseCase: SubmitTodoUseCase {
         self.repository = repository
     }
 
-    public func execute(text: String) async {
-        await repository.submit(Todo(text: text))
+    public func execute(text: String) async throws {
+        try await repository.submit(Todo(text: text))
     }
 }

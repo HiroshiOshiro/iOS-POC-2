@@ -56,7 +56,7 @@ struct ConfirmFlowView: View {
 
 /// プレビュー用の何もしない UseCase スタブ。
 private struct PreviewSubmitTodoUseCase: SubmitTodoUseCase {
-    func execute(text: String) async {}
+    func execute(text: String) async throws {}
 }
 
 /// プレビュー用の何もしない Router スタブ。
