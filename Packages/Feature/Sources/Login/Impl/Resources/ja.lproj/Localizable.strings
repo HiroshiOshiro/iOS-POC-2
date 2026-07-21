@@ -7,3 +7,6 @@
 "login.saved_title" = "保存済みの情報";
 "login.saved_email" = "メールアドレス（AppStorage）";
 "login.saved_user_id" = "userID（Keychain）";
+
+/* エラー */
+"error.title" = "エラー";

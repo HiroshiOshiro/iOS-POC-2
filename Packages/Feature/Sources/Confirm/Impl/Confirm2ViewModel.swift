@@ -11,7 +11,8 @@ import Data
 final class Confirm2ViewModel: ObservableObject {
     let text: String
     @Published private(set) var isSubmitting = false
-    @Published private(set) var errorMessage: String?
+    /// 発生中のエラー（`LocalizedError`）。View は `.alert` でこれを提示する。
+    @Published private(set) var error: ConfirmError?
 
     @Injected(\.submitTodoUseCase) private var submitUseCase
 
@@ -27,7 +28,7 @@ final class Confirm2ViewModel: ObservableObject {
     func saveButtonTapped() {
         guard !isSubmitting else { return }
         isSubmitting = true
-        errorMessage = nil
+        error = nil
         Task { [weak self] in
             guard let self else { return }
             do {
@@ -36,14 +37,19 @@ final class Confirm2ViewModel: ObservableObject {
                 // 成功時のみ完了画面へ進む。
                 self.router.navigateToComplete()
             } catch {
-                // 失敗時は画面に留まりエラーを表示する（送信元のエラー種別は問わずメッセージ化）。
+                // 失敗時は画面に留まりエラーを提示する（送信元のエラー種別は問わずまとめる）。
                 self.isSubmitting = false
-                self.errorMessage = L("confirm2.error")
+                self.error = .submitFailed
             }
         }
     }
 
     func backButtonTapped() {
         onBack()
+    }
+
+    /// アラートを閉じたときにエラー状態を解除する。
+    func dismissError() {
+        error = nil
     }
 }

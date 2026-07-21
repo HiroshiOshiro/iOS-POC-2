@@ -12,7 +12,8 @@ final class LoginViewModel: ObservableObject {
     @Published var password: String = ""
     @Published private(set) var isLoading = false
     @Published private(set) var session: Session?
-    @Published private(set) var errorMessage: String?
+    /// 発生中のエラー（`LocalizedError`）。View は `.alert` でこれを提示する。
+    @Published private(set) var error: LoginError?
 
     @Injected(\.loginUseCase) private var loginUseCase
     @Injected(\.loadSessionUseCase) private var loadSessionUseCase
@@ -32,7 +33,7 @@ final class LoginViewModel: ObservableObject {
     func loginButtonTapped() {
         guard canSubmit else { return }
         isLoading = true
-        errorMessage = nil
+        error = nil
         Task { [weak self] in
             guard let self else { return }
             do {
@@ -43,9 +44,15 @@ final class LoginViewModel: ObservableObject {
                 // パスワードは保持しない。
                 self.password = ""
             } catch {
-                self.errorMessage = L("login.error")
+                // 技術的なエラーをユーザー向けの LocalizedError にまとめる。
+                self.error = .failed
             }
             self.isLoading = false
         }
+    }
+
+    /// アラートを閉じたときにエラー状態を解除する。
+    func dismissError() {
+        error = nil
     }
 }

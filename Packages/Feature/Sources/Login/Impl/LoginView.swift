@@ -39,12 +39,6 @@ struct LoginView: View {
                         ProgressView()
                     }
 
-                    if let errorMessage = viewModel.errorMessage {
-                        Text(errorMessage)
-                            .font(.footnote)
-                            .foregroundStyle(.red)
-                    }
-
                     if let session = viewModel.session {
                         Divider().padding(.vertical, 8)
                         Text(L("login.saved_title")).font(.headline)
@@ -60,6 +54,18 @@ struct LoginView: View {
             }
         }
         .onAppear { viewModel.onAppear() }
+        .alert(
+            L("error.title"),
+            isPresented: Binding(
+                get: { viewModel.error != nil },
+                set: { if !$0 { viewModel.dismissError() } }
+            ),
+            presenting: viewModel.error
+        ) { _ in
+            Button("OK", role: .cancel) {}
+        } message: { error in
+            Text(error.localizedDescription)
+        }
     }
 }
 

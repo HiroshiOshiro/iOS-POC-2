@@ -38,15 +38,21 @@ struct Confirm2View: View {
                 if viewModel.isSubmitting {
                     ProgressView().padding(.top, 8)
                 }
-                if let errorMessage = viewModel.errorMessage {
-                    Text(errorMessage)
-                        .font(.footnote)
-                        .foregroundStyle(.red)
-                        .padding(.top, 8)
-                }
                 Spacer()
             }
             .padding(.horizontal, 24)
+        }
+        .alert(
+            L("error.title"),
+            isPresented: Binding(
+                get: { viewModel.error != nil },
+                set: { if !$0 { viewModel.dismissError() } }
+            ),
+            presenting: viewModel.error
+        ) { _ in
+            Button("OK", role: .cancel) {}
+        } message: { error in
+            Text(error.localizedDescription)
         }
     }
 }
