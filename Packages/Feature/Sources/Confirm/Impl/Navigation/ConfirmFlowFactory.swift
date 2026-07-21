@@ -1,6 +1,6 @@
 import UIKit
 import SwiftUI
-import ConfirmFeatureApi
+import ConfirmApi
 
 /// Feature の外へ公開する唯一の窓口。
 /// SwiftUI の View（struct）・ViewModel・UIHostingController（ジェネリック）は Feature 内に閉じ込め、

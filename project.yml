@@ -27,11 +27,11 @@ targets:
     dependencies:
       # 機能モジュール（api/impl）。合成ルートとして両方を参照する。
       - package: Feature
-        product: ConfirmFeatureApi
+        product: ConfirmApi
       - package: Feature
-        product: ConfirmFeatureImpl
+        product: ConfirmImpl
       - package: Feature
-        product: LoginFeatureImpl
+        product: LoginImpl
       # 合成ルートとして ObjC 実装を Factory に登録するための依存。
       - package: Core
         product: Data

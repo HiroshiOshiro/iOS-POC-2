@@ -2,7 +2,7 @@
 #import "TodoInputViewController.h"
 #import "MusicListViewController.h"
 #import "iOS-POC-2-Swift.h"
-@import LoginFeatureImpl;
+@import LoginImpl;
 
 @interface MainTabBarController ()
 // Todo フローの遷移を所有する Coordinator を保持する。

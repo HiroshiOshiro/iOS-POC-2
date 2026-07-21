@@ -21,21 +21,21 @@
 		8260074E4EFA41135BEE4672 /* Track.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D80D0859E978A12F421EF6A /* Track.m */; };
 		866C9A0B0397EE323FBD15C4 /* ITunesAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DD48C2A4EE97AAC2546974F3 /* ITunesAPIClient.m */; };
 		8A9892E91F86087B25BE5249 /* MusicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A786D82ACE7AAB20F6EE13 /* MusicDetailViewController.m */; };
-		9DB406632E0947BEED37FEEF /* ConfirmFeatureApi in Frameworks */ = {isa = PBXBuildFile; productRef = 68A8B9C130F6CC3CE6885E46 /* ConfirmFeatureApi */; };
+		9DB406632E0947BEED37FEEF /* ConfirmApi in Frameworks */ = {isa = PBXBuildFile; productRef = 5431171A5738A902984EFB08 /* ConfirmApi */; };
 		A29B176DF1DF0BC96D9126D6 /* AppDependencyRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0447D56BDA0066263C2B8F7 /* AppDependencyRegistration.swift */; };
 		A332279BE72718269A3FBAD4 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */; };
 		A36475B073B6BC272702B906 /* PasswordCryptoUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D4A35EE7F36B9DD08232943A /* PasswordCryptoUtil.m */; };
 		AFC09C7F42F47088AC711707 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = F9178A246ED1187935D0CC02 /* FactoryKit */; };
 		B47018C5BE2E6BED6DAAEA9E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8191AABA9F0EB2897E07F4F7 /* Localizable.strings */; };
 		B7243A7F6CA9D9C31E0D5C2F /* MusicListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4241A0BEB69A8B28E25204 /* MusicListViewController.m */; };
-		BEA687FA575283685E999006 /* LoginFeatureImpl in Frameworks */ = {isa = PBXBuildFile; productRef = C6744E0CBCB6FAF4967217A3 /* LoginFeatureImpl */; };
+		BEA687FA575283685E999006 /* LoginImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 354C09B4BB6585AC9CA57E35 /* LoginImpl */; };
 		C0630B309725B4E0350EF0F4 /* ImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F704BE7DBBDC70CFD4341B /* ImageLoader.m */; };
 		C073964661109D3840AC1155 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DB2E43966D9FC1A986BE69 /* CustomNavigationBar.m */; };
 		D168ABB43B7772372BF1B308 /* TodoFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55F0D74E6425272D5DD98C3 /* TodoFlowCoordinator.swift */; };
 		D6BA11F2CA77FEDC1AB3029C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C7A28F71FBA8BB7671ED99 /* SceneDelegate.m */; };
 		D6BE366FBF8C882EBA1A8432 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBC548C84515A99A922E805E /* Assets.xcassets */; };
 		E75AACD8F89DF526133FDD38 /* KeyChainUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1F0E2370AE252A637B644A /* KeyChainUtilTests.swift */; };
-		EBCC64F32185BE8CB8EC4FAD /* ConfirmFeatureImpl in Frameworks */ = {isa = PBXBuildFile; productRef = AC99C31BB1C511A5E87114A6 /* ConfirmFeatureImpl */; };
+		EBCC64F32185BE8CB8EC4FAD /* ConfirmImpl in Frameworks */ = {isa = PBXBuildFile; productRef = D5D011E96E8D16E956B06DC3 /* ConfirmImpl */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,9 +109,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DB406632E0947BEED37FEEF /* ConfirmFeatureApi in Frameworks */,
-				EBCC64F32185BE8CB8EC4FAD /* ConfirmFeatureImpl in Frameworks */,
-				BEA687FA575283685E999006 /* LoginFeatureImpl in Frameworks */,
+				9DB406632E0947BEED37FEEF /* ConfirmApi in Frameworks */,
+				EBCC64F32185BE8CB8EC4FAD /* ConfirmImpl in Frameworks */,
+				BEA687FA575283685E999006 /* LoginImpl in Frameworks */,
 				619C31AA69E13AD4362FFCA3 /* Data in Frameworks */,
 				AFC09C7F42F47088AC711707 /* FactoryKit in Frameworks */,
 			);
@@ -280,9 +280,9 @@
 			);
 			name = "iOS-POC-2";
 			packageProductDependencies = (
-				68A8B9C130F6CC3CE6885E46 /* ConfirmFeatureApi */,
-				AC99C31BB1C511A5E87114A6 /* ConfirmFeatureImpl */,
-				C6744E0CBCB6FAF4967217A3 /* LoginFeatureImpl */,
+				5431171A5738A902984EFB08 /* ConfirmApi */,
+				D5D011E96E8D16E956B06DC3 /* ConfirmImpl */,
+				354C09B4BB6585AC9CA57E35 /* LoginImpl */,
 				1E354F85C0C28280746745C7 /* Data */,
 				F9178A246ED1187935D0CC02 /* FactoryKit */,
 			);
@@ -660,21 +660,21 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Data;
 		};
-		68A8B9C130F6CC3CE6885E46 /* ConfirmFeatureApi */ = {
+		354C09B4BB6585AC9CA57E35 /* LoginImpl */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = ConfirmFeatureApi;
+			productName = LoginImpl;
+		};
+		5431171A5738A902984EFB08 /* ConfirmApi */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ConfirmApi;
 		};
 		A2E8C11CB3066DBFCAE57DD5 /* Datastore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Datastore;
 		};
-		AC99C31BB1C511A5E87114A6 /* ConfirmFeatureImpl */ = {
+		D5D011E96E8D16E956B06DC3 /* ConfirmImpl */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = ConfirmFeatureImpl;
-		};
-		C6744E0CBCB6FAF4967217A3 /* LoginFeatureImpl */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = LoginFeatureImpl;
+			productName = ConfirmImpl;
 		};
 		F9178A246ED1187935D0CC02 /* FactoryKit */ = {
 			isa = XCSwiftPackageProductDependency;

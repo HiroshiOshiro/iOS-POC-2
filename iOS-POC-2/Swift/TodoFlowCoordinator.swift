@@ -1,6 +1,6 @@
 import UIKit
-import ConfirmFeatureApi
-import ConfirmFeatureImpl
+import ConfirmApi
+import ConfirmImpl
 
 /// Todo の入力〜確認〜完了フローの画面遷移を一元管理する Coordinator。
 /// 各画面（入力・確認・完了）は自身の遷移を知らず、この Coordinator が順序を所有する。
