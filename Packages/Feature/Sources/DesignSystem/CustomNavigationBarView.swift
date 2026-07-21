@@ -2,6 +2,7 @@ import SwiftUI
 
 /// 独自ナビゲーションバー（ブランドカラー背景＋白タイトル＋白の戻るボタン）を上部に持つ
 /// SwiftUI 版の画面コンテナ。ObjC 側 CustomNavigationBar と同じ見た目を SwiftUI で再現する。
+/// NiA 相当: core:designsystem の `NiaTopAppBar`（component/TopAppBar）。
 public struct CustomNavigationBarView<Content: View>: View {
     private let title: String
     private let showsBack: Bool

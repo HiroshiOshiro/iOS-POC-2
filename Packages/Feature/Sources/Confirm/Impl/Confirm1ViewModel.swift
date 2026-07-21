@@ -3,6 +3,7 @@ import ConfirmApi
 
 /// 確認画面1 の ViewModel。
 /// フロー外への遷移（戻る）は Router、フロー内の遷移（次へ）は `onNext` に委譲する。
+/// NiA 相当: feature:*:impl の ViewModel（`TopicViewModel`）。
 @MainActor
 final class Confirm1ViewModel: ObservableObject {
     let text: String

@@ -5,6 +5,7 @@ import ConfirmApi
 /// Feature の外へ公開する唯一の窓口。
 /// SwiftUI の View（struct）・ViewModel・UIHostingController（ジェネリック）は Feature 内に閉じ込め、
 /// 外へは `UIViewController` という共通の型だけを返す。
+/// NiA 相当: feature:*:impl の navigation の EntryProvider（`InterestsEntryProvider`）。
 public enum ConfirmFlowFactory {
 
     /// 確認フロー（確認画面1→2）のビューコントローラを生成する。

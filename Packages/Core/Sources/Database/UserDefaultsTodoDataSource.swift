@@ -5,6 +5,7 @@ import Foundation
 /// 既存の Objective-C 実装（`TodoStore`）と互換の形式で読み書きする:
 /// キー `todo_items` に「`{ text: String, createdAt: Date }` の辞書の配列」を保存する。
 /// これにより入力画面（ObjC）の一覧表示・削除と同じデータを共有できる。
+/// NiA 相当: core:database の DAO 実装（Room が生成する `TopicDao` 実体）。
 public final class UserDefaultsTodoDataSource: TodoLocalDataSource, @unchecked Sendable {
     // UserDefaults はスレッドセーフのため @unchecked Sendable とする。
     private let defaults: UserDefaults

@@ -3,6 +3,7 @@ import DesignSystem
 import ConfirmApi
 
 /// 確認画面1。入力内容を表示し「次へ」で確認画面2 へ進む。
+/// NiA 相当: feature:*:impl の Screen（`TopicScreen`）。
 struct Confirm1View: View {
     @StateObject private var viewModel: Confirm1ViewModel
 

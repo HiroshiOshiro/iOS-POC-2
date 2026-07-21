@@ -1,6 +1,7 @@
 import FactoryKit
 
 /// Data 層が提供するセキュリティ関連の依存の登録。
+/// NiA 相当: core:data の di（Hilt モジュール）。
 public extension Container {
 
     /// パスワード暗号化の実装。

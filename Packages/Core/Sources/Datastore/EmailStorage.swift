@@ -1,6 +1,7 @@
 import Foundation
 
 /// メールアドレスのローカル保存。
+/// NiA 相当: core:datastore の `NiaPreferencesDataSource`（設定値の保存）。
 public protocol EmailStorage: Sendable {
     func save(_ email: String)
     func load() -> String?

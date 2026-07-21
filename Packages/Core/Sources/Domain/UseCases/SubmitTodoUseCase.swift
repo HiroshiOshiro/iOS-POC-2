@@ -3,6 +3,7 @@ import Model
 import Data
 
 /// Todo を確定保存するユースケース。
+/// NiA 相当: core:domain の UseCase（例: `GetFollowableTopicsUseCase`）。
 public protocol SubmitTodoUseCase: Sendable {
     func execute(text: String) async
 }

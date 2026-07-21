@@ -3,6 +3,7 @@ import Model
 import Data
 
 /// ログインを実行するユースケース。
+/// NiA 相当: core:domain の UseCase（例: `GetFollowableTopicsUseCase`）。
 public protocol LoginUseCase: Sendable {
     func execute(email: String, password: String) async throws -> Session
 }

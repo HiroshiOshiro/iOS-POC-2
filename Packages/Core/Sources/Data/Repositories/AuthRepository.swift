@@ -4,6 +4,7 @@ import Network
 import Datastore
 
 /// 認証まわりの通信・永続化を抽象化したリポジトリ。
+/// NiA 相当: core:data の `UserDataRepository`（リポジトリ抽象）。
 public protocol AuthRepository: Sendable {
     /// ログインし、メールアドレスと userID を永続化する。
     func login(email: String, password: String) async throws -> Session
@@ -14,6 +15,7 @@ public protocol AuthRepository: Sendable {
 /// `AuthRepository` の実装。
 /// モック API でログインし、メールアドレスは UserDefaults（＝@AppStorage と同じ場所）、
 /// userID は Keychain に保存する。
+/// NiA 相当: core:data の `OfflineFirstUserDataRepository`（リポジトリ実装）。
 public actor DefaultAuthRepository: AuthRepository {
     private let remote: any AuthRemoteDataSource
     private let passwordEncryptor: any PasswordEncrypting

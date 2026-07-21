@@ -6,6 +6,8 @@ import ConfirmImpl
 /// 各画面（入力・確認・完了）は自身の遷移を知らず、この Coordinator が順序を所有する。
 /// Feature からは `ConfirmFlowRouter` として遷移を依頼される。
 /// ObjC 画面（TodoInputViewController / CompletionViewController）を扱うためアプリターゲットに置く。
+/// NiA 相当なし: NiA は NavHost + 各 feature の EntryProvider で遷移を組む。Coordinator は
+/// ObjC/UIKit と SwiftUI をまたぐ本 POC の事情による構成で、NiA には対応物がない。
 @MainActor
 @objc final class TodoFlowCoordinator: NSObject, TodoInputViewControllerDelegate, ConfirmFlowRouter {
     private weak var navigationController: UINavigationController?

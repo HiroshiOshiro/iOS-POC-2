@@ -6,6 +6,7 @@ import Domain
 import Data
 
 /// 確認画面2。内容を再確認し「保存」でフェイク API 送信・永続化を行い完了へ進む。
+/// NiA 相当: feature:*:impl の Screen（`TopicScreen`）。
 struct Confirm2View: View {
     @StateObject private var viewModel: Confirm2ViewModel
 

@@ -2,6 +2,7 @@ import FactoryKit
 
 /// Data 層が提供する依存の登録。
 /// リポジトリはデータソースへのアクセスを直列化する actor のため、アプリ全体で 1 インスタンスを共有する。
+/// NiA 相当: core:data の di（Hilt の `DataModule`）。
 public extension Container {
 
     var todoRepository: Factory<any TodoRepository> {

@@ -7,6 +7,7 @@ import Data
 import Datastore
 
 /// ログイン画面。メールアドレス／パスワードを入力し、モック API でログインする。
+/// NiA 相当: feature:*:impl の Screen（`TopicScreen` / `InterestsScreen`）。
 struct LoginView: View {
     @StateObject private var viewModel = LoginViewModel()
 

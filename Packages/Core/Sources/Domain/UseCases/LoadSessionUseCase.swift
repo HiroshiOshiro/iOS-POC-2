@@ -3,6 +3,7 @@ import Model
 import Data
 
 /// 保存済みのセッションを読み出すユースケース。
+/// NiA 相当: core:domain の UseCase（例: `GetFollowableTopicsUseCase`）。
 public protocol LoadSessionUseCase: Sendable {
     func execute() async -> Session?
 }

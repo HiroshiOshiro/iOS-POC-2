@@ -1,6 +1,7 @@
 import Foundation
 
 /// userID の保存。userID は秘匿情報として扱うため Keychain に保存する。
+/// NiA 相当: core:datastore の `NiaPreferencesDataSource`（設定値の保存。Keychain は iOS 固有）。
 public protocol UserIDStorage: Sendable {
     func save(_ userID: String) throws
     /// 保存済みの userID を返す（未保存なら nil。読み取り失敗時は throw）。

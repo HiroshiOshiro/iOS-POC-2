@@ -5,6 +5,7 @@ import Domain
 import Data
 
 /// ログイン画面の ViewModel。モック API でログインし、結果のセッションを保持する。
+/// NiA 相当: feature:*:impl の ViewModel（`TopicViewModel`）。
 @MainActor
 final class LoginViewModel: ObservableObject {
     @Published var email: String = ""
