@@ -6,6 +6,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 入力画面からフロー開始を通知するためのデリゲート。
 /// 画面遷移そのものは受け手（Coordinator）が管理する。
+/// このコールバックは UIKit の主スレッドで呼ばれるため、Swift へは @MainActor として
+/// 公開する（Swift 6 で @MainActor な Coordinator がこのプロトコルへ準拠できるようにする）。
+NS_SWIFT_UI_ACTOR
 @protocol TodoInputViewControllerDelegate <NSObject>
 /// ユーザーがテキストを確定（保存ボタン）したときに呼ばれる。
 - (void)todoInputViewController:(TodoInputViewController *)controller

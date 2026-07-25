@@ -50,7 +50,7 @@ targets:
         TARGETED_DEVICE_FAMILY: "1,2"
         CLANG_ENABLE_MODULES: YES
         # Swift 相互運用の準備（POC で一部を Swift 化する際に使用）
-        SWIFT_VERSION: "5.0"
+        SWIFT_VERSION: "6.0"
         SWIFT_OBJC_BRIDGING_HEADER: iOS-POC-2/iOS-POC-2-Bridging-Header.h
         SWIFT_OBJC_INTERFACE_HEADER_NAME: iOS-POC-2-Swift.h
 
@@ -70,4 +70,4 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.iOS-POC-2.tests
         GENERATE_INFOPLIST_FILE: YES
-        SWIFT_VERSION: "5.0"
+        SWIFT_VERSION: "6.0"
