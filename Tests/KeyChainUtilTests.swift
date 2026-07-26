@@ -1,54 +1,59 @@
-import XCTest
+import Testing
+import Foundation
 @testable import Datastore
 
-final class KeyChainUtilTests: XCTestCase {
+/// Keychain は entitlement を要するため、このテストはホストアプリ（iOS-POC-2）を
+/// テストホストにした app ホストのユニットテストとして実行する（Core の純 SPM テストにはできない）。
+/// フレームワークは他テストと揃えて Swift Testing を使用。
+///
+/// Swift Testing はテストごとに新インスタンスを生成するため、`init` で固有のサービス名を用意し、
+/// `deinit` で必ず purge して他テストや実アプリの Keychain 項目と干渉させない。
+final class KeyChainUtilTests {
 
-    /// テストごとに固有のサービス名を使い、他テストや実アプリの Keychain 項目と干渉させない。
-    private var serviceName = ""
+    private let serviceName = "iOS-POC-2.KeyChainUtilTests.\(UUID().uuidString)"
     private let username = "test-account"
 
-    override func setUp() {
-        super.setUp()
-        serviceName = "iOS-POC-2.KeyChainUtilTests.\(UUID().uuidString)"
-    }
-
-    override func tearDown() {
+    deinit {
         try? KeyChainUtil.purge(serviceName: serviceName)
-        super.tearDown()
     }
 
     // MARK: - get
 
-    func test_givenNoSavedValue_whenGet_thenReturnsNil() throws {
-        XCTAssertNil(try KeyChainUtil.get(username: username, serviceName: serviceName))
+    @Test("Given no saved value, when get, then it returns nil")
+    func getReturnsNilWhenEmpty() throws {
+        #expect(try KeyChainUtil.get(username: username, serviceName: serviceName) == nil)
     }
 
     // MARK: - save
 
-    func test_givenNoSavedValue_whenSave_thenGetReturnsSavedValue() throws {
+    @Test("Given no saved value, when save, then get returns the saved value")
+    func saveThenGetReturnsValue() throws {
         try KeyChainUtil.save("user-123", username: username, serviceName: serviceName)
 
-        XCTAssertEqual(try KeyChainUtil.get(username: username, serviceName: serviceName), "user-123")
+        #expect(try KeyChainUtil.get(username: username, serviceName: serviceName) == "user-123")
     }
 
-    func test_givenExistingValue_whenSaveDifferentValue_thenValueIsOverwritten() throws {
+    @Test("Given an existing value, when save a different value, then it is overwritten")
+    func saveOverwritesExistingValue() throws {
         try KeyChainUtil.save("old-value", username: username, serviceName: serviceName)
 
         try KeyChainUtil.save("new-value", username: username, serviceName: serviceName)
 
-        XCTAssertEqual(try KeyChainUtil.get(username: username, serviceName: serviceName), "new-value")
+        #expect(try KeyChainUtil.get(username: username, serviceName: serviceName) == "new-value")
     }
 
-    func test_givenExistingValue_whenSaveSameValue_thenReturnsTrueAndValueIsUnchanged() throws {
+    @Test("Given an existing value, when save the same value, then it returns true and is unchanged")
+    func saveSameValueReturnsTrue() throws {
         try KeyChainUtil.save("same-value", username: username, serviceName: serviceName)
 
         let result = try KeyChainUtil.save("same-value", username: username, serviceName: serviceName)
 
-        XCTAssertTrue(result)
-        XCTAssertEqual(try KeyChainUtil.get(username: username, serviceName: serviceName), "same-value")
+        #expect(result)
+        #expect(try KeyChainUtil.get(username: username, serviceName: serviceName) == "same-value")
     }
 
-    func test_givenExistingValue_whenSaveWithUpdateExistingFalse_thenReturnsFalseAndValueIsUnchanged() throws {
+    @Test("Given an existing value, when save with updateExisting false, then it returns false and is unchanged")
+    func saveWithoutUpdateReturnsFalse() throws {
         try KeyChainUtil.save("old-value", username: username, serviceName: serviceName)
 
         let result = try KeyChainUtil.save(
@@ -58,84 +63,94 @@ final class KeyChainUtilTests: XCTestCase {
             updateExisting: false
         )
 
-        XCTAssertFalse(result)
-        XCTAssertEqual(try KeyChainUtil.get(username: username, serviceName: serviceName), "old-value")
+        #expect(result == false)
+        #expect(try KeyChainUtil.get(username: username, serviceName: serviceName) == "old-value")
     }
 
-    func test_givenEmptyString_whenSave_thenGetReturnsEmptyString() throws {
+    @Test("Given an empty string, when save, then get returns an empty string")
+    func saveEmptyString() throws {
         try KeyChainUtil.save("", username: username, serviceName: serviceName)
 
-        XCTAssertEqual(try KeyChainUtil.get(username: username, serviceName: serviceName), "")
+        #expect(try KeyChainUtil.get(username: username, serviceName: serviceName) == "")
     }
 
-    func test_givenMultibyteString_whenSave_thenGetReturnsSameString() throws {
+    @Test("Given a multibyte string, when save, then get returns the same string")
+    func saveMultibyteString() throws {
         try KeyChainUtil.save("ユーザー🔑", username: username, serviceName: serviceName)
 
-        XCTAssertEqual(try KeyChainUtil.get(username: username, serviceName: serviceName), "ユーザー🔑")
+        #expect(try KeyChainUtil.get(username: username, serviceName: serviceName) == "ユーザー🔑")
     }
 
     // MARK: - Isolation
 
-    func test_givenSameService_whenSaveForDifferentUsernames_thenValuesAreIsolated() throws {
+    @Test("Given the same service, when save for different usernames, then values are isolated")
+    func valuesIsolatedByUsername() throws {
         try KeyChainUtil.save("value-a", username: "account-a", serviceName: serviceName)
         try KeyChainUtil.save("value-b", username: "account-b", serviceName: serviceName)
 
-        XCTAssertEqual(try KeyChainUtil.get(username: "account-a", serviceName: serviceName), "value-a")
-        XCTAssertEqual(try KeyChainUtil.get(username: "account-b", serviceName: serviceName), "value-b")
+        #expect(try KeyChainUtil.get(username: "account-a", serviceName: serviceName) == "value-a")
+        #expect(try KeyChainUtil.get(username: "account-b", serviceName: serviceName) == "value-b")
     }
 
-    func test_givenSameUsername_whenSaveForDifferentServices_thenValuesAreIsolated() throws {
+    @Test("Given the same username, when save for different services, then values are isolated")
+    func valuesIsolatedByService() throws {
         let otherService = "\(serviceName).other"
         defer { try? KeyChainUtil.purge(serviceName: otherService) }
 
         try KeyChainUtil.save("value-1", username: username, serviceName: serviceName)
         try KeyChainUtil.save("value-2", username: username, serviceName: otherService)
 
-        XCTAssertEqual(try KeyChainUtil.get(username: username, serviceName: serviceName), "value-1")
-        XCTAssertEqual(try KeyChainUtil.get(username: username, serviceName: otherService), "value-2")
+        #expect(try KeyChainUtil.get(username: username, serviceName: serviceName) == "value-1")
+        #expect(try KeyChainUtil.get(username: username, serviceName: otherService) == "value-2")
     }
 
     // MARK: - delete
 
-    func test_givenSavedValue_whenDelete_thenGetReturnsNil() throws {
+    @Test("Given a saved value, when delete, then get returns nil")
+    func deleteRemovesValue() throws {
         try KeyChainUtil.save("user-123", username: username, serviceName: serviceName)
 
         try KeyChainUtil.delete(username: username, serviceName: serviceName)
 
-        XCTAssertNil(try KeyChainUtil.get(username: username, serviceName: serviceName))
+        #expect(try KeyChainUtil.get(username: username, serviceName: serviceName) == nil)
     }
 
-    func test_givenNoSavedValue_whenDelete_thenSucceeds() throws {
-        XCTAssertTrue(try KeyChainUtil.delete(username: username, serviceName: serviceName))
+    @Test("Given no saved value, when delete, then it succeeds")
+    func deleteMissingValueSucceeds() throws {
+        #expect(try KeyChainUtil.delete(username: username, serviceName: serviceName))
     }
 
-    func test_givenMultipleUsernamesInSameService_whenDeleteOne_thenOthersRemain() throws {
+    @Test("Given multiple usernames in the same service, when delete one, then the others remain")
+    func deleteOneKeepsOthers() throws {
         try KeyChainUtil.save("value-a", username: "account-a", serviceName: serviceName)
         try KeyChainUtil.save("value-b", username: "account-b", serviceName: serviceName)
 
         try KeyChainUtil.delete(username: "account-a", serviceName: serviceName)
 
-        XCTAssertNil(try KeyChainUtil.get(username: "account-a", serviceName: serviceName))
-        XCTAssertEqual(try KeyChainUtil.get(username: "account-b", serviceName: serviceName), "value-b")
+        #expect(try KeyChainUtil.get(username: "account-a", serviceName: serviceName) == nil)
+        #expect(try KeyChainUtil.get(username: "account-b", serviceName: serviceName) == "value-b")
     }
 
     // MARK: - purge
 
-    func test_givenMultipleItemsInService_whenPurge_thenAllAreRemoved() throws {
+    @Test("Given multiple items in a service, when purge, then all are removed")
+    func purgeRemovesAll() throws {
         try KeyChainUtil.save("value-a", username: "account-a", serviceName: serviceName)
         try KeyChainUtil.save("value-b", username: "account-b", serviceName: serviceName)
 
         try KeyChainUtil.purge(serviceName: serviceName)
 
-        XCTAssertNil(try KeyChainUtil.get(username: "account-a", serviceName: serviceName))
-        XCTAssertNil(try KeyChainUtil.get(username: "account-b", serviceName: serviceName))
+        #expect(try KeyChainUtil.get(username: "account-a", serviceName: serviceName) == nil)
+        #expect(try KeyChainUtil.get(username: "account-b", serviceName: serviceName) == nil)
     }
 
-    func test_givenNoSavedItems_whenPurge_thenSucceeds() throws {
-        XCTAssertTrue(try KeyChainUtil.purge(serviceName: serviceName))
+    @Test("Given no saved items, when purge, then it succeeds")
+    func purgeEmptyServiceSucceeds() throws {
+        #expect(try KeyChainUtil.purge(serviceName: serviceName))
     }
 
-    func test_givenItemsInAnotherService_whenPurge_thenOtherServiceIsUnaffected() throws {
+    @Test("Given items in another service, when purge, then the other service is unaffected")
+    func purgeDoesNotAffectOtherService() throws {
         let otherService = "\(serviceName).other"
         defer { try? KeyChainUtil.purge(serviceName: otherService) }
         try KeyChainUtil.save("keep-me", username: username, serviceName: otherService)
@@ -143,7 +158,7 @@ final class KeyChainUtilTests: XCTestCase {
 
         try KeyChainUtil.purge(serviceName: serviceName)
 
-        XCTAssertNil(try KeyChainUtil.get(username: username, serviceName: serviceName))
-        XCTAssertEqual(try KeyChainUtil.get(username: username, serviceName: otherService), "keep-me")
+        #expect(try KeyChainUtil.get(username: username, serviceName: serviceName) == nil)
+        #expect(try KeyChainUtil.get(username: username, serviceName: otherService) == "keep-me")
     }
 }
