@@ -67,5 +67,14 @@ let package = Package(
                 .product(name: "FactoryKit", package: "Factory"),
             ]
         ),
+
+        // MARK: - Tests（swift test で実行。UI 非依存のため macOS ホストで動く）
+
+        .testTarget(name: "NetworkTests", dependencies: ["Network"]),
+        .testTarget(
+            name: "DataTests",
+            dependencies: ["Data", "Model", "Network", "Database", "Datastore"]
+        ),
+        .testTarget(name: "DomainTests", dependencies: ["Domain", "Data", "Model"]),
     ]
 )
