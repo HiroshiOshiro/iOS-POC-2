@@ -62,5 +62,20 @@ let package = Package(
                 .process("Resources")
             ]
         ),
+
+        // MARK: - Tests（iOS シミュレータで実行。ViewModel を @testable import で検証）
+
+        .testTarget(
+            name: "FeatureTests",
+            dependencies: [
+                "LoginImpl",
+                "ConfirmImpl",
+                "ConfirmApi",
+                .product(name: "Model", package: "Core"),
+                .product(name: "Domain", package: "Core"),
+                .product(name: "FactoryKit", package: "Factory"),
+            ],
+            path: "Tests/FeatureTests"
+        ),
     ]
 )
