@@ -22,11 +22,12 @@ public actor DefaultAuthRepository: AuthRepository {
     private let emailStorage: any EmailStorage
     private let userIDStorage: any UserIDStorage
 
+    // 依存はすべて DI コンテナ（Container+Repository）から注入する。
     public init(
-        remote: any AuthRemoteDataSource = FakeAuthRemoteDataSource(),
-        passwordEncryptor: any PasswordEncrypting = CryptoKitPasswordEncryptor(),
-        emailStorage: any EmailStorage = UserDefaultsEmailStorage(key: StorageKeys.loginEmail),
-        userIDStorage: any UserIDStorage = KeychainUserIDStorage()
+        remote: any AuthRemoteDataSource,
+        passwordEncryptor: any PasswordEncrypting,
+        emailStorage: any EmailStorage,
+        userIDStorage: any UserIDStorage
     ) {
         self.remote = remote
         self.passwordEncryptor = passwordEncryptor

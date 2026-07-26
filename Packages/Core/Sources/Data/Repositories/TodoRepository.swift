@@ -17,9 +17,10 @@ public actor DefaultTodoRepository: TodoRepository {
     private let remote: any TodoRemoteDataSource
     private let local: any TodoLocalDataSource
 
+    // 依存はすべて DI コンテナ（Container+Repository）から注入する。
     public init(
-        remote: any TodoRemoteDataSource = FakeTodoRemoteDataSource(),
-        local: any TodoLocalDataSource = UserDefaultsTodoDataSource()
+        remote: any TodoRemoteDataSource,
+        local: any TodoLocalDataSource
     ) {
         self.remote = remote
         self.local = local

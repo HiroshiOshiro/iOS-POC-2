@@ -27,14 +27,24 @@ let package = Package(
         // Model: アプリ全体で使うドメインモデル。他層に依存しない葉。
         .target(name: "Model"),
 
-        // Network: リモートデータソース。プリミティブ/DTO のみを扱い他層に依存しない。
-        .target(name: "Network"),
+        // Network: リモートデータソース。プリミティブ/DTO のみを扱う。
+        // 自分のデータソースを DI 登録するため FactoryKit に依存（NiA の NetworkModule 相当）。
+        .target(
+            name: "Network",
+            dependencies: [.product(name: "FactoryKit", package: "Factory")]
+        ),
 
         // Database: 構造化データのローカル保存（NiA の core:database 相当。Entity を持つ）。
-        .target(name: "Database"),
+        .target(
+            name: "Database",
+            dependencies: [.product(name: "FactoryKit", package: "Factory")]
+        ),
 
         // Datastore: 設定値・秘匿情報の保存（NiA の core:datastore 相当。UserDefaults/Keychain）。
-        .target(name: "Datastore"),
+        .target(
+            name: "Datastore",
+            dependencies: [.product(name: "FactoryKit", package: "Factory")]
+        ),
 
         // Data: リポジトリ（protocol と実装）。データソースを束ね、モデルへ変換する。
         .target(
