@@ -1,10 +1,18 @@
 import Foundation
+import os
 
-/// Debug ビルドのみ `[ファイルID:行] テキスト` を標準出力へ出す共通ログ関数。
+/// アプリ共通の `Logger`（subsystem＝バンドルID、category＝任意）。
+/// Console.app や `log stream` で subsystem/category による絞り込みができる。
+private let logger = Logger(
+    subsystem: Bundle.main.bundleIdentifier ?? "iOS-POC-2",
+    category: "app"
+)
+
+/// Debug ビルドのみ `[ファイルID:行] テキスト` を統合ログ（os.Logger）へ出す共通ログ関数。
 ///
 /// どのモジュールからでも `import Common` して `log("...")` で呼べる。
 /// `#if DEBUG` により release ではコード・文字列とも完全に除去される。
-/// 内部の `print` は将来 `os.Logger` 等へ差し替え可能（呼び出し側は不変）。
+/// 出力は Xcode コンソール／Console.app／`log stream` で確認できる（stdout ではない）。
 /// NiA 相当: core:common のユーティリティ。
 ///
 /// - Parameters:
@@ -17,6 +25,9 @@ public func log(
     line: Int = #line
 ) {
     #if DEBUG
-    print("[\(file):\(line)] \(message())")
+    // message() を先に確定させる（os.Logger の補間はエスケープするため非エスケープ引数を直接渡せない）。
+    let text = message()
+    // os.Logger は動的値を既定でマスクするため、開発用ログとして .public を明示する。
+    logger.debug("[\(file, privacy: .public):\(line, privacy: .public)] \(text, privacy: .public)")
     #endif
 }
