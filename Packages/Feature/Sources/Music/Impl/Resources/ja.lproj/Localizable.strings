@@ -1,0 +1,15 @@
+/* Music 一覧 */
+"music.title" = "Music";
+"music.search_placeholder" = "曲名・アーティストで検索";
+"music.empty" = "結果がありません";
+"music.error_title" = "読み込みに失敗しました";
+
+/* Music 詳細 */
+"music.detail.title" = "詳細";
+"music.detail.unknown_title" = "(タイトル不明)";
+"music.detail.preview_play" = "▶ 30秒試聴";
+"music.detail.preview_stop" = "■ 停止";
+"music.detail.open_itunes" = "iTunes で開く";
+
+/* エラー */
+"error.title" = "エラー";

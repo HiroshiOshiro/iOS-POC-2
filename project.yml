@@ -32,6 +32,8 @@ targets:
         product: ConfirmImpl
       - package: Feature
         product: LoginImpl
+      - package: Feature
+        product: MusicImpl
       # 合成ルートとして ObjC 実装を Factory に登録するための依存。
       - package: Core
         product: Data

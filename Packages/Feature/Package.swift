@@ -11,6 +11,7 @@ let package = Package(
         .library(name: "ConfirmApi", targets: ["ConfirmApi"]),
         .library(name: "ConfirmImpl", targets: ["ConfirmImpl"]),
         .library(name: "LoginImpl", targets: ["LoginImpl"]),
+        .library(name: "MusicImpl", targets: ["MusicImpl"]),
     ],
     dependencies: [
         .package(path: "../Core"),
@@ -64,6 +65,20 @@ let package = Package(
                 .product(name: "FactoryKit", package: "Factory"),
             ],
             path: "Sources/Login/Impl",
+            resources: [
+                .process("Resources")
+            ]
+        ),
+
+        // Music/Impl: Music タブ（iTunes 検索の一覧→詳細）。外へのナビ契約が無いため api は持たない。
+        .target(
+            name: "MusicImpl",
+            dependencies: [
+                .product(name: "Model", package: "Core"),
+                .product(name: "Domain", package: "Core"),
+                .product(name: "FactoryKit", package: "Factory"),
+            ],
+            path: "Sources/Music/Impl",
             resources: [
                 .process("Resources")
             ]

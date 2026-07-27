@@ -18,4 +18,8 @@ public extension Container {
     var loadSessionUseCase: Factory<any LoadSessionUseCase> {
         self { DefaultLoadSessionUseCase(repository: self.authRepository()) }
     }
+
+    var searchMusicUseCase: Factory<any SearchMusicUseCase> {
+        self { DefaultSearchMusicUseCase(repository: self.musicRepository()) }
+    }
 }

@@ -28,4 +28,8 @@ public extension Container {
             )
         }.singleton
     }
+
+    var musicRepository: Factory<any MusicRepository> {
+        self { DefaultMusicRepository(remote: self.musicRemoteDataSource()) }
+    }
 }

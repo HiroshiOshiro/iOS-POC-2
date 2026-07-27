@@ -1,8 +1,8 @@
 #import "MainTabBarController.h"
 #import "TodoInputViewController.h"
-#import "MusicListViewController.h"
 #import "iOS-POC-2-Swift.h"
 @import LoginImpl;
+@import MusicImpl;
 
 @interface MainTabBarController ()
 // Todo フローの遷移を所有する Coordinator を保持する。
@@ -28,14 +28,11 @@
         [[TodoFlowCoordinator alloc] initWithNavigationController:todoNav
                                              inputViewController:todoVC];
 
-    // タブ②: Music（iTunes Search API で一覧→詳細）
-    MusicListViewController *musicVC = [[MusicListViewController alloc] init];
-    UINavigationController *musicNav =
-        [[UINavigationController alloc] initWithRootViewController:musicVC];
-    musicNav.navigationBarHidden = YES;
-    musicNav.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"tab.music", nil)
-                                                        image:[UIImage imageNamed:@"music"]
-                                                          tag:1];
+    // タブ②: Music（Swift/SwiftUI。iTunes Search API で一覧→詳細。遷移は内部の NavigationView）
+    UIViewController *musicVC = [MusicScreenFactory makeMusicScreen];
+    musicVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"tab.music", nil)
+                                                       image:[UIImage imageNamed:@"music"]
+                                                         tag:1];
 
     // タブ③: Login（Swift/SwiftUI。単一画面なのでナビゲーションは持たない）
     UIViewController *loginVC = [LoginScreenFactory makeLoginScreen];
@@ -43,7 +40,7 @@
                                                        image:[UIImage imageNamed:@"login"]
                                                          tag:2];
 
-    self.viewControllers = @[ todoNav, musicNav, loginVC ];
+    self.viewControllers = @[ todoNav, musicVC, loginVC ];
 }
 
 @end

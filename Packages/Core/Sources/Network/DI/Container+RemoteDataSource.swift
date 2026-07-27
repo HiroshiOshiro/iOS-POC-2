@@ -12,4 +12,9 @@ public extension Container {
     var todoRemoteDataSource: Factory<any TodoRemoteDataSource> {
         self { FakeTodoRemoteDataSource() }
     }
+
+    /// 楽曲検索は実際の iTunes Search API を叩く実装を使う。
+    var musicRemoteDataSource: Factory<any MusicRemoteDataSource> {
+        self { ITunesMusicRemoteDataSource() }
+    }
 }
