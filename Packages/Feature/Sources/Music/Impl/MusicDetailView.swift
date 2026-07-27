@@ -64,7 +64,7 @@ struct MusicDetailView: View {
             viewModel.track.collectionName,
             viewModel.track.primaryGenreName,
             viewModel.track.releaseDateText,
-            viewModel.track.durationText,
+            viewModel.track.durationText
         ]
         .compactMap { $0 }
         .filter { !$0.isEmpty }

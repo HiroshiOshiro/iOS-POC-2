@@ -24,6 +24,16 @@ targets:
     deploymentTarget: "15.0"
     sources:
       - iOS-POC-2
+    # ビルド時に SwiftLint を実行（未インストールなら警告のみ）。
+    preBuildScripts:
+      - name: SwiftLint
+        basedOnDependencyAnalysis: false
+        script: |
+          if which swiftlint >/dev/null; then
+            swiftlint
+          else
+            echo "warning: SwiftLint 未インストール（brew install swiftlint）"
+          fi
     dependencies:
       # 機能モジュール（api/impl）。合成ルートとして両方を参照する。
       - package: Feature

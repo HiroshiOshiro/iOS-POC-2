@@ -46,7 +46,7 @@ public struct ITunesMusicRemoteDataSource: MusicRemoteDataSource {
             URLQueryItem(name: "lang", value: "ja_jp"),
             URLQueryItem(name: "media", value: "music"),
             URLQueryItem(name: "entity", value: "song"),
-            URLQueryItem(name: "limit", value: "50"),
+            URLQueryItem(name: "limit", value: "50")
         ]
         guard let url = components?.url else { throw MusicRemoteError.invalidURL }
 

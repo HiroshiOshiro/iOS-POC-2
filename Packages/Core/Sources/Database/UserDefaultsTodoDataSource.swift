@@ -35,7 +35,7 @@ public final class UserDefaultsTodoDataSource: TodoLocalDataSource, @unchecked S
         let raw: [[String: Any]] = todos.map { todo in
             [
                 Keys.text: todo.text,
-                Keys.createdAt: todo.createdAt,
+                Keys.createdAt: todo.createdAt
             ]
         }
         defaults.set(raw, forKey: Keys.items)

@@ -1,0 +1,30 @@
+# SwiftLint 設定（標準ルール中心）
+# ドキュメント: https://realm.github.io/SwiftLint/
+
+# 解析対象（Swift のソースのみ。生成物・依存は除外）
+included:
+  - Packages/Core/Sources
+  - Packages/Feature/Sources
+  - iOS-POC-2/Swift
+
+excluded:
+  - .build
+  - Packages/Core/.build
+  - Packages/Feature/.build
+  - DerivedData
+  - "**/.build"
+  # ユーザー提供のユーティリティ（不変維持のため除外）
+  - Packages/Core/Sources/Datastore/KeyChainUtil.swift
+
+# SwiftUI の慣用と衝突するため無効化する。
+#  - multiple_closures_with_trailing_closure: AsyncImage / alert 等で複数クロージャを使う
+#  - redundant_discardable_let: #Preview（ViewBuilder）では `let _ = ...` が必要
+disabled_rules:
+  - multiple_closures_with_trailing_closure
+  - redundant_discardable_let
+
+# 短い慣用名を許可する（`L`=ローカライズ短縮、`id`=Identifiable）。
+identifier_name:
+  excluded:
+    - L
+    - id

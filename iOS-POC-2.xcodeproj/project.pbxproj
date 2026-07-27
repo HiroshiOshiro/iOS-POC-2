@@ -241,6 +241,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A9BF112F269204BECE3106E5 /* Build configuration list for PBXNativeTarget "iOS-POC-2" */;
 			buildPhases = (
+				EA27D283EA94ACA9F4260CD1 /* SwiftLint */,
 				711A89E6B8C3E4812F8180D7 /* Sources */,
 				905630DEFCBC8FCBA2442CFD /* Resources */,
 				9FAECA6327BA9ADDD9B73098 /* Frameworks */,
@@ -310,6 +311,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EA27D283EA94ACA9F4260CD1 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint 未インストール（brew install swiftlint）\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1F492F0D6E8024E2D987AE18 /* Sources */ = {
