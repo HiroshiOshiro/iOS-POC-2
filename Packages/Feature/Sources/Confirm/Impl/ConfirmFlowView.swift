@@ -4,19 +4,9 @@ import FactoryKit
 import Domain
 import Data
 
-/// 確認フロー内部の遷移状態（Feature 内で完結する 確認1↔確認2 の切り替え）。
-/// フロー外への遷移は `ConfirmFlowRouter` が担う。
-@MainActor
-final class ConfirmFlowState: ObservableObject {
-    enum Step {
-        case confirm1
-        case confirm2
-    }
-    @Published var step: Step = .confirm1
-}
-
-/// 確認画面1→2 を内包するフロー。iOS 15 対応のため NavigationStack は使わず、
-/// 独自バー＋状態遷移で push/pop 相当を表現する。
+/// 確認画面1→2 を内包するフロー。iOS 15 対応のため `NavigationView` を使い、
+/// 「次へ」で確認画面2 を push（`NavigationLink`）、確認2 の「戻る」で pop する。
+/// システムのナビゲーションバーは隠し、各画面は独自の `CustomNavigationBarView` を使う。
 /// NiA 相当なし: 確認1↔2 を束ねる feature 内のローカルなナビゲーションホスト。
 /// NiA は遷移を app の NavHost + 各画面の NavKey で表すため、この容器に対応物はない。
 /// （中の `Confirm1View` / `Confirm2View` が NiA の `*Screen` に相当する。）
@@ -24,7 +14,8 @@ struct ConfirmFlowView: View {
     private let text: String
     private let router: ConfirmFlowRouter
 
-    @StateObject private var state = ConfirmFlowState()
+    /// 確認画面2 を push しているか（`NavigationLink` の起動状態）。
+    @State private var showConfirm2 = false
 
     init(text: String, router: ConfirmFlowRouter) {
         self.text = text
@@ -32,25 +23,30 @@ struct ConfirmFlowView: View {
     }
 
     var body: some View {
-        ZStack {
-            switch state.step {
-            case .confirm1:
+        NavigationView {
+            ZStack {
                 Confirm1View(
                     text: text,
                     router: router,
-                    onNext: { state.step = .confirm2 }
+                    onNext: { showConfirm2 = true }
                 )
-                .transition(.move(edge: .leading))
-            case .confirm2:
-                Confirm2View(
-                    text: text,
-                    router: router,
-                    onBack: { state.step = .confirm1 }
-                )
-                .transition(.move(edge: .trailing))
+
+                // 「次へ」で確認画面2 へ push。確認2 の「戻る」で pop（showConfirm2 = false）する。
+                NavigationLink(isActive: $showConfirm2) {
+                    Confirm2View(
+                        text: text,
+                        router: router,
+                        onBack: { showConfirm2 = false }
+                    )
+                    .navigationBarHidden(true)
+                } label: {
+                    EmptyView()
+                }
             }
+            .navigationBarHidden(true)
         }
-        .animation(.easeInOut, value: state.step)
+        // iPad でも分割ではなく push 型のスタックに固定する。
+        .navigationViewStyle(.stack)
     }
 }
 
