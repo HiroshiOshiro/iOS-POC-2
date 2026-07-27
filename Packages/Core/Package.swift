@@ -9,6 +9,7 @@ let package = Package(
         .macOS(.v12),
     ],
     products: [
+        .library(name: "Common", targets: ["Common"]),
         .library(name: "Model", targets: ["Model"]),
         .library(name: "Domain", targets: ["Domain"]),
         .library(name: "Network", targets: ["Network"]),
@@ -24,32 +25,36 @@ let package = Package(
         // 依存の向きは UI → Domain → Data → (Network / LocalStorage)。
         // モデルは依存を持たない葉（Model）として独立させ、各層から参照する（NiA の core:model 相当）。
 
+        // Common: 横断的ユーティリティ（ログ等）。依存を持たない葉（NiA の core:common 相当）。
+        .target(name: "Common"),
+
         // Model: アプリ全体で使うドメインモデル。他層に依存しない葉。
-        .target(name: "Model"),
+        .target(name: "Model", dependencies: ["Common"]),
 
         // Network: リモートデータソース。プリミティブ/DTO のみを扱う。
         // 自分のデータソースを DI 登録するため FactoryKit に依存（NiA の NetworkModule 相当）。
         .target(
             name: "Network",
-            dependencies: [.product(name: "FactoryKit", package: "Factory")]
+            dependencies: ["Common", .product(name: "FactoryKit", package: "Factory")]
         ),
 
         // Database: 構造化データのローカル保存（NiA の core:database 相当。Entity を持つ）。
         .target(
             name: "Database",
-            dependencies: [.product(name: "FactoryKit", package: "Factory")]
+            dependencies: ["Common", .product(name: "FactoryKit", package: "Factory")]
         ),
 
         // Datastore: 設定値・秘匿情報の保存（NiA の core:datastore 相当。UserDefaults/Keychain）。
         .target(
             name: "Datastore",
-            dependencies: [.product(name: "FactoryKit", package: "Factory")]
+            dependencies: ["Common", .product(name: "FactoryKit", package: "Factory")]
         ),
 
         // Data: リポジトリ（protocol と実装）。データソースを束ね、モデルへ変換する。
         .target(
             name: "Data",
             dependencies: [
+                "Common",
                 "Model",
                 "Network",
                 "Database",
@@ -62,6 +67,7 @@ let package = Package(
         .target(
             name: "Domain",
             dependencies: [
+                "Common",
                 "Model",
                 "Data",
                 .product(name: "FactoryKit", package: "Factory"),

@@ -1,4 +1,5 @@
 import Foundation
+import Common
 import FactoryKit
 import Model
 import Domain
@@ -45,6 +46,7 @@ final class LoginViewModel: ObservableObject {
                 self.password = ""
             } catch {
                 // 技術的なエラーをユーザー向けの LocalizedError にまとめる。
+                log("ログイン失敗: \(error)")
                 self.error = .failed
             }
             self.isLoading = false

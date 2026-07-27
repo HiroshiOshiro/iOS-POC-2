@@ -1,4 +1,5 @@
 import Foundation
+import Common
 import Model
 import Network
 import Datastore
@@ -41,6 +42,7 @@ public actor DefaultAuthRepository: AuthRepository {
         let userID = try await remote.login(email: email, password: encryptedPassword)
         emailStorage.save(email)
         try userIDStorage.save(userID)
+        log("ログイン成功 userID=\(userID)")
         return Session(email: email, userID: userID)
     }
 

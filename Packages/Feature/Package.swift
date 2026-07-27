@@ -19,12 +19,16 @@ let package = Package(
     ],
     targets: [
         // DesignSystem: テーマ・共通 UI 部品（NiA の core:designsystem 相当）。
-        .target(name: "DesignSystem"),
+        .target(
+            name: "DesignSystem",
+            dependencies: [.product(name: "Common", package: "Core")]
+        ),
 
         // Confirm/Api: 確認フローが外へ公開するナビ契約（NiA の feature/<name>/api 相当）。
         // 実装はアプリ側（Coordinator）が担い、impl はこの契約に依存する。
         .target(
             name: "ConfirmApi",
+            dependencies: [.product(name: "Common", package: "Core")],
             path: "Sources/Confirm/Api"
         ),
 
@@ -34,6 +38,7 @@ let package = Package(
             dependencies: [
                 "ConfirmApi",
                 "DesignSystem",
+                .product(name: "Common", package: "Core"),
                 .product(name: "Domain", package: "Core"),
                 .product(name: "Data", package: "Core"),
                 .product(name: "FactoryKit", package: "Factory"),
@@ -50,6 +55,7 @@ let package = Package(
             name: "LoginImpl",
             dependencies: [
                 "DesignSystem",
+                .product(name: "Common", package: "Core"),
                 .product(name: "Model", package: "Core"),
                 .product(name: "Domain", package: "Core"),
                 .product(name: "Data", package: "Core"),

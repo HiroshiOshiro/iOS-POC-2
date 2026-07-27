@@ -35,6 +35,9 @@ targets:
       # 合成ルートとして ObjC 実装を Factory に登録するための依存。
       - package: Core
         product: Data
+      # どこからでもログ出力できる共通モジュール。
+      - package: Core
+        product: Common
       - package: Factory
         product: FactoryKit
     scheme:

@@ -12,6 +12,7 @@
 		1CB69093A4906AED47B4F1C2 /* ObjCPasswordEncryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7725781789FA6AB8F53D91EF /* ObjCPasswordEncryptor.swift */; };
 		26D01EBA228CE536FBE5CE8B /* CompletionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1D3C0AD8D8570E9A86BD381 /* CompletionViewController.m */; };
 		29BA494D9C0877C8A399FEB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 490CAFEFD142F5F55773DD5A /* main.m */; };
+		2B295E93E05B9C1F4BA84C20 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = F9178A246ED1187935D0CC02 /* FactoryKit */; };
 		31036B4E971EE2E1E6CD416B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 78244000FBFCFC6FDAC1B193 /* AppDelegate.m */; };
 		55C2DD5C117538D6E9995FB4 /* TodoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A04008AB61FCF78C7A66E588 /* TodoItem.m */; };
 		569FF400FAA181D1DED5D43A /* TodoInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F226B36ACDEA14D59749F0 /* TodoInputViewController.m */; };
@@ -25,7 +26,7 @@
 		A29B176DF1DF0BC96D9126D6 /* AppDependencyRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0447D56BDA0066263C2B8F7 /* AppDependencyRegistration.swift */; };
 		A332279BE72718269A3FBAD4 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */; };
 		A36475B073B6BC272702B906 /* PasswordCryptoUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D4A35EE7F36B9DD08232943A /* PasswordCryptoUtil.m */; };
-		AFC09C7F42F47088AC711707 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = F9178A246ED1187935D0CC02 /* FactoryKit */; };
+		AFC09C7F42F47088AC711707 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = 71C50C9A8D92BD21FD0504B6 /* Common */; };
 		B47018C5BE2E6BED6DAAEA9E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8191AABA9F0EB2897E07F4F7 /* Localizable.strings */; };
 		B7243A7F6CA9D9C31E0D5C2F /* MusicListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4241A0BEB69A8B28E25204 /* MusicListViewController.m */; };
 		BEA687FA575283685E999006 /* LoginImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 354C09B4BB6585AC9CA57E35 /* LoginImpl */; };
@@ -113,7 +114,8 @@
 				EBCC64F32185BE8CB8EC4FAD /* ConfirmImpl in Frameworks */,
 				BEA687FA575283685E999006 /* LoginImpl in Frameworks */,
 				619C31AA69E13AD4362FFCA3 /* Data in Frameworks */,
-				AFC09C7F42F47088AC711707 /* FactoryKit in Frameworks */,
+				AFC09C7F42F47088AC711707 /* Common in Frameworks */,
+				2B295E93E05B9C1F4BA84C20 /* FactoryKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +286,7 @@
 				D5D011E96E8D16E956B06DC3 /* ConfirmImpl */,
 				354C09B4BB6585AC9CA57E35 /* LoginImpl */,
 				1E354F85C0C28280746745C7 /* Data */,
+				71C50C9A8D92BD21FD0504B6 /* Common */,
 				F9178A246ED1187935D0CC02 /* FactoryKit */,
 			);
 			productName = "iOS-POC-2";
@@ -667,6 +670,10 @@
 		5431171A5738A902984EFB08 /* ConfirmApi */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ConfirmApi;
+		};
+		71C50C9A8D92BD21FD0504B6 /* Common */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Common;
 		};
 		A2E8C11CB3066DBFCAE57DD5 /* Datastore */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -1,4 +1,5 @@
 import UIKit
+import Common
 import ConfirmApi
 import ConfirmImpl
 
@@ -24,6 +25,7 @@ import ConfirmImpl
     // MARK: - TodoInputViewControllerDelegate
 
     func todoInputViewController(_ controller: TodoInputViewController, didSubmitText text: String) {
+        log("確認フロー開始: \(text)")
         // 確認フロー（確認画面1→2）は Swift の Feature パッケージが提供する。
         let flow = ConfirmFlowFactory.makeConfirmFlow(text: text, router: self)
 
