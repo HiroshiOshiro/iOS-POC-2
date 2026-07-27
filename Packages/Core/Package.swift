@@ -76,5 +76,7 @@ let package = Package(
             dependencies: ["Data", "Model", "Network", "Database", "Datastore"]
         ),
         .testTarget(name: "DomainTests", dependencies: ["Domain", "Data", "Model"]),
-    ]
+    ],
+    // 言語モードを明示（tools 6.0 の既定と同じだが、意図を固定しアプリの SWIFT_VERSION 6.0 と揃える）。
+    swiftLanguageModes: [.v6]
 )
