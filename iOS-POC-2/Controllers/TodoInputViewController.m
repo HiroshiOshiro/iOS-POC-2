@@ -2,6 +2,7 @@
 #import "TodoStore.h"
 #import "TodoItem.h"
 #import "UIViewController+CustomNavBar.h"
+@import Data;   // TokenManager（アプリ全体で共有する in-memory トークン）
 
 static NSString *const kCellIdentifier = @"TodoCell";
 
@@ -25,6 +26,8 @@ static NSString *const kCellIdentifier = @"TodoCell";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    // デモ: ObjC 側から共有トークンを読む（Swift のログイン後は "api-token-..." が見える）。
+    NSLog(@"[TokenManager] ObjC read: %@", TokenManager.shared.token);
     [self reloadItems];
 }
 

@@ -3,6 +3,7 @@
 #import "iOS-POC-2-Swift.h"
 @import LoginImpl;
 @import MusicImpl;
+@import Data;   // TokenManager（アプリ全体で共有する in-memory トークン）
 
 @interface MainTabBarController ()
 // Todo フローの遷移を所有する Coordinator を保持する。
@@ -13,6 +14,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    // デモ: ObjC 側から共有トークンを書き込む（Swift のログイン処理から読める）。
+    TokenManager.shared.token = @"objc-initial";
+    NSLog(@"[TokenManager] ObjC wrote: %@", TokenManager.shared.token);
 
     // タブ①: Todo（ナビゲーションで複数画面を遷移する）
     TodoInputViewController *todoVC = [[TodoInputViewController alloc] init];

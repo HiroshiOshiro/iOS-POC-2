@@ -37,11 +37,16 @@ public actor DefaultAuthRepository: AuthRepository {
     }
 
     public func login(email: String, password: String) async throws -> Session {
+        // デモ: ログイン前の共有トークンを読む（ObjC が起動時に入れた値が見える）。
+        log("TokenManager read (Swift, before): \(TokenManager.shared.token ?? "nil")")
         // 通信前にパスワードを暗号化する（interface 経由なので実装が ObjC か Swift かは意識しない）。
         let encryptedPassword = try passwordEncryptor.encrypt(password)
         let userID = try await remote.login(email: email, password: encryptedPassword)
         emailStorage.save(email)
         try userIDStorage.save(userID)
+        // デモ: API から取得したトークン（を模した値）をアプリ全体の in-memory ストアへ保存。
+        TokenManager.shared.token = "api-token-\(userID)"
+        log("TokenManager wrote (Swift): \(TokenManager.shared.token ?? "nil")")
         log("ログイン成功 userID=\(userID)")
         return Session(email: email, userID: userID)
     }
