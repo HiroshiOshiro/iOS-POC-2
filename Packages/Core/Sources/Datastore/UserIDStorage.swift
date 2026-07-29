@@ -2,14 +2,14 @@ import Foundation
 
 /// userID の保存。userID は秘匿情報として扱うため Keychain に保存する。
 /// NiA 相当: core:datastore の `NiaPreferencesDataSource`（設定値の保存。Keychain は iOS 固有）。
-public protocol UserIDStorage: Sendable {
-    func save(_ userID: String) throws
+nonisolated public protocol UserIDStorage: Sendable {
+    nonisolated func save(_ userID: String) throws
     /// 保存済みの userID を返す（未保存なら nil。読み取り失敗時は throw）。
-    func load() throws -> String?
+    nonisolated func load() throws -> String?
 }
 
 /// Keychain に userID を保存するデータソース。実際の Keychain 操作は `KeyChainUtil` に委譲する。
-public struct KeychainUserIDStorage: UserIDStorage {
+nonisolated public struct KeychainUserIDStorage: UserIDStorage {
     private let serviceName: String
     private let username: String
 
@@ -21,11 +21,11 @@ public struct KeychainUserIDStorage: UserIDStorage {
         self.username = username
     }
 
-    public func save(_ userID: String) throws {
+    nonisolated public func save(_ userID: String) throws {
         try KeyChainUtil.save(userID, username: username, serviceName: serviceName)
     }
 
-    public func load() throws -> String? {
+    nonisolated public func load() throws -> String? {
         try KeyChainUtil.get(username: username, serviceName: serviceName)
     }
 }

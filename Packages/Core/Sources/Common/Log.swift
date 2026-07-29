@@ -1,9 +1,10 @@
 import Foundation
 import os
 
+// Common も MainActor 既定にしたため、nonisolated な log() から使えるよう opt-out する（Logger は Sendable）。
 /// アプリ共通の `Logger`（subsystem＝バンドルID、category＝任意）。
 /// Console.app や `log stream` で subsystem/category による絞り込みができる。
-private let logger = Logger(
+nonisolated(unsafe) private let logger = Logger(
     subsystem: Bundle.main.bundleIdentifier ?? "iOS-POC-2",
     category: "app"
 )
@@ -19,7 +20,7 @@ private let logger = Logger(
 ///   - message: 出力するテキスト（`@autoclosure` なので release では評価もされない）。
 ///   - file: 呼び出し元ファイル（`#fileID` = 「Module/File.swift」形式）。
 ///   - line: 呼び出し元の行番号。
-public func log(
+nonisolated public func log(
     _ message: @autoclosure () -> String,
     file: String = #fileID,
     line: Int = #line

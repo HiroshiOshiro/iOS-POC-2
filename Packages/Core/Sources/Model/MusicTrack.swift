@@ -2,7 +2,7 @@ import Foundation
 
 /// iTunes Search API の 1 曲を表すドメインモデル。
 /// NiA 相当: core:model のモデル（`Topic` / `NewsResource`）。
-public struct MusicTrack: Sendable, Equatable, Identifiable {
+nonisolated public struct MusicTrack: Sendable, Equatable, Identifiable {
     public let id: Int
     public let trackName: String?
     public let artistName: String?

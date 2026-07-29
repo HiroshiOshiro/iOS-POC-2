@@ -6,11 +6,11 @@ import Datastore
 
 /// 認証まわりの通信・永続化を抽象化したリポジトリ。
 /// NiA 相当: core:data の `UserDataRepository`（リポジトリ抽象）。
-public protocol AuthRepository: Sendable {
+nonisolated public protocol AuthRepository: Sendable {
     /// ログインし、メールアドレスと userID を永続化する。
-    func login(email: String, password: String) async throws -> Session
+    nonisolated func login(email: String, password: String) async throws -> Session
     /// 保存済みのセッションを返す（未ログインなら nil）。
-    func currentSession() async -> Session?
+    nonisolated func currentSession() async -> Session?
 }
 
 /// `AuthRepository` の実装。
@@ -36,7 +36,7 @@ public actor DefaultAuthRepository: AuthRepository {
         self.userIDStorage = userIDStorage
     }
 
-    public func login(email: String, password: String) async throws -> Session {
+    nonisolated public func login(email: String, password: String) async throws -> Session {
         // 通信前にパスワードを暗号化する（interface 経由なので実装が ObjC か Swift かは意識しない）。
         let encryptedPassword = try passwordEncryptor.encrypt(password)
         let userID = try await remote.login(email: email, password: encryptedPassword)
@@ -46,7 +46,7 @@ public actor DefaultAuthRepository: AuthRepository {
         return Session(email: email, userID: userID)
     }
 
-    public func currentSession() async -> Session? {
+    nonisolated public func currentSession() async -> Session? {
         // 復元用途のため、Keychain の読み取り失敗は「未ログイン」として扱う。
         let storedUserID = (try? userIDStorage.load()) ?? nil
         guard let email = emailStorage.load(), !email.isEmpty,

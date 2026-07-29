@@ -3,22 +3,22 @@ import Common
 
 /// 認証 API のリモートデータソース。
 /// NiA 相当: core:network の `NiaNetworkDataSource`（リモートデータソースの抽象）。
-public protocol AuthRemoteDataSource: Sendable {
+nonisolated public protocol AuthRemoteDataSource: Sendable {
     /// ログインし、サーバーが払い出した userID を返す。
-    func login(email: String, password: String) async throws -> String
+    nonisolated func login(email: String, password: String) async throws -> String
 }
 
 /// 認証で起きうるエラー。
-public enum AuthRemoteError: Error {
+nonisolated public enum AuthRemoteError: Error {
     case invalidCredentials
 }
 
 /// 実際の通信は行わず、一定時間後に userID を返すフェイク実装。
 /// NiA 相当: core:network の `DemoNiaNetworkDataSource`（デモ/フェイク実装）。
-public struct FakeAuthRemoteDataSource: AuthRemoteDataSource {
+nonisolated public struct FakeAuthRemoteDataSource: AuthRemoteDataSource {
     public init() {}
 
-    public func login(email: String, password: String) async throws -> String {
+    nonisolated public func login(email: String, password: String) async throws -> String {
         // 通信ログ（パスワードは秘匿情報のため出力しない）。
         log("▶ Request POST /auth/login email=\(email)")
         let start = Date()

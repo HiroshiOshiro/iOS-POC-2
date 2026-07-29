@@ -1,13 +1,13 @@
 import Foundation
 import Security
 
-enum KeyChainError: Error {
+nonisolated enum KeyChainError: Error {
     case invalidInput
     case unexpectedData
     case osStatus(OSStatus)
 }
 
-enum KeyChainUtil {
+nonisolated enum KeyChainUtil {
 
     static func get(username: String, serviceName: String) throws -> String? {
         let query: [String: Any] = [

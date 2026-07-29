@@ -1,5 +1,10 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.2
 import PackageDescription
+
+// 実験: Core も MainActor 既定にする（本来 Core は背景処理のため非推奨）。
+let mainActorIsolation: [SwiftSetting] = [
+    .defaultIsolation(MainActor.self),
+]
 
 let package = Package(
     name: "Core",
@@ -26,28 +31,31 @@ let package = Package(
         // モデルは依存を持たない葉（Model）として独立させ、各層から参照する（NiA の core:model 相当）。
 
         // Common: 横断的ユーティリティ（ログ等）。依存を持たない葉（NiA の core:common 相当）。
-        .target(name: "Common"),
+        .target(name: "Common", swiftSettings: mainActorIsolation),
 
         // Model: アプリ全体で使うドメインモデル。他層に依存しない葉。
-        .target(name: "Model", dependencies: ["Common"]),
+        .target(name: "Model", dependencies: ["Common"], swiftSettings: mainActorIsolation),
 
         // Network: リモートデータソース。プリミティブ/DTO のみを扱う。
         // 自分のデータソースを DI 登録するため FactoryKit に依存（NiA の NetworkModule 相当）。
         .target(
             name: "Network",
-            dependencies: ["Common", .product(name: "FactoryKit", package: "Factory")]
+            dependencies: ["Common", .product(name: "FactoryKit", package: "Factory")],
+            swiftSettings: mainActorIsolation
         ),
 
         // Database: 構造化データのローカル保存（NiA の core:database 相当。Entity を持つ）。
         .target(
             name: "Database",
-            dependencies: ["Common", .product(name: "FactoryKit", package: "Factory")]
+            dependencies: ["Common", .product(name: "FactoryKit", package: "Factory")],
+            swiftSettings: mainActorIsolation
         ),
 
         // Datastore: 設定値・秘匿情報の保存（NiA の core:datastore 相当。UserDefaults/Keychain）。
         .target(
             name: "Datastore",
-            dependencies: ["Common", .product(name: "FactoryKit", package: "Factory")]
+            dependencies: ["Common", .product(name: "FactoryKit", package: "Factory")],
+            swiftSettings: mainActorIsolation
         ),
 
         // Data: リポジトリ（protocol と実装）。データソースを束ね、モデルへ変換する。
@@ -60,7 +68,8 @@ let package = Package(
                 "Database",
                 "Datastore",
                 .product(name: "FactoryKit", package: "Factory"),
-            ]
+            ],
+            swiftSettings: mainActorIsolation
         ),
 
         // Domain: UseCase（ビジネスロジック）。モデルを扱い、Data のリポジトリを利用する。
@@ -71,7 +80,8 @@ let package = Package(
                 "Model",
                 "Data",
                 .product(name: "FactoryKit", package: "Factory"),
-            ]
+            ],
+            swiftSettings: mainActorIsolation
         ),
 
         // MARK: - Tests（swift test で実行。UI 非依存のため macOS ホストで動く）
