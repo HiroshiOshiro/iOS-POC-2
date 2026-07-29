@@ -58,3 +58,10 @@ final class StubUserIDStorage: UserIDStorage, @unchecked Sendable {
     func save(_ userID: String) throws { saved = userID }
     func load() throws -> String? { saved }
 }
+
+final class StubTokenStore: TokenStoring, @unchecked Sendable {
+    var token: String?
+    init(token: String? = nil) { self.token = token }
+
+    func clear() { token = nil }
+}

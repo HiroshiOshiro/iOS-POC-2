@@ -11,7 +11,8 @@ struct DefaultAuthRepositoryTests {
             remote: remote,
             passwordEncryptor: StubPasswordEncryptor(),
             emailStorage: StubEmailStorage(),
-            userIDStorage: StubUserIDStorage()
+            userIDStorage: StubUserIDStorage(),
+            tokenManager: StubTokenStore()
         )
 
         _ = try await sut.login(email: "user@example.com", password: "secret")
@@ -19,15 +20,17 @@ struct DefaultAuthRepositoryTests {
         #expect(remote.receivedPassword == "ENC(secret)") // 生パスワードではない
     }
 
-    @Test("Given login succeeds, when it is called, then email and userID are persisted and a session is returned")
+    @Test("Given login succeeds, when it is called, then email and userID are persisted, the token is stored, and a session is returned")
     func persistsAndReturnsSession() async throws {
         let email = StubEmailStorage()
         let userID = StubUserIDStorage()
+        let tokenStore = StubTokenStore()
         let sut = DefaultAuthRepository(
             remote: StubAuthRemote(userID: "user-42"),
             passwordEncryptor: StubPasswordEncryptor(),
             emailStorage: email,
-            userIDStorage: userID
+            userIDStorage: userID,
+            tokenManager: tokenStore
         )
 
         let session = try await sut.login(email: "user@example.com", password: "pw")
@@ -35,6 +38,7 @@ struct DefaultAuthRepositoryTests {
         #expect(session == Session(email: "user@example.com", userID: "user-42"))
         #expect(email.saved == "user@example.com")
         #expect(userID.saved == "user-42")
+        #expect(tokenStore.token == "api-token-user-42") // ログイン成功でトークンが保存される
     }
 
     @Test("Given stored email and userID, when currentSession is called, then it returns the session")
@@ -43,7 +47,8 @@ struct DefaultAuthRepositoryTests {
             remote: StubAuthRemote(),
             passwordEncryptor: StubPasswordEncryptor(),
             emailStorage: StubEmailStorage(saved: "user@example.com"),
-            userIDStorage: StubUserIDStorage(saved: "user-9")
+            userIDStorage: StubUserIDStorage(saved: "user-9"),
+            tokenManager: StubTokenStore()
         )
 
         let session = await sut.currentSession()
@@ -57,7 +62,8 @@ struct DefaultAuthRepositoryTests {
             remote: StubAuthRemote(),
             passwordEncryptor: StubPasswordEncryptor(),
             emailStorage: StubEmailStorage(),
-            userIDStorage: StubUserIDStorage()
+            userIDStorage: StubUserIDStorage(),
+            tokenManager: StubTokenStore()
         )
 
         let session = await sut.currentSession()

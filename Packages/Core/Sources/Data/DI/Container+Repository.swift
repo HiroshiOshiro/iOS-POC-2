@@ -24,7 +24,8 @@ public extension Container {
                 remote: self.authRemoteDataSource(),
                 passwordEncryptor: self.passwordEncryptor(),
                 emailStorage: self.emailStorage(),
-                userIDStorage: self.userIDStorage()
+                userIDStorage: self.userIDStorage(),
+                tokenManager: self.tokenManager()
             )
         }.singleton
     }
