@@ -1,5 +1,11 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.2
 import PackageDescription
+
+// UI 層は既定の隔離を MainActor にする（SE-0466）。各画面/ViewModel/factory は明示 @MainActor 不要。
+// 背景処理が必要な宣言は個別に `nonisolated` で opt-out する。Core は対象外（背景処理のため）。
+let mainActorIsolation: [SwiftSetting] = [
+    .defaultIsolation(MainActor.self),
+]
 
 let package = Package(
     name: "Feature",
@@ -22,7 +28,8 @@ let package = Package(
         // DesignSystem: テーマ・共通 UI 部品（NiA の core:designsystem 相当）。
         .target(
             name: "DesignSystem",
-            dependencies: [.product(name: "Common", package: "Core")]
+            dependencies: [.product(name: "Common", package: "Core")],
+            swiftSettings: mainActorIsolation
         ),
 
         // Confirm/Api: 確認フローが外へ公開するナビ契約（NiA の feature/<name>/api 相当）。
@@ -30,7 +37,8 @@ let package = Package(
         .target(
             name: "ConfirmApi",
             dependencies: [.product(name: "Common", package: "Core")],
-            path: "Sources/Confirm/Api"
+            path: "Sources/Confirm/Api",
+            swiftSettings: mainActorIsolation
         ),
 
         // Confirm/Impl: 確認フローの画面・ViewModel・生成窓口（NiA の feature/<name>/impl 相当）。
@@ -47,7 +55,8 @@ let package = Package(
             path: "Sources/Confirm/Impl",
             resources: [
                 .process("Resources")
-            ]
+            ],
+            swiftSettings: mainActorIsolation
         ),
 
         // Login/Impl: ログインタブの画面・ViewModel・生成窓口。
@@ -67,7 +76,8 @@ let package = Package(
             path: "Sources/Login/Impl",
             resources: [
                 .process("Resources")
-            ]
+            ],
+            swiftSettings: mainActorIsolation
         ),
 
         // Music/Impl: Music タブ（iTunes 検索の一覧→詳細）。外へのナビ契約が無いため api は持たない。
@@ -81,10 +91,12 @@ let package = Package(
             path: "Sources/Music/Impl",
             resources: [
                 .process("Resources")
-            ]
+            ],
+            swiftSettings: mainActorIsolation
         ),
 
         // MARK: - Tests（iOS シミュレータで実行。ViewModel を @testable import で検証）
+        // テストは MainActor 既定にしない（Sendable なスタブが nonisolated 前提のため）。
 
         .testTarget(
             name: "FeatureTests",
@@ -99,6 +111,5 @@ let package = Package(
             path: "Tests/FeatureTests"
         ),
     ],
-    // 言語モードを明示（tools 6.0 の既定と同じだが、意図を固定しアプリの SWIFT_VERSION 6.0 と揃える）。
     swiftLanguageModes: [.v6]
 )

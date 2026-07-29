@@ -13,7 +13,6 @@ public enum ConfirmFlowFactory {
     /// - Parameters:
     ///   - text: 入力画面で入力されたテキスト
     ///   - router: フロー外への遷移（完了画面へ / 入力へ戻る）を担うアプリ側の実装
-    @MainActor
     public static func makeConfirmFlow(text: String, router: ConfirmFlowRouter) -> UIViewController {
         UIHostingController(rootView: ConfirmFlowView(text: text, router: router))
     }

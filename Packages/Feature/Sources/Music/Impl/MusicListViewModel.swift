@@ -5,7 +5,6 @@ import Domain
 
 /// Music 一覧の ViewModel。iTunes Search API で楽曲を検索して保持する。
 /// NiA 相当: feature:*:impl の ViewModel（`TopicViewModel`）。
-@MainActor
 final class MusicListViewModel: ObservableObject {
     @Published var searchTerm = "J-POP"
     @Published private(set) var tracks: [MusicTrack] = []

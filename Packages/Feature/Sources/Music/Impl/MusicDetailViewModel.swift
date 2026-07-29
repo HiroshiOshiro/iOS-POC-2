@@ -4,7 +4,6 @@ import Model
 
 /// Music 詳細の ViewModel。30秒試聴（`AVPlayer`）の再生/停止を管理する。
 /// NiA 相当: feature:*:impl の ViewModel（`TopicViewModel`）。
-@MainActor
 final class MusicDetailViewModel: ObservableObject {
     // AVFoundation(AudioToolbox) にも `MusicTrack` があるため、モデル側を明示する。
     let track: Model.MusicTrack

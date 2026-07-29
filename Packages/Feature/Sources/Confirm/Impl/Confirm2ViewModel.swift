@@ -7,7 +7,6 @@ import Data
 /// 確認画面2 の ViewModel。保存ボタンで UseCase を実行し、完了後は Router に遷移を依頼する。
 /// フロー内の遷移（確認1 へ戻る）は `onBack` に委譲する。
 /// NiA 相当: feature:*:impl の ViewModel（`TopicViewModel`）。
-@MainActor
 final class Confirm2ViewModel: ObservableObject {
     let text: String
     @Published private(set) var isSubmitting = false
