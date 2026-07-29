@@ -1,4 +1,5 @@
 import Foundation
+import FactoryKit
 import Model
 import Network
 import Database
@@ -14,17 +15,11 @@ public protocol TodoRepository: Sendable {
 /// リモート（フェイク API）送信のあとローカルへ保存する。読み書きを直列化するため actor とする。
 /// NiA 相当: core:data の `OfflineFirstTopicsRepository`（リポジトリ実装）。
 public actor DefaultTodoRepository: TodoRepository {
-    private let remote: any TodoRemoteDataSource
-    private let local: any TodoLocalDataSource
+    // 依存は Factory から直接注入する（@Injected）。テストは Container に register して差し替える。
+    @Injected(\.todoRemoteDataSource) private var remote
+    @Injected(\.todoLocalDataSource) private var local
 
-    // 依存はすべて DI コンテナ（Container+Repository）から注入する。
-    public init(
-        remote: any TodoRemoteDataSource,
-        local: any TodoLocalDataSource
-    ) {
-        self.remote = remote
-        self.local = local
-    }
+    public init() {}
 
     public func submit(_ todo: Todo) async throws {
         // フェイク API 送信（失敗時はここで throw され、以降のローカル保存は行われない）

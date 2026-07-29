@@ -1,5 +1,6 @@
 import Foundation
 import Common
+import FactoryKit
 import Model
 import Network
 import Datastore
@@ -18,23 +19,13 @@ public protocol AuthRepository: Sendable {
 /// userID は Keychain に保存する。
 /// NiA 相当: core:data の `OfflineFirstUserDataRepository`（リポジトリ実装）。
 public actor DefaultAuthRepository: AuthRepository {
-    private let remote: any AuthRemoteDataSource
-    private let passwordEncryptor: any PasswordEncrypting
-    private let emailStorage: any EmailStorage
-    private let userIDStorage: any UserIDStorage
+    // 依存は Factory から直接注入する（@Injected）。テストは Container に register して差し替える。
+    @Injected(\.authRemoteDataSource) private var remote
+    @Injected(\.passwordEncryptor) private var passwordEncryptor
+    @Injected(\.emailStorage) private var emailStorage
+    @Injected(\.userIDStorage) private var userIDStorage
 
-    // 依存はすべて DI コンテナ（Container+Repository）から注入する。
-    public init(
-        remote: any AuthRemoteDataSource,
-        passwordEncryptor: any PasswordEncrypting,
-        emailStorage: any EmailStorage,
-        userIDStorage: any UserIDStorage
-    ) {
-        self.remote = remote
-        self.passwordEncryptor = passwordEncryptor
-        self.emailStorage = emailStorage
-        self.userIDStorage = userIDStorage
-    }
+    public init() {}
 
     public func login(email: String, password: String) async throws -> Session {
         // 通信前にパスワードを暗号化する（interface 経由なので実装が ObjC か Swift かは意識しない）。
