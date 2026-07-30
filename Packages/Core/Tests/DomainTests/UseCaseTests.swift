@@ -17,6 +17,16 @@ final class StubAuthRepository: AuthRepository, @unchecked Sendable {
     func currentSession() async -> Session? { session }
 }
 
+final class StubMusicRepository: MusicRepository, @unchecked Sendable {
+    let tracks: [MusicTrack]
+    private(set) var receivedTerm: String?
+    init(tracks: [MusicTrack]) { self.tracks = tracks }
+    func search(term: String) async throws -> [MusicTrack] {
+        receivedTerm = term
+        return tracks
+    }
+}
+
 struct SubmitTodoUseCaseTests {
     @Test("Given execute, when called, then it delegates the text to the repository")
     func delegatesToRepository() async throws {
@@ -50,5 +60,23 @@ struct LoadSessionUseCaseTests {
         let result = await sut.execute()
 
         #expect(result == expected)
+    }
+}
+
+struct SearchMusicUseCaseTests {
+    @Test("Given execute, when called, then it delegates the term to the repository and returns its tracks")
+    func delegatesToRepository() async throws {
+        let expected = MusicTrack(
+            id: 1, trackName: "Lemon", artistName: "米津玄師",
+            collectionName: nil, primaryGenreName: nil, artworkUrl100: nil,
+            previewUrl: nil, trackViewUrl: nil, releaseDate: nil, trackTimeMillis: 0
+        )
+        let repository = StubMusicRepository(tracks: [expected])
+        let sut = DefaultSearchMusicUseCase(repository: repository)
+
+        let result = try await sut.execute(term: "米津玄師")
+
+        #expect(result == [expected])
+        #expect(repository.receivedTerm == "米津玄師")
     }
 }

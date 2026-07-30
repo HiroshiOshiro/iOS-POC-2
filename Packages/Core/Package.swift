@@ -76,6 +76,7 @@ let package = Package(
 
         // MARK: - Tests（swift test で実行。UI 非依存のため macOS ホストで動く）
 
+        .testTarget(name: "ModelTests", dependencies: ["Model"]),
         .testTarget(name: "NetworkTests", dependencies: ["Network"]),
         .testTarget(
             name: "DataTests",

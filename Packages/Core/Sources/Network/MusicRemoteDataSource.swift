@@ -19,6 +19,31 @@ public struct ITunesTrackDTO: Decodable, Sendable {
     public let trackViewUrl: String?
     public let releaseDate: String?
     public let trackTimeMillis: Int?
+
+    // JSON からのデコードに加え、テスト等で直接組み立てられるよう public init を明示する。
+    public init(
+        trackId: Int?,
+        trackName: String?,
+        artistName: String?,
+        collectionName: String?,
+        primaryGenreName: String?,
+        artworkUrl100: String?,
+        previewUrl: String?,
+        trackViewUrl: String?,
+        releaseDate: String?,
+        trackTimeMillis: Int?
+    ) {
+        self.trackId = trackId
+        self.trackName = trackName
+        self.artistName = artistName
+        self.collectionName = collectionName
+        self.primaryGenreName = primaryGenreName
+        self.artworkUrl100 = artworkUrl100
+        self.previewUrl = previewUrl
+        self.trackViewUrl = trackViewUrl
+        self.releaseDate = releaseDate
+        self.trackTimeMillis = trackTimeMillis
+    }
 }
 
 /// 楽曲検索のリモートデータソース。
@@ -36,7 +61,12 @@ public enum MusicRemoteError: Error {
 /// iTunes Search API（キー不要）を `URLSession` で叩く実装。
 /// NiA 相当: core:network の Retrofit 実装（`RetrofitNiaNetwork`）。
 public struct ITunesMusicRemoteDataSource: MusicRemoteDataSource {
-    public init() {}
+    private let session: URLSession
+
+    /// 既定は共有セッション。テストでは `URLProtocol` を仕込んだセッションを注入する。
+    public init(session: URLSession = .shared) {
+        self.session = session
+    }
 
     public func search(term: String) async throws -> [ITunesTrackDTO] {
         var components = URLComponents(string: "https://itunes.apple.com/search")
@@ -52,7 +82,7 @@ public struct ITunesMusicRemoteDataSource: MusicRemoteDataSource {
 
         log("▶ Request GET \(url.absoluteString)")
         let start = Date()
-        let (data, response) = try await URLSession.shared.data(from: url)
+        let (data, response) = try await session.data(from: url)
         let elapsedMs = Int(Date().timeIntervalSince(start) * 1000)
         let status = (response as? HTTPURLResponse)?.statusCode ?? 0
         log("◀ Response \(status) (\(elapsedMs) ms, \(data.count) bytes)")
