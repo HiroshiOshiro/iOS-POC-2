@@ -6,6 +6,8 @@ import FactoryKit
 /// 抽象 `any TokenStoring` として公開し、`@Injected(\.tokenManager)` で解決／テストではスタブへ差し替える。
 public extension Container {
     var tokenManager: Factory<any TokenStoring> {
+        // .singleton は付けない: クロージャが既にプロセス唯一の .shared を返すため no-op。
+        // （repository 系は new するので .singleton が必須だが、ここは不要。）
         self { TokenManager.shared }
     }
 }
