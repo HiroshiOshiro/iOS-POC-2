@@ -1,5 +1,6 @@
 import Foundation
 import Common
+import FactoryKit
 import Model
 import Network
 import Datastore
@@ -18,27 +19,15 @@ public protocol AuthRepository: Sendable {
 /// userID は Keychain に保存する。
 /// NiA 相当: core:data の `OfflineFirstUserDataRepository`（リポジトリ実装）。
 public actor DefaultAuthRepository: AuthRepository {
-    private let remote: any AuthRemoteDataSource
-    private let passwordEncryptor: any PasswordEncrypting
-    private let emailStorage: any EmailStorage
-    private let userIDStorage: any UserIDStorage
-    private let tokenManager: any TokenStoring
-
-    // 依存はすべて DI コンテナ（Container+Repository）から注入する。
+    // 依存は Factory から直接注入する（@Injected）。テストは Container に register して差し替える。
+    @Injected(\.authRemoteDataSource) private var remote
+    @Injected(\.passwordEncryptor) private var passwordEncryptor
+    @Injected(\.emailStorage) private var emailStorage
+    @Injected(\.userIDStorage) private var userIDStorage
     // tokenManager は Container 経由で解決すると ObjC が使う `.shared` と同一インスタンスになる。
-    public init(
-        remote: any AuthRemoteDataSource,
-        passwordEncryptor: any PasswordEncrypting,
-        emailStorage: any EmailStorage,
-        userIDStorage: any UserIDStorage,
-        tokenManager: any TokenStoring
-    ) {
-        self.remote = remote
-        self.passwordEncryptor = passwordEncryptor
-        self.emailStorage = emailStorage
-        self.userIDStorage = userIDStorage
-        self.tokenManager = tokenManager
-    }
+    @Injected(\.tokenManager) private var tokenManager
+
+    public init() {}
 
     public func login(email: String, password: String) async throws -> Session {
         // デモ: ログイン前の共有トークンを読む（ObjC が起動時に入れた値が見える）。

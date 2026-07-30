@@ -1,19 +1,33 @@
 import Testing
+import FactoryKit
 import Model
+import Network
+import Datastore
 @testable import Data
 
+// @Injected は Container.shared から解決するため、スタブは register で差し替える。
+@Suite(.serialized)
 struct DefaultAuthRepositoryTests {
+
+    /// 依存をスタブに差し替えて SUT を作る。
+    private func makeSUT(
+        remote: StubAuthRemote = StubAuthRemote(),
+        email: StubEmailStorage = StubEmailStorage(),
+        userID: StubUserIDStorage = StubUserIDStorage(),
+        tokenStore: StubTokenStore = StubTokenStore()
+    ) -> DefaultAuthRepository {
+        Container.shared.authRemoteDataSource.register { remote }
+        Container.shared.passwordEncryptor.register { StubPasswordEncryptor() }
+        Container.shared.emailStorage.register { email }
+        Container.shared.userIDStorage.register { userID }
+        Container.shared.tokenManager.register { tokenStore }
+        return DefaultAuthRepository()
+    }
 
     @Test("Given login, when it is called, then the password is encrypted before reaching the remote")
     func encryptsPasswordBeforeRemote() async throws {
         let remote = StubAuthRemote()
-        let sut = DefaultAuthRepository(
-            remote: remote,
-            passwordEncryptor: StubPasswordEncryptor(),
-            emailStorage: StubEmailStorage(),
-            userIDStorage: StubUserIDStorage(),
-            tokenManager: StubTokenStore()
-        )
+        let sut = makeSUT(remote: remote)
 
         _ = try await sut.login(email: "user@example.com", password: "secret")
 
@@ -25,13 +39,7 @@ struct DefaultAuthRepositoryTests {
         let email = StubEmailStorage()
         let userID = StubUserIDStorage()
         let tokenStore = StubTokenStore()
-        let sut = DefaultAuthRepository(
-            remote: StubAuthRemote(userID: "user-42"),
-            passwordEncryptor: StubPasswordEncryptor(),
-            emailStorage: email,
-            userIDStorage: userID,
-            tokenManager: tokenStore
-        )
+        let sut = makeSUT(remote: StubAuthRemote(userID: "user-42"), email: email, userID: userID, tokenStore: tokenStore)
 
         let session = try await sut.login(email: "user@example.com", password: "pw")
 
@@ -43,12 +51,9 @@ struct DefaultAuthRepositoryTests {
 
     @Test("Given stored email and userID, when currentSession is called, then it returns the session")
     func restoresStoredSession() async {
-        let sut = DefaultAuthRepository(
-            remote: StubAuthRemote(),
-            passwordEncryptor: StubPasswordEncryptor(),
-            emailStorage: StubEmailStorage(saved: "user@example.com"),
-            userIDStorage: StubUserIDStorage(saved: "user-9"),
-            tokenManager: StubTokenStore()
+        let sut = makeSUT(
+            email: StubEmailStorage(saved: "user@example.com"),
+            userID: StubUserIDStorage(saved: "user-9")
         )
 
         let session = await sut.currentSession()
@@ -58,13 +63,7 @@ struct DefaultAuthRepositoryTests {
 
     @Test("Given nothing stored, when currentSession is called, then it returns nil")
     func returnsNilWhenEmpty() async {
-        let sut = DefaultAuthRepository(
-            remote: StubAuthRemote(),
-            passwordEncryptor: StubPasswordEncryptor(),
-            emailStorage: StubEmailStorage(),
-            userIDStorage: StubUserIDStorage(),
-            tokenManager: StubTokenStore()
-        )
+        let sut = makeSUT()
 
         let session = await sut.currentSession()
 
