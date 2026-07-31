@@ -1,0 +1,127 @@
+{
+  "sourceLanguage" : "ja",
+  "strings" : {
+    "error.title" : {
+      "comment" : "エラー",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エラー"
+          }
+        }
+      }
+    },
+    "login.button" : {
+      "comment" : "ログイン画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログイン"
+          }
+        }
+      }
+    },
+    "login.email" : {
+      "comment" : "ログイン画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メールアドレス"
+          }
+        }
+      }
+    },
+    "login.error" : {
+      "comment" : "ログイン画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログインに失敗しました"
+          }
+        }
+      }
+    },
+    "login.password" : {
+      "comment" : "ログイン画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "パスワード"
+          }
+        }
+      }
+    },
+    "login.saved_email" : {
+      "comment" : "ログイン画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メールアドレス（AppStorage）"
+          }
+        }
+      }
+    },
+    "login.saved_title" : {
+      "comment" : "ログイン画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存済みの情報"
+          }
+        }
+      }
+    },
+    "login.saved_user_id" : {
+      "comment" : "ログイン画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "userID（Keychain）"
+          }
+        }
+      }
+    },
+    "login.terms_body" : {
+      "comment" : "利用規約",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本サービスを利用することで、以下に同意したものとみなされます。\n1. 本アプリはデモ目的で提供されます。\n2. 入力された情報は端末内にのみ保存されます。\n3. 予告なく仕様が変更される場合があります。"
+          }
+        }
+      }
+    },
+    "login.terms_title" : {
+      "comment" : "利用規約",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "利用規約"
+          }
+        }
+      }
+    },
+    "login.title" : {
+      "comment" : "ログイン画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログイン"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

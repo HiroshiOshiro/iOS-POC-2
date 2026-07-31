@@ -1,0 +1,94 @@
+{
+  "sourceLanguage" : "ja",
+  "strings" : {
+    "confirm1.caption" : {
+      "comment" : "確認画面①",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力内容を確認してください"
+          }
+        }
+      }
+    },
+    "confirm1.next" : {
+      "comment" : "確認画面①",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次へ"
+          }
+        }
+      }
+    },
+    "confirm1.title" : {
+      "comment" : "確認画面①",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確認①"
+          }
+        }
+      }
+    },
+    "confirm2.caption" : {
+      "comment" : "確認画面②",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この内容で保存します"
+          }
+        }
+      }
+    },
+    "confirm2.error" : {
+      "comment" : "確認画面②",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存に失敗しました"
+          }
+        }
+      }
+    },
+    "confirm2.save" : {
+      "comment" : "確認画面②",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存"
+          }
+        }
+      }
+    },
+    "confirm2.title" : {
+      "comment" : "確認画面②",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確認②"
+          }
+        }
+      }
+    },
+    "error.title" : {
+      "comment" : "エラー",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エラー"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

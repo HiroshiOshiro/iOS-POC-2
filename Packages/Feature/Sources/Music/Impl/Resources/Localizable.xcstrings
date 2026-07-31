@@ -1,0 +1,116 @@
+{
+  "sourceLanguage" : "ja",
+  "strings" : {
+    "error.title" : {
+      "comment" : "エラー",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エラー"
+          }
+        }
+      }
+    },
+    "music.detail.open_itunes" : {
+      "comment" : "Music 詳細",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iTunes で開く"
+          }
+        }
+      }
+    },
+    "music.detail.preview_play" : {
+      "comment" : "Music 詳細",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "▶ 30秒試聴"
+          }
+        }
+      }
+    },
+    "music.detail.preview_stop" : {
+      "comment" : "Music 詳細",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "■ 停止"
+          }
+        }
+      }
+    },
+    "music.detail.title" : {
+      "comment" : "Music 詳細",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "詳細"
+          }
+        }
+      }
+    },
+    "music.detail.unknown_title" : {
+      "comment" : "Music 詳細",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(タイトル不明)"
+          }
+        }
+      }
+    },
+    "music.empty" : {
+      "comment" : "Music 一覧",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結果がありません"
+          }
+        }
+      }
+    },
+    "music.error_title" : {
+      "comment" : "Music 一覧",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "読み込みに失敗しました"
+          }
+        }
+      }
+    },
+    "music.search_placeholder" : {
+      "comment" : "Music 一覧",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "曲名・アーティストで検索"
+          }
+        }
+      }
+    },
+    "music.title" : {
+      "comment" : "Music 一覧",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Music"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
