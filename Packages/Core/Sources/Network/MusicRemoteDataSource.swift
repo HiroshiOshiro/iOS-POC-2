@@ -43,6 +43,9 @@ public struct ITunesMusicRemoteDataSource: MusicRemoteDataSource {
         let elapsedMs = Int(Date().timeIntervalSince(start) * 1000)
         let status = (response as? HTTPURLResponse)?.statusCode ?? 0
         log("◀ Response \(status) (\(elapsedMs) ms, \(data.count) bytes)")
+        // レスポンス本文（生 JSON 全文）。DEBUG 限定なので release では消える。
+        let body = String(data: data, encoding: .utf8) ?? "<non-utf8 \(data.count) bytes>"
+        log("◀ Response body: \(body)")
 
         guard (200..<300).contains(status) else { throw MusicRemoteError.httpStatus(status) }
 
