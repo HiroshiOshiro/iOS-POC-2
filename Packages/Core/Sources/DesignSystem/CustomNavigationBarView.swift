@@ -23,8 +23,8 @@ public struct CustomNavigationBarView<Content: View>: View {
 
     public var body: some View {
         ZStack(alignment: .top) {
-            // ステータスバー領域まで含めてブランドカラーで塗る。
-            Color.brand.ignoresSafeArea()
+            // ステータスバー領域まで含めてナビバー色で塗る。
+            Color.navBar.ignoresSafeArea()
 
             VStack(spacing: 0) {
                 // バー（下 44pt）

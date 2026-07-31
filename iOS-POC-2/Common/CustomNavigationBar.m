@@ -15,7 +15,7 @@ static const CGFloat kBarContentHeight = 44.0;
     self = [super initWithFrame:CGRectZero];
     if (self) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
-        self.backgroundColor = [AppAppearance brandColor];
+        self.backgroundColor = [AppAppearance navBarColor];
         [self setupWithTitle:title showsBackButton:showsBackButton];
     }
     return self;

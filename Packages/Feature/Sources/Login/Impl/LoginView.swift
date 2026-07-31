@@ -40,14 +40,14 @@ struct LoginView: View {
                         .textFieldStyle(.roundedBorder)
                         .textContentType(.password)
 
-                    // ブランドカラーの塗りボタンに装飾。
+                    // 専用のログインボタン色で塗りボタンに装飾。
                     Button(action: { viewModel.loginButtonTapped() }) {
                         Text(L("login.button"))
                             .font(.headline)
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
-                            .background(Color.brand, in: RoundedRectangle(cornerRadius: 10))
+                            .background(Color.loginButton, in: RoundedRectangle(cornerRadius: 10))
                     }
                     .disabled(!viewModel.canSubmit)
                     .opacity(viewModel.canSubmit ? 1 : 0.5)
