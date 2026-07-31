@@ -22,7 +22,8 @@ let package = Package(
         // DesignSystem: テーマ・共通 UI 部品（NiA の core:designsystem 相当）。
         .target(
             name: "DesignSystem",
-            dependencies: [.product(name: "Common", package: "Core")]
+            dependencies: [.product(name: "Common", package: "Core")],
+            resources: [.process("Resources")]
         ),
 
         // Confirm/Api: 確認フローが外へ公開するナビ契約（NiA の feature/<name>/api 相当）。

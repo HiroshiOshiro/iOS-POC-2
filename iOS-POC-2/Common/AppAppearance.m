@@ -3,8 +3,9 @@
 @implementation AppAppearance
 
 + (UIColor *)brandColor {
-    // 独自のブランドカラー（インディゴ系）。
-    return [UIColor colorWithRed:0.31 green:0.27 blue:0.90 alpha:1.0];
+    // ブランドカラー（インディゴ系）。main バンドルの Color Set "Brand"（ライト/ダーク対応）を参照。
+    // Swift 側は DesignSystem モジュールの同名 Color Set を Color.brand で引く（別バンドルのため各1個）。
+    return [UIColor colorNamed:@"Brand"];
 }
 
 @end
