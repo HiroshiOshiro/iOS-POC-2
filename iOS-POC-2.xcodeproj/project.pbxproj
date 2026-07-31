@@ -19,12 +19,12 @@
 		619C31AA69E13AD4362FFCA3 /* MusicImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 46D70A4839703CB6C9EFC1F5 /* MusicImpl */; };
 		6DC983426CBB3A52A745887D /* AppAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 226B972BB272FA837953A4C9 /* AppAppearance.m */; };
 		7CBD0BC40A0F71F5C53DE408 /* UIViewController+CustomNavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E46FA10B7F4B73C8E98EBD04 /* UIViewController+CustomNavBar.m */; };
+		7E0609DDFF4E7EEBD36E133C /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CA953C9A11285818AE6B933F /* Localizable.xcstrings */; };
 		9DB406632E0947BEED37FEEF /* ConfirmApi in Frameworks */ = {isa = PBXBuildFile; productRef = 5431171A5738A902984EFB08 /* ConfirmApi */; };
 		A29B176DF1DF0BC96D9126D6 /* AppDependencyRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0447D56BDA0066263C2B8F7 /* AppDependencyRegistration.swift */; };
 		A332279BE72718269A3FBAD4 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */; };
 		A36475B073B6BC272702B906 /* PasswordCryptoUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D4A35EE7F36B9DD08232943A /* PasswordCryptoUtil.m */; };
 		AFC09C7F42F47088AC711707 /* Data in Frameworks */ = {isa = PBXBuildFile; productRef = 1E354F85C0C28280746745C7 /* Data */; };
-		B47018C5BE2E6BED6DAAEA9E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8191AABA9F0EB2897E07F4F7 /* Localizable.strings */; };
 		B615EA39A85174DDB143DD63 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = F9178A246ED1187935D0CC02 /* FactoryKit */; };
 		BEA687FA575283685E999006 /* LoginImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 354C09B4BB6585AC9CA57E35 /* LoginImpl */; };
 		C073964661109D3840AC1155 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DB2E43966D9FC1A986BE69 /* CustomNavigationBar.m */; };
@@ -69,10 +69,10 @@
 		A6F1696E02FDB33DC9BD2A5D /* CompletionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompletionViewController.h; sourceTree = "<group>"; };
 		B26A8CB3F6192FD9D886F437 /* AppAppearance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppAppearance.h; sourceTree = "<group>"; };
 		B853D1E3384869856E60A008 /* TodoStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodoStore.h; sourceTree = "<group>"; };
-		BC082B1AF7892CF91A5E6A77 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC7186145FA62764022C9044 /* CustomNavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomNavigationBar.h; sourceTree = "<group>"; };
 		C083889403E6496E95DD534F /* Core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Core; path = Packages/Core; sourceTree = SOURCE_ROOT; };
 		C55F0D74E6425272D5DD98C3 /* TodoFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoFlowCoordinator.swift; sourceTree = "<group>"; };
+		CA953C9A11285818AE6B933F /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		D4A35EE7F36B9DD08232943A /* PasswordCryptoUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PasswordCryptoUtil.m; sourceTree = "<group>"; };
 		D8DB2E43966D9FC1A986BE69 /* CustomNavigationBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationBar.m; sourceTree = "<group>"; };
 		DBC548C84515A99A922E805E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -140,12 +140,12 @@
 				DBC548C84515A99A922E805E /* Assets.xcassets */,
 				94B68345C2C1A4A210015C24 /* Info.plist */,
 				49DF2FCAD5F53859134FC247 /* iOS-POC-2-Bridging-Header.h */,
+				CA953C9A11285818AE6B933F /* Localizable.xcstrings */,
 				490CAFEFD142F5F55773DD5A /* main.m */,
 				290B614528EF70A51FE1DFA1 /* SceneDelegate.h */,
 				A0C7A28F71FBA8BB7671ED99 /* SceneDelegate.m */,
 				275FD05D008814E4C50E986D /* Common */,
 				05AC0E5515D1A4909F72D897 /* Controllers */,
-				8191AABA9F0EB2897E07F4F7 /* Localizable.strings */,
 				2967DC558233541927051BD1 /* Models */,
 				03F6629AA42014EDEB00A7E2 /* Swift */,
 			);
@@ -306,7 +306,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6BE366FBF8C882EBA1A8432 /* Assets.xcassets in Resources */,
-				B47018C5BE2E6BED6DAAEA9E /* Localizable.strings in Resources */,
+				7E0609DDFF4E7EEBD36E133C /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,17 +374,6 @@
 			targetProxy = 489ACCAA0A5BAEF8B4933076 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		8191AABA9F0EB2897E07F4F7 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BC082B1AF7892CF91A5E6A77 /* ja */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		3534C91B6B4F2675A18CF21A /* Release */ = {

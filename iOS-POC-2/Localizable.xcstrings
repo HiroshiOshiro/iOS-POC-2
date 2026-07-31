@@ -1,0 +1,138 @@
+{
+  "sourceLanguage" : "ja",
+  "strings" : {
+    "common.ok" : {
+      "comment" : "Common",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "completion.back" : {
+      "comment" : "完了画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力に戻る"
+          }
+        }
+      }
+    },
+    "completion.message" : {
+      "comment" : "完了画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完了しました"
+          }
+        }
+      }
+    },
+    "completion.title" : {
+      "comment" : "完了画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完了"
+          }
+        }
+      }
+    },
+    "tab.login" : {
+      "comment" : "Tabs",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Login"
+          }
+        }
+      }
+    },
+    "tab.music" : {
+      "comment" : "Tabs",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Music"
+          }
+        }
+      }
+    },
+    "tab.todo" : {
+      "comment" : "Tabs",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo"
+          }
+        }
+      }
+    },
+    "todo.input.delete" : {
+      "comment" : "Todo 入力画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "削除"
+          }
+        }
+      }
+    },
+    "todo.input.empty_alert" : {
+      "comment" : "Todo 入力画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo を入力してください"
+          }
+        }
+      }
+    },
+    "todo.input.placeholder" : {
+      "comment" : "Todo 入力画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo を入力"
+          }
+        }
+      }
+    },
+    "todo.input.save" : {
+      "comment" : "Todo 入力画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存"
+          }
+        }
+      }
+    },
+    "todo.input.title" : {
+      "comment" : "Todo 入力画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
