@@ -45,7 +45,15 @@
                                                        image:[UIImage imageNamed:@"login"]
                                                          tag:2];
 
-    self.viewControllers = @[ todoNav, musicVC, loginVC ];
+    // タブ④【デモ】: app-target の Swift が、ObjC と同じ main バンドルの String Catalog を
+    // String(localized:) で引けることを示すデモ画面。本番機能ではないためタイトルは
+    // ローカライズせず "🧪Demo" とハードコードして「デモ」であることを明示する。
+    UIViewController *demoVC = [LocalizationDemoScreenFactory makeDemoScreen];
+    demoVC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"🧪Demo"
+                                                      image:[UIImage systemImageNamed:@"globe"]
+                                                        tag:3];
+
+    self.viewControllers = @[ todoNav, musicVC, loginVC, demoVC ];
 }
 
 @end
