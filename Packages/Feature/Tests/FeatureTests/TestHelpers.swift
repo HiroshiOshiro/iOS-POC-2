@@ -1,13 +1,13 @@
 import Foundation
 
 /// ViewModel の保存/ログインは `Task { }` で非同期に走るため、条件が満たされるまで
-/// 協調的に待つ小さなヘルパー（iOS 15 対応のため Duration/Clock は使わない）。
+/// 一定間隔でポーリングして待つ小さなヘルパー（`ContinuousClock`/`Duration` を使用）。
 @MainActor
-func waitUntil(_ condition: () -> Bool, maxYields: Int = 10_000) async {
-    var count = 0
-    while !condition() && count < maxYields {
-        await Task.yield()
-        count += 1
+func waitUntil(_ condition: () -> Bool, timeout: Duration = .seconds(2)) async {
+    let clock = ContinuousClock()
+    let deadline = clock.now.advanced(by: timeout)
+    while !condition() && clock.now < deadline {
+        try? await Task.sleep(for: .milliseconds(5))
     }
 }
 

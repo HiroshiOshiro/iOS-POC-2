@@ -4,8 +4,8 @@ import FactoryKit
 import Domain
 import Data
 
-/// 確認画面1→2 を内包するフロー。iOS 15 対応のため `NavigationView` を使い、
-/// 「次へ」で確認画面2 を push（`NavigationLink`）、確認2 の「戻る」で pop する。
+/// 確認画面1→2 を内包するフロー。`NavigationStack` で「次へ」に応じて確認画面2 を
+/// push（`navigationDestination(isPresented:)`）、確認2 の「戻る」で pop する。
 /// システムのナビゲーションバーは隠し、各画面は独自の `CustomNavigationBarView` を使う。
 /// NiA 相当なし: 確認1↔2 を束ねる feature 内のローカルなナビゲーションホスト。
 /// NiA は遷移を app の NavHost + 各画面の NavKey で表すため、この容器に対応物はない。
@@ -14,7 +14,7 @@ struct ConfirmFlowView: View {
     private let text: String
     private let router: ConfirmFlowRouter
 
-    /// 確認画面2 を push しているか（`NavigationLink` の起動状態）。
+    /// 確認画面2 を push しているか（`navigationDestination` の起動状態）。
     @State private var showConfirm2 = false
 
     init(text: String, router: ConfirmFlowRouter) {
@@ -23,30 +23,23 @@ struct ConfirmFlowView: View {
     }
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                Confirm1View(
+        NavigationStack {
+            Confirm1View(
+                text: text,
+                router: router,
+                onNext: { showConfirm2 = true }
+            )
+            .toolbar(.hidden, for: .navigationBar)
+            // 「次へ」で確認画面2 へ push。確認2 の「戻る」で pop（showConfirm2 = false）する。
+            .navigationDestination(isPresented: $showConfirm2) {
+                Confirm2View(
                     text: text,
                     router: router,
-                    onNext: { showConfirm2 = true }
+                    onBack: { showConfirm2 = false }
                 )
-
-                // 「次へ」で確認画面2 へ push。確認2 の「戻る」で pop（showConfirm2 = false）する。
-                NavigationLink(isActive: $showConfirm2) {
-                    Confirm2View(
-                        text: text,
-                        router: router,
-                        onBack: { showConfirm2 = false }
-                    )
-                    .navigationBarHidden(true)
-                } label: {
-                    EmptyView()
-                }
+                .toolbar(.hidden, for: .navigationBar)
             }
-            .navigationBarHidden(true)
         }
-        // iPad でも分割ではなく push 型のスタックに固定する。
-        .navigationViewStyle(.stack)
     }
 }
 
