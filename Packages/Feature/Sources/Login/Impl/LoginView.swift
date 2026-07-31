@@ -22,10 +22,11 @@ struct LoginView: View {
         CustomNavigationBarView(title: L("login.title")) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    // アイコン（SF Symbol をブランドカラーで大きく表示）
-                    Image(systemName: "person.crop.circle.fill")
-                        .font(.system(size: 72))
-                        .foregroundStyle(Color.brand)
+                    // イラスト（Asset Catalog の Image Set を生成シンボルで参照）
+                    Image(.loginIllustration)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 120, height: 120)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 8)
 
