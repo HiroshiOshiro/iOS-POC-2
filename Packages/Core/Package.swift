@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "Core",
     platforms: [
-        .iOS(.v15),
+        .iOS(.v16),
         // macOS はホスト上での `swift build` による単体ビルド検証用（アプリは iOS のみ）。
         .macOS(.v12),
     ],

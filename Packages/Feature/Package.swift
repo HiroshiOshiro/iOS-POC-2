@@ -5,7 +5,7 @@ let package = Package(
     name: "Feature",
     defaultLocalization: "ja",
     platforms: [
-        .iOS(.v15)
+        .iOS(.v16)
     ],
     products: [
         .library(name: "ConfirmApi", targets: ["ConfirmApi"]),
