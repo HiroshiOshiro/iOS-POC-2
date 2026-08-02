@@ -10,6 +10,8 @@ packages:
     path: Packages/Feature
   Core:
     path: Packages/Core
+  DesignSystem:
+    path: Packages/DesignSystem
   Factory:
     url: https://github.com/hmlongco/Factory.git
     from: 3.3.2

@@ -1,5 +1,5 @@
 import SwiftUI
-import DesignSystem
+import Ui
 import ConfirmApi
 
 /// 確認画面1。入力内容を表示し「次へ」で確認画面2 へ進む。

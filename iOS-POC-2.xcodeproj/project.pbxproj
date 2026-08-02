@@ -51,6 +51,7 @@
 		290B614528EF70A51FE1DFA1 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		2B1F0E2370AE252A637B644A /* KeyChainUtilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainUtilTests.swift; sourceTree = "<group>"; };
 		358A5F2E6F092CC3A6403BAE /* PasswordCryptoUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PasswordCryptoUtil.h; sourceTree = "<group>"; };
+		3F6C82662D6002D41A8A8CAB /* DesignSystem */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DesignSystem; path = Packages/DesignSystem; sourceTree = SOURCE_ROOT; };
 		48F226B36ACDEA14D59749F0 /* TodoInputViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodoInputViewController.m; sourceTree = "<group>"; };
 		490CAFEFD142F5F55773DD5A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		491E942F459E70DA3AD01F8A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -202,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				C083889403E6496E95DD534F /* Core */,
+				3F6C82662D6002D41A8A8CAB /* DesignSystem */,
 				7A7E03CA416D902B3066101D /* Feature */,
 			);
 			path = Packages;
@@ -290,6 +292,7 @@
 			packageReferences = (
 				38D96FEF95EDC61DDC1CC727 /* XCRemoteSwiftPackageReference "Factory" */,
 				A375023E6382740DA4E7ED9B /* XCLocalSwiftPackageReference "Packages/Core" */,
+				76298F799688174A4779F61E /* XCLocalSwiftPackageReference "Packages/DesignSystem" */,
 				7EEB97A30E6B59D36E727BE6 /* XCLocalSwiftPackageReference "Packages/Feature" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -618,6 +621,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
+		76298F799688174A4779F61E /* XCLocalSwiftPackageReference "Packages/DesignSystem" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/DesignSystem;
+		};
 		7EEB97A30E6B59D36E727BE6 /* XCLocalSwiftPackageReference "Packages/Feature" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/Feature;

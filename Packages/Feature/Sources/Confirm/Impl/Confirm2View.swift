@@ -1,5 +1,5 @@
 import SwiftUI
-import DesignSystem
+import Ui
 import ConfirmApi
 import FactoryKit
 import Domain

@@ -4,9 +4,10 @@ import PackageDescription
 let package = Package(
     name: "Core",
     platforms: [
-        // DesignSystem が UIKit 依存（`Color(uiColor:)` 等）のため iOS 専用。
-        // テストはシミュレータで実行する（`xcodebuild test -scheme Core-Package -destination ...`）。
         .iOS(.v16),
+        // Core は純ロジック（UI 非依存）に戻ったため、host での `swift test` 用に macOS も対象にする。
+        // DesignSystem（UIKit 依存）は別パッケージ（Packages/DesignSystem, import Ui）へ分離した。
+        .macOS(.v12),
     ],
     products: [
         .library(name: "Common", targets: ["Common"]),
@@ -16,8 +17,6 @@ let package = Package(
         .library(name: "Database", targets: ["Database"]),
         .library(name: "Datastore", targets: ["Datastore"]),
         .library(name: "Data", targets: ["Data"]),
-        // DesignSystem: テーマ・共通 UI 部品（NiA の core:designsystem 相当）。
-        .library(name: "DesignSystem", targets: ["DesignSystem"]),
     ],
     dependencies: [
         // DI コンテナ。各モジュールが自分の提供物を登録する（Factory 公式の流儀）。
@@ -76,14 +75,7 @@ let package = Package(
             ]
         ),
 
-        // DesignSystem: テーマ・共通 UI 部品（SwiftUI/UIKit）。NiA の core:designsystem 相当。
-        .target(
-            name: "DesignSystem",
-            dependencies: ["Common"],
-            resources: [.process("Resources")]
-        ),
-
-        // MARK: - Tests（iOS シミュレータで実行。xcodebuild test -scheme Core-Package）
+        // MARK: - Tests（UI 非依存のため macOS ホストで `swift test` 可能）
 
         .testTarget(name: "ModelTests", dependencies: ["Model"]),
         .testTarget(name: "NetworkTests", dependencies: ["Network"]),
