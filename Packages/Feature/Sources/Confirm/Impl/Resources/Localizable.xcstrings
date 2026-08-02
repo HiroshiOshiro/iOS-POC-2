@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "ja",
   "strings" : {
+    "confirm.header.title" : {
+      "comment" : "確認画面のヘッダ",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タスクを管理しましょう"
+          }
+        }
+      }
+    },
     "confirm1.caption" : {
       "comment" : "確認画面①",
       "localizations" : {

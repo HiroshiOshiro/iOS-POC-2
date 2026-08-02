@@ -23,6 +23,16 @@ struct Confirm2View: View {
             onBack: { viewModel.backButtonTapped() }
         ) {
             VStack(spacing: 16) {
+                // ヘッダ（上部中央）: モジュールの Asset Catalog / String Catalog を参照。
+                VStack(spacing: 8) {
+                    Image(.taskIcon)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 72, height: 72)
+                    Text(L("confirm.header.title"))
+                        .font(.headline)
+                }
+                .padding(.top, 16)
                 Spacer()
                 Text(L("confirm2.caption"))
                     .font(.footnote)

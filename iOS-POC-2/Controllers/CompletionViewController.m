@@ -11,8 +11,23 @@
 
 - (void)setupViews {
     // 完了画面は戻れないので戻るボタンなし。
-    [self installCustomNavigationBarWithTitle:NSLocalizedString(@"completion.title", nil)
-                              showsBackButton:NO];
+    CustomNavigationBar *navBar =
+        [self installCustomNavigationBarWithTitle:NSLocalizedString(@"completion.title", nil)
+                                  showsBackButton:NO];
+
+    // ヘッダ（上部中央）: main バンドルの Asset Catalog（todoHeader）と String Catalog を参照。
+    UIImageView *headerImageView =
+        [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"todoHeader"]];
+    headerImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    headerImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.view addSubview:headerImageView];
+
+    UILabel *headerLabel = [[UILabel alloc] init];
+    headerLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    headerLabel.text = NSLocalizedString(@"todo.header.title", nil);
+    headerLabel.font = [UIFont boldSystemFontOfSize:18];
+    headerLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:headerLabel];
 
     // 「完了しました」メッセージ
     UILabel *messageLabel = [[UILabel alloc] init];
@@ -34,6 +49,15 @@
 
     UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
     [NSLayoutConstraint activateConstraints:@[
+        // ヘッダ（上部中央）
+        [headerImageView.topAnchor constraintEqualToAnchor:navBar.bottomAnchor constant:16],
+        [headerImageView.centerXAnchor constraintEqualToAnchor:guide.centerXAnchor],
+        [headerImageView.widthAnchor constraintEqualToConstant:72],
+        [headerImageView.heightAnchor constraintEqualToConstant:72],
+
+        [headerLabel.topAnchor constraintEqualToAnchor:headerImageView.bottomAnchor constant:8],
+        [headerLabel.centerXAnchor constraintEqualToAnchor:guide.centerXAnchor],
+
         [messageLabel.centerXAnchor constraintEqualToAnchor:guide.centerXAnchor],
         [messageLabel.centerYAnchor constraintEqualToAnchor:guide.centerYAnchor constant:-20],
 
