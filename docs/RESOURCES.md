@@ -35,7 +35,7 @@ ObjC とモジュールの**両方**が使う色/画像/文字列は、`main` �
 ObjC の `AppAppearance` 等）で「役割 → リソース」をマップして吸収する。
 
 > 例: ナビバー色はObjC(Todo)とSwiftUI(Login/Confirm)の両方で使う → `PaletteTeal` を
-> `main` と `DesignSystem` の両カタログに置く。
+> `main`（app）と `Design` パッケージ（import 名 `Ui`）の両カタログに置く。
 
 ---
 
@@ -66,8 +66,8 @@ ObjC の `AppAppearance` 等）で「役割 → リソース」をマップし�
     Color Set 同士は参照できないため、役割をコードで割り当てると値の重複を防げる。
 - **公開**: Swift は `extension Color`（小規模）or `enum` 名前空間（役割が十数個超で `Color.`
   補完が汚れてきたら）。ObjC は `AppAppearance` で役割マップ。
-- 実ファイル例: `Packages/Core/Sources/DesignSystem/Resources/Media.xcassets/PaletteTeal.colorset`,
-  `Packages/Core/Sources/DesignSystem/Theme.swift`, `iOS-POC-2/Common/AppAppearance.m`。
+- 実ファイル例: `Packages/Design/Sources/Ui/Resources/Media.xcassets/PaletteTeal.colorset`,
+  `Packages/Design/Sources/Ui/Theme.swift`（Swift の役割マップ）, `iOS-POC-2/Common/AppAppearance.m`（ObjC の役割マップ）。
 
 ### 3.2 画像 — Asset Catalog（Image Set）＋用途別
 
@@ -99,15 +99,24 @@ ObjC の `AppAppearance` 等）で「役割 → リソース」をマップし�
 
 ---
 
-## 4. モジュール構成の注意
+## 4. モジュール構成（現状: 達成済み）
 
-- **純ロジックの Core パッケージは、できるだけクロスプラットフォーム（macOS host）で
-  `swift test` できる状態に保つのが理想**（高速なユニットテスト）。
-- **UIKit 依存の DesignSystem（`Color(uiColor:)` 等）を Core に同居させると Core が iOS 専用に
-  なり、host テストを失う**。理想は **DesignSystem を独立した UI レイヤのパッケージ**にして
-  Core を汚さないこと。
+- **純ロジックの Core パッケージはクロスプラットフォーム（iOS + macOS）に保ち、`swift test` を
+  macOS host で高速に回す**。
+- そのため **UIKit 依存の共通 UI は独立パッケージ `Design`（import 名 `Ui`）** に分離してある
+  （`Color(uiColor:)` 等を持つため iOS 専用）。Core に同居させると Core が iOS 専用になり host
+  テストを失うので分けている。
+- 現在のパッケージ構成:
+
+  | パッケージ | 対応 OS | 中身 | 依存 |
+  |---|---|---|---|
+  | `Core` | iOS + macOS | Common/Model/Network/Database/Datastore/Data/Domain（純ロジック） | Factory |
+  | `Design`（import `Ui`） | iOS | テーマ・共通 UI 部品（SwiftUI/UIKit） | Core(Common) |
+  | `Feature` | iOS | 各 feature の api/impl（画面・VM） | Core, Design(Ui), Factory |
+  | app（ObjC + app-target Swift） | iOS | 合成ルート・ObjC 画面 | Core, Design(Ui), Feature |
+
 - リソースの「家」を決めるときは、そのモジュールが**他モジュールに課すプラットフォーム制約**まで
-  考える。
+  考える（＝UIKit 依存を純ロジックパッケージに持ち込まない）。
 
 ---
 
@@ -126,8 +135,9 @@ ObjC の `AppAppearance` 等）で「役割 → リソース」をマップし�
 | 項目 | 現状 | 理想との差分 |
 |---|---|---|
 | 色 | Asset Catalog＋ハイブリッド（パレット/役割）、light/dark、生成シンボル | ✅ 一致 |
-| 画像（アイコン/イラスト） | Asset Catalog、生成シンボル、SF Symbols、AsyncImage | ✅ ほぼ一致。イラストがラスタ PNG → 原則は **vector 優先** |
+| 画像（アイコン/イラスト） | Asset Catalog、生成シンボル、SF Symbols、AsyncImage | ✅ ほぼ一致。ただし todoHeader / TaskIcon / LoginIllustration はラスタ PNG → 原則は **vector 優先** |
 | 文字列 | String Catalog ＋ モジュールは `L()` 薄ラッパ | ⚠️ `L()` は自動抽出/型安全を殺す → **リテラル `String(localized:)` か SwiftGen** に寄せる余地 |
-| DesignSystem の置き場 | Core パッケージに同居（→ Core が iOS 専用、macOS host テストを廃止） | ⚠️ 理想は **独立 UI パッケージ**にして Core をクロスプラットフォームに保つ |
+| 共通 UI（旧 DesignSystem）の置き場 | 独立パッケージ `Design`（import `Ui`）に分離。Core は iOS + macOS に復帰し host `swift test` 可能 | ✅ 解消済み（理想と一致） |
 
-> 差分は「今すぐ直すべき不具合」ではなく、規模が育ったときに効いてくる改善候補。
+> 残る差分（画像の vector 化・文字列の型安全化）は「今すぐ直すべき不具合」ではなく、
+> 規模が育ったときに効いてくる改善候補。
