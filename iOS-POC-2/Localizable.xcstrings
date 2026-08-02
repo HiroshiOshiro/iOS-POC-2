@@ -12,6 +12,17 @@
         }
       }
     },
+    "todo.header.title" : {
+      "comment" : "Todo 入力画面のヘッダ",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タスクを管理しましょう"
+          }
+        }
+      }
+    },
     "completion.back" : {
       "comment" : "完了画面",
       "localizations" : {

@@ -34,6 +34,21 @@ static NSString *const kCellIdentifier = @"TodoCell";
 #pragma mark - Setup
 
 - (void)setupViews {
+    // ヘッダ（上部中央）: アイコン画像＋説明テキスト。
+    // 画像は main バンドルの Asset Catalog（todoHeader）、文字列は main の String Catalog を参照。
+    UIImageView *headerImageView =
+        [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"todoHeader"]];
+    headerImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    headerImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.view addSubview:headerImageView];
+
+    UILabel *headerLabel = [[UILabel alloc] init];
+    headerLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    headerLabel.text = NSLocalizedString(@"todo.header.title", nil);
+    headerLabel.font = [UIFont boldSystemFontOfSize:18];
+    headerLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:headerLabel];
+
     // テキストボックス
     self.textField = [[UITextField alloc] init];
     self.textField.translatesAutoresizingMaskIntoConstraints = NO;
@@ -68,7 +83,18 @@ static NSString *const kCellIdentifier = @"TodoCell";
 
     UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
     [NSLayoutConstraint activateConstraints:@[
-        [self.textField.topAnchor constraintEqualToAnchor:navBar.bottomAnchor constant:16],
+        // ヘッダ（上部中央）
+        [headerImageView.topAnchor constraintEqualToAnchor:navBar.bottomAnchor constant:16],
+        [headerImageView.centerXAnchor constraintEqualToAnchor:guide.centerXAnchor],
+        [headerImageView.widthAnchor constraintEqualToConstant:72],
+        [headerImageView.heightAnchor constraintEqualToConstant:72],
+
+        [headerLabel.topAnchor constraintEqualToAnchor:headerImageView.bottomAnchor constant:8],
+        [headerLabel.centerXAnchor constraintEqualToAnchor:guide.centerXAnchor],
+        [headerLabel.leadingAnchor constraintGreaterThanOrEqualToAnchor:guide.leadingAnchor constant:16],
+        [headerLabel.trailingAnchor constraintLessThanOrEqualToAnchor:guide.trailingAnchor constant:-16],
+
+        [self.textField.topAnchor constraintEqualToAnchor:headerLabel.bottomAnchor constant:16],
         [self.textField.leadingAnchor constraintEqualToAnchor:guide.leadingAnchor constant:16],
         [self.textField.trailingAnchor constraintEqualToAnchor:guide.trailingAnchor constant:-16],
 
