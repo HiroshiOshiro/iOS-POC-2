@@ -15,14 +15,14 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Core"),
-        // 共通 UI（テーマ・部品）。import 名は `Ui`。
-        .package(path: "../DesignSystem"),
+        // 共通 UI（テーマ・部品）。パッケージ名 Design、import 名は `Ui`。
+        .package(path: "../Design"),
         // DI コンテナ。Core は非依存のままにし、コンポジションルートである Feature 側で使う。
         .package(url: "https://github.com/hmlongco/Factory.git", from: "3.3.2"),
     ],
     targets: [
-        // 共通 UI は独立パッケージ DesignSystem（import 名 `Ui`）。
-        // 各 impl は `.product(name: "Ui", package: "DesignSystem")` で参照する。
+        // 共通 UI は独立パッケージ Design（import 名 `Ui`）。
+        // 各 impl は `.product(name: "Ui", package: "Design")` で参照する。
 
         // Confirm/Api: 確認フローが外へ公開するナビ契約（NiA の feature/<name>/api 相当）。
         // 実装はアプリ側（Coordinator）が担い、impl はこの契約に依存する。
@@ -37,7 +37,7 @@ let package = Package(
             name: "ConfirmImpl",
             dependencies: [
                 "ConfirmApi",
-                .product(name: "Ui", package: "DesignSystem"),
+                .product(name: "Ui", package: "Design"),
                 .product(name: "Common", package: "Core"),
                 .product(name: "Domain", package: "Core"),
                 .product(name: "Data", package: "Core"),
@@ -54,7 +54,7 @@ let package = Package(
         .target(
             name: "LoginImpl",
             dependencies: [
-                .product(name: "Ui", package: "DesignSystem"),
+                .product(name: "Ui", package: "Design"),
                 .product(name: "Common", package: "Core"),
                 .product(name: "Model", package: "Core"),
                 .product(name: "Domain", package: "Core"),

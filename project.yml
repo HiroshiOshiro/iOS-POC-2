@@ -10,8 +10,8 @@ packages:
     path: Packages/Feature
   Core:
     path: Packages/Core
-  DesignSystem:
-    path: Packages/DesignSystem
+  # Design（import 名 Ui）は app が直接依存しないため packages: に載せない。
+  # Feature の Package.swift（../Design）経由で推移的に解決される。
   Factory:
     url: https://github.com/hmlongco/Factory.git
     from: 3.3.2

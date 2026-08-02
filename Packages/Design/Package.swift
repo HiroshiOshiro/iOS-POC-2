@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "DesignSystem",
+    name: "Design",
     defaultLocalization: "ja",
     platforms: [
         // UIKit 依存（`Color(uiColor:)` 等）のため iOS 専用。
