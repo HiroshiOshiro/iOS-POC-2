@@ -10,8 +10,10 @@ packages:
     path: Packages/Feature
   Core:
     path: Packages/Core
-  # Design（import 名 Ui）は app が直接依存しないため packages: に載せない。
-  # Feature の Package.swift（../Design）経由で推移的に解決される。
+  # 共通 UI（import 名 Ui）。app は実際には import しないが、Xcode でトップレベルの
+  # パッケージとして見えるよう packages: に載せ、app ターゲットからも直接依存する。
+  Design:
+    path: Packages/Design
   Factory:
     url: https://github.com/hmlongco/Factory.git
     from: 3.3.2
@@ -52,6 +54,10 @@ targets:
       # どこからでもログ出力できる共通モジュール。
       - package: Core
         product: Common
+      # 共通 UI（import 名 Ui）。app は import しないが、トップレベル package として
+      # Xcode に見せるための直接依存。
+      - package: Design
+        product: Ui
       - package: Factory
         product: FactoryKit
     scheme:

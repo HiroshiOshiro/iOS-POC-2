@@ -25,8 +25,9 @@
 		A29B176DF1DF0BC96D9126D6 /* AppDependencyRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0447D56BDA0066263C2B8F7 /* AppDependencyRegistration.swift */; };
 		A332279BE72718269A3FBAD4 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */; };
 		A36475B073B6BC272702B906 /* PasswordCryptoUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D4A35EE7F36B9DD08232943A /* PasswordCryptoUtil.m */; };
+		A40DBE450C47AE4F901997AB /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = F9178A246ED1187935D0CC02 /* FactoryKit */; };
 		AFC09C7F42F47088AC711707 /* Data in Frameworks */ = {isa = PBXBuildFile; productRef = 1E354F85C0C28280746745C7 /* Data */; };
-		B615EA39A85174DDB143DD63 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = F9178A246ED1187935D0CC02 /* FactoryKit */; };
+		B615EA39A85174DDB143DD63 /* Ui in Frameworks */ = {isa = PBXBuildFile; productRef = 0030EDD55E6E191E652143B3 /* Ui */; };
 		BEA687FA575283685E999006 /* LoginImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 354C09B4BB6585AC9CA57E35 /* LoginImpl */; };
 		C073964661109D3840AC1155 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DB2E43966D9FC1A986BE69 /* CustomNavigationBar.m */; };
 		D168ABB43B7772372BF1B308 /* TodoFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55F0D74E6425272D5DD98C3 /* TodoFlowCoordinator.swift */; };
@@ -56,6 +57,7 @@
 		491E942F459E70DA3AD01F8A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		49DF2FCAD5F53859134FC247 /* iOS-POC-2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOS-POC-2-Bridging-Header.h"; sourceTree = "<group>"; };
 		4B015054E5E290BFE3D43FE7 /* TodoStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodoStore.m; sourceTree = "<group>"; };
+		4DD78E8091FFC9A4AFBAE971 /* Design */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Design; path = Packages/Design; sourceTree = SOURCE_ROOT; };
 		561C3450CC3BCD8BD844EFD6 /* iOS-POC-2.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "iOS-POC-2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6044742EC5B0AA040D932C8C /* MainTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
 		7725781789FA6AB8F53D91EF /* ObjCPasswordEncryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjCPasswordEncryptor.swift; sourceTree = "<group>"; };
@@ -104,7 +106,8 @@
 				619C31AA69E13AD4362FFCA3 /* MusicImpl in Frameworks */,
 				AFC09C7F42F47088AC711707 /* Data in Frameworks */,
 				2B295E93E05B9C1F4BA84C20 /* Common in Frameworks */,
-				B615EA39A85174DDB143DD63 /* FactoryKit in Frameworks */,
+				B615EA39A85174DDB143DD63 /* Ui in Frameworks */,
+				A40DBE450C47AE4F901997AB /* FactoryKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				C083889403E6496E95DD534F /* Core */,
+				4DD78E8091FFC9A4AFBAE971 /* Design */,
 				7A7E03CA416D902B3066101D /* Feature */,
 			);
 			path = Packages;
@@ -261,6 +265,7 @@
 				46D70A4839703CB6C9EFC1F5 /* MusicImpl */,
 				1E354F85C0C28280746745C7 /* Data */,
 				71C50C9A8D92BD21FD0504B6 /* Common */,
+				0030EDD55E6E191E652143B3 /* Ui */,
 				F9178A246ED1187935D0CC02 /* FactoryKit */,
 			);
 			productName = "iOS-POC-2";
@@ -290,6 +295,7 @@
 			packageReferences = (
 				38D96FEF95EDC61DDC1CC727 /* XCRemoteSwiftPackageReference "Factory" */,
 				A375023E6382740DA4E7ED9B /* XCLocalSwiftPackageReference "Packages/Core" */,
+				E6FE7CB75B7388699BD4AC35 /* XCLocalSwiftPackageReference "Packages/Design" */,
 				7EEB97A30E6B59D36E727BE6 /* XCLocalSwiftPackageReference "Packages/Feature" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -626,6 +632,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/Core;
 		};
+		E6FE7CB75B7388699BD4AC35 /* XCLocalSwiftPackageReference "Packages/Design" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/Design;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -640,6 +650,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0030EDD55E6E191E652143B3 /* Ui */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Ui;
+		};
 		1E354F85C0C28280746745C7 /* Data */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Data;
