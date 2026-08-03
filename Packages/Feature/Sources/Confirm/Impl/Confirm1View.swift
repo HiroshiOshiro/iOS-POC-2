@@ -20,6 +20,11 @@ struct Confirm1View: View {
             onBack: { viewModel.backButtonTapped() }
         ) {
             VStack(spacing: 16) {
+                // 共通のあいさつ（Ui モジュールの共有文字列 L10n.hello）
+                Text(L10n.hello)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .padding(.top, 8)
                 // ヘッダ（上部中央）: モジュールの Asset Catalog / String Catalog を参照。
                 VStack(spacing: 8) {
                     Image(.taskIcon)

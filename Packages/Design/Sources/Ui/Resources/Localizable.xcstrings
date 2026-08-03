@@ -1,0 +1,17 @@
+{
+  "sourceLanguage" : "ja",
+  "strings" : {
+    "common.hello" : {
+      "comment" : "複数の Swift モジュールで共通に使うあいさつ",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "こんにちは"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

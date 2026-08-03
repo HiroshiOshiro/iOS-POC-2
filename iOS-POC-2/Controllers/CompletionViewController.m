@@ -15,6 +15,15 @@
         [self installCustomNavigationBarWithTitle:NSLocalizedString(@"completion.title", nil)
                                   showsBackButton:NO];
 
+    // 共通のあいさつ（main バンドルの共有文字列。Swift 側は Ui モジュールの同名キー）。
+    UILabel *greetingLabel = [[UILabel alloc] init];
+    greetingLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    greetingLabel.text = NSLocalizedString(@"common.hello", nil);
+    greetingLabel.font = [UIFont systemFontOfSize:15];
+    greetingLabel.textColor = [UIColor secondaryLabelColor];
+    greetingLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:greetingLabel];
+
     // ヘッダ（上部中央）: main バンドルの Asset Catalog（todoHeader）と String Catalog を参照。
     UIImageView *headerImageView =
         [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"todoHeader"]];
@@ -49,8 +58,12 @@
 
     UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
     [NSLayoutConstraint activateConstraints:@[
-        // ヘッダ（上部中央）
-        [headerImageView.topAnchor constraintEqualToAnchor:navBar.bottomAnchor constant:16],
+        // あいさつ（最上部・中央）
+        [greetingLabel.topAnchor constraintEqualToAnchor:navBar.bottomAnchor constant:12],
+        [greetingLabel.centerXAnchor constraintEqualToAnchor:guide.centerXAnchor],
+
+        // ヘッダ（あいさつの下・中央）
+        [headerImageView.topAnchor constraintEqualToAnchor:greetingLabel.bottomAnchor constant:12],
         [headerImageView.centerXAnchor constraintEqualToAnchor:guide.centerXAnchor],
         [headerImageView.widthAnchor constraintEqualToConstant:72],
         [headerImageView.heightAnchor constraintEqualToConstant:72],

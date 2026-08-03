@@ -22,6 +22,12 @@ struct LoginView: View {
         CustomNavigationBarView(title: L("login.title")) {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
+                    // 共通のあいさつ（Ui モジュールの共有文字列 L10n.hello）
+                    Text(L10n.hello)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
+
                     // イラスト（Asset Catalog の Image Set を生成シンボルで参照）
                     Image(.loginIllustration)
                         .resizable()

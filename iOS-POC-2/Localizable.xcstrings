@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "ja",
   "strings" : {
+    "common.hello" : {
+      "comment" : "共通のあいさつ（ObjC 画面用。Swift 側は Ui モジュールの同名キー）",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "こんにちは"
+          }
+        }
+      }
+    },
     "common.ok" : {
       "comment" : "Common",
       "localizations" : {
