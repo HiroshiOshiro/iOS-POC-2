@@ -34,6 +34,17 @@
         }
       }
     },
+    "music.error.offline" : {
+      "comment" : "Music エラー（通信前チェック: 到達不能）",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通信できません。通信環境を確認してください"
+          }
+        }
+      }
+    },
     "music.error.server" : {
       "comment" : "Music エラー（サーバ段）",
       "localizations" : {

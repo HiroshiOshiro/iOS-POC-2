@@ -12,12 +12,29 @@ struct DefaultMusicRepositoryTests {
 
     private func makeSUT(dtos: [ITunesTrackDTO]) -> DefaultMusicRepository {
         Container.shared.musicRemoteDataSource.register { StubMusicRemote(dtos: dtos) }
+        Container.shared.networkMonitor.register { StubNetworkMonitor(isReachable: true) }
         return DefaultMusicRepository()
     }
 
     private func makeSUT(remoteError: Error) -> DefaultMusicRepository {
         Container.shared.musicRemoteDataSource.register { StubMusicRemote(errorToThrow: remoteError) }
+        Container.shared.networkMonitor.register { StubNetworkMonitor(isReachable: true) }
         return DefaultMusicRepository()
+    }
+
+    // MARK: - 通信前チェック（到達性）
+
+    @Test("Given the device is offline, when search, then it throws MusicFailure.offline without calling remote")
+    func offlinePreCheckThrowsAndSkipsRemote() async {
+        let remote = StubMusicRemote(dtos: [dto(trackId: 1)])
+        Container.shared.musicRemoteDataSource.register { remote }
+        Container.shared.networkMonitor.register { StubNetworkMonitor(isReachable: false) }
+        let sut = DefaultMusicRepository()
+
+        await #expect(throws: MusicFailure.offline) {
+            _ = try await sut.search(term: "x")
+        }
+        #expect(remote.receivedTerm == nil) // 前チェックで弾かれ、リモートは呼ばれない
     }
 
     // MARK: - 段別エラーへのマッピング（どこで失敗したか → MusicFailure）

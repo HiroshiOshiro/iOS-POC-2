@@ -3,6 +3,7 @@ import Foundation
 /// Music 画面のユーザー向けエラー（`LocalizedError`）。
 /// `Model.MusicFailure`（どこで失敗したか）を表示文言へマップしたもの。
 enum MusicError: LocalizedError {
+    case offline
     case network
     case server
     case decoding
@@ -10,6 +11,7 @@ enum MusicError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
+        case .offline:  return L("music.error.offline")
         case .network:  return L("music.error.network")
         case .server:   return L("music.error.server")
         case .decoding: return L("music.error.decoding")

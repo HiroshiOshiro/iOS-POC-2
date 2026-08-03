@@ -34,6 +34,7 @@ final class MusicListViewModel: ObservableObject {
                 // どの段で失敗したか（MusicFailure）で表示を切り替える。
                 self.tracks = []
                 self.error = switch failure {
+                case .offline:  .offline
                 case .network:  .network
                 case .server:   .server
                 case .decoding: .decoding

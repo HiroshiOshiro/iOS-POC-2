@@ -1,5 +1,6 @@
 import Foundation
 import FactoryKit
+import Common
 import Model
 import Network
 
@@ -15,10 +16,15 @@ public protocol MusicRepository: Sendable {
 public struct DefaultMusicRepository: MusicRepository {
     // 依存は Factory から直接注入する（@Injected）。テストは Container に register して差し替える。
     @Injected(\.musicRemoteDataSource) private var remote
+    @Injected(\.networkMonitor) private var networkMonitor
 
     public init() {}
 
     public func search(term: String) async throws -> [MusicTrack] {
+        // 通信前チェック: 端末が到達不能ならリクエストせず offline を投げる。
+        guard networkMonitor.isReachable else {
+            throw MusicFailure.offline
+        }
         // 失敗した種別を MusicFailure に変換して投げる（上位で表示を切り替えられるように）。
         let dtos: [ITunesTrackDTO]
         do {

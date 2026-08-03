@@ -1,4 +1,5 @@
 import Foundation
+import Common
 import Model
 import Network
 import Database
@@ -83,6 +84,11 @@ final class StubTokenStore: TokenStoring, @unchecked Sendable {
     init(token: String? = nil) { self.token = token }
 
     func clear() { token = nil }
+}
+
+struct StubNetworkMonitor: NetworkMonitoring {
+    let isReachable: Bool
+    init(isReachable: Bool = true) { self.isReachable = isReachable }
 }
 
 final class StubMusicRemote: MusicRemoteDataSource, @unchecked Sendable {
