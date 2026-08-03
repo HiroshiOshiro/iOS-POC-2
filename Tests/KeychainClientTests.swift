@@ -1,5 +1,6 @@
 import Testing
 import Foundation
+import Security
 @testable import Datastore
 
 /// Keychain は entitlement を要するため、このテストはホストアプリ（iOS-POC-2）を
@@ -79,6 +80,30 @@ final class KeychainClientTests {
         try KeychainClient.save("ユーザー🔑", username: username, serviceName: serviceName)
 
         #expect(try KeychainClient.get(username: username, serviceName: serviceName) == "ユーザー🔑")
+    }
+
+    // MARK: - Accessibility（改善1: 端末外へ出さない設定の検証）
+
+    @Test("Given a saved value, then the item's accessibility is AfterFirstUnlockThisDeviceOnly")
+    func savedItemIsThisDeviceOnly() throws {
+        try KeychainClient.save("user-123", username: username, serviceName: serviceName)
+
+        // 保存項目の属性を読み出し、kSecAttrAccessible を確認する。
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: username,
+            kSecAttrService as String: serviceName,
+            kSecReturnAttributes as String: true,
+            kSecMatchLimit as String: kSecMatchLimitOne
+        ]
+        var result: AnyObject?
+        let status = SecItemCopyMatching(query as CFDictionary, &result)
+
+        #expect(status == errSecSuccess)
+        let attributes = result as? [String: Any]
+        let accessible = attributes?[kSecAttrAccessible as String] as? String
+        // バックアップ/他端末移行に含めない ThisDeviceOnly であること。
+        #expect(accessible == (kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String))
     }
 
     // MARK: - Isolation
