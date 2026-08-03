@@ -87,11 +87,16 @@ final class StubTokenStore: TokenStoring, @unchecked Sendable {
 
 final class StubMusicRemote: MusicRemoteDataSource, @unchecked Sendable {
     var dtos: [ITunesTrackDTO]
+    var errorToThrow: Error?
     private(set) var receivedTerm: String?
-    init(dtos: [ITunesTrackDTO] = []) { self.dtos = dtos }
+    init(dtos: [ITunesTrackDTO] = [], errorToThrow: Error? = nil) {
+        self.dtos = dtos
+        self.errorToThrow = errorToThrow
+    }
 
     func search(term: String) async throws -> [ITunesTrackDTO] {
         receivedTerm = term
+        if let errorToThrow { throw errorToThrow }
         return dtos
     }
 }

@@ -19,7 +19,21 @@ public struct DefaultMusicRepository: MusicRepository {
     public init() {}
 
     public func search(term: String) async throws -> [MusicTrack] {
-        let dtos = try await remote.search(term: term)
+        // 失敗した種別を MusicFailure に変換して投げる（上位で表示を切り替えられるように）。
+        let dtos: [ITunesTrackDTO]
+        do {
+            dtos = try await remote.search(term: term)
+        } catch let error as MusicRemoteError {
+            switch error {
+            case .httpStatus(let code): throw MusicFailure.server(status: code)
+            case .invalidURL:           throw MusicFailure.network
+            }
+        } catch is DecodingError {
+            throw MusicFailure.decoding
+        } catch {
+            // URLError 等（オフライン/タイムアウト）。
+            throw MusicFailure.network
+        }
         // trackId が無い要素（曲以外）は除外する。
         return dtos.compactMap { dto in
             guard let id = dto.trackId else { return nil }

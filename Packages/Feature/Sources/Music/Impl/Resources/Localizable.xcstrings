@@ -12,6 +12,39 @@
         }
       }
     },
+    "music.error.decoding" : {
+      "comment" : "Music エラー（解析段）",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "データの読み取りに失敗しました"
+          }
+        }
+      }
+    },
+    "music.error.network" : {
+      "comment" : "Music エラー（通信段）",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通信に失敗しました。接続状況をご確認ください"
+          }
+        }
+      }
+    },
+    "music.error.server" : {
+      "comment" : "Music エラー（サーバ段）",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サーバーでエラーが発生しました。時間をおいてお試しください"
+          }
+        }
+      }
+    },
     "music.detail.open_itunes" : {
       "comment" : "Music 詳細",
       "localizations" : {

@@ -1,10 +1,11 @@
 import Testing
+import Foundation
 import FactoryKit
 import Model
 import Network
 @testable import Data
 
-/// `DefaultMusicRepository` の DTO→モデル変換とフィルタリングを検証する。
+/// `DefaultMusicRepository` の DTO→モデル変換・フィルタリング・段別エラー変換を検証する。
 /// @Injected は Container.shared から解決するため、スタブは register で差し替える（直列実行）。
 @Suite(.serialized)
 struct DefaultMusicRepositoryTests {
@@ -12,6 +13,40 @@ struct DefaultMusicRepositoryTests {
     private func makeSUT(dtos: [ITunesTrackDTO]) -> DefaultMusicRepository {
         Container.shared.musicRemoteDataSource.register { StubMusicRemote(dtos: dtos) }
         return DefaultMusicRepository()
+    }
+
+    private func makeSUT(remoteError: Error) -> DefaultMusicRepository {
+        Container.shared.musicRemoteDataSource.register { StubMusicRemote(errorToThrow: remoteError) }
+        return DefaultMusicRepository()
+    }
+
+    // MARK: - 段別エラーへのマッピング（どこで失敗したか → MusicFailure）
+
+    @Test("Given a non-2xx status, when search, then it throws MusicFailure.server")
+    func mapsHTTPStatusToServer() async {
+        let sut = makeSUT(remoteError: MusicRemoteError.httpStatus(503))
+        await #expect(throws: MusicFailure.server(status: 503)) {
+            _ = try await sut.search(term: "x")
+        }
+    }
+
+    @Test("Given a connection failure, when search, then it throws MusicFailure.network")
+    func mapsURLErrorToNetwork() async {
+        let sut = makeSUT(remoteError: URLError(.notConnectedToInternet))
+        await #expect(throws: MusicFailure.network) {
+            _ = try await sut.search(term: "x")
+        }
+    }
+
+    @Test("Given a decoding failure, when search, then it throws MusicFailure.decoding")
+    func mapsDecodingErrorToDecoding() async {
+        let decodingError = DecodingError.dataCorrupted(
+            .init(codingPath: [], debugDescription: "test")
+        )
+        let sut = makeSUT(remoteError: decodingError)
+        await #expect(throws: MusicFailure.decoding) {
+            _ = try await sut.search(term: "x")
+        }
     }
 
     /// 任意項目を省略できるよう trackId 以外はデフォルト nil にした DTO ファクトリ。
