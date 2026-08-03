@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		059087537C407E18AFB11F91 /* TodoStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B015054E5E290BFE3D43FE7 /* TodoStore.m */; };
 		0A16FCA1532D8030ADCB3D61 /* Datastore in Frameworks */ = {isa = PBXBuildFile; productRef = A2E8C11CB3066DBFCAE57DD5 /* Datastore */; };
+		14B5E05046F4E609E9B77FE4 /* KeychainClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC91EED817FD4E4B8E1C53BB /* KeychainClientTests.swift */; };
 		1CB69093A4906AED47B4F1C2 /* ObjCPasswordEncryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7725781789FA6AB8F53D91EF /* ObjCPasswordEncryptor.swift */; };
 		26D01EBA228CE536FBE5CE8B /* CompletionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1D3C0AD8D8570E9A86BD381 /* CompletionViewController.m */; };
 		29BA494D9C0877C8A399FEB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 490CAFEFD142F5F55773DD5A /* main.m */; };
@@ -33,7 +34,6 @@
 		D168ABB43B7772372BF1B308 /* TodoFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55F0D74E6425272D5DD98C3 /* TodoFlowCoordinator.swift */; };
 		D6BA11F2CA77FEDC1AB3029C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A0C7A28F71FBA8BB7671ED99 /* SceneDelegate.m */; };
 		D6BE366FBF8C882EBA1A8432 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBC548C84515A99A922E805E /* Assets.xcassets */; };
-		E75AACD8F89DF526133FDD38 /* KeyChainUtilTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1F0E2370AE252A637B644A /* KeyChainUtilTests.swift */; };
 		EBCC64F32185BE8CB8EC4FAD /* ConfirmImpl in Frameworks */ = {isa = PBXBuildFile; productRef = D5D011E96E8D16E956B06DC3 /* ConfirmImpl */; };
 /* End PBXBuildFile section */
 
@@ -50,7 +50,6 @@
 /* Begin PBXFileReference section */
 		226B972BB272FA837953A4C9 /* AppAppearance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppAppearance.m; sourceTree = "<group>"; };
 		290B614528EF70A51FE1DFA1 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
-		2B1F0E2370AE252A637B644A /* KeyChainUtilTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainUtilTests.swift; sourceTree = "<group>"; };
 		358A5F2E6F092CC3A6403BAE /* PasswordCryptoUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PasswordCryptoUtil.h; sourceTree = "<group>"; };
 		48F226B36ACDEA14D59749F0 /* TodoInputViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodoInputViewController.m; sourceTree = "<group>"; };
 		490CAFEFD142F5F55773DD5A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -80,6 +79,7 @@
 		D8DB2E43966D9FC1A986BE69 /* CustomNavigationBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationBar.m; sourceTree = "<group>"; };
 		DBC548C84515A99A922E805E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E46FA10B7F4B73C8E98EBD04 /* UIViewController+CustomNavBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+CustomNavBar.m"; sourceTree = "<group>"; };
+		EC91EED817FD4E4B8E1C53BB /* KeychainClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainClientTests.swift; sourceTree = "<group>"; };
 		F0447D56BDA0066263C2B8F7 /* AppDependencyRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependencyRegistration.swift; sourceTree = "<group>"; };
 		F120496F84F121CDC05822B7 /* LocalizationSharingDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationSharingDemoScreen.swift; sourceTree = "<group>"; };
 		F1D3C0AD8D8570E9A86BD381 /* CompletionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CompletionViewController.m; sourceTree = "<group>"; };
@@ -196,7 +196,7 @@
 		A90D72E8BF1683CBD12AE4C6 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				2B1F0E2370AE252A637B644A /* KeyChainUtilTests.swift */,
+				EC91EED817FD4E4B8E1C53BB /* KeychainClientTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -348,7 +348,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E75AACD8F89DF526133FDD38 /* KeyChainUtilTests.swift in Sources */,
+				14B5E05046F4E609E9B77FE4 /* KeychainClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

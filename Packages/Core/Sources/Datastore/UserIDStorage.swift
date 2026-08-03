@@ -8,7 +8,7 @@ public protocol UserIDStorage: Sendable {
     func load() throws -> String?
 }
 
-/// Keychain に userID を保存するデータソース。実際の Keychain 操作は `KeyChainUtil` に委譲する。
+/// Keychain に userID を保存するデータソース。実際の Keychain 操作は `KeychainClient` に委譲する。
 public struct KeychainUserIDStorage: UserIDStorage {
     private let serviceName: String
     private let username: String
@@ -22,10 +22,10 @@ public struct KeychainUserIDStorage: UserIDStorage {
     }
 
     public func save(_ userID: String) throws {
-        try KeyChainUtil.save(userID, username: username, serviceName: serviceName)
+        try KeychainClient.save(userID, username: username, serviceName: serviceName)
     }
 
     public func load() throws -> String? {
-        try KeyChainUtil.get(username: username, serviceName: serviceName)
+        try KeychainClient.get(username: username, serviceName: serviceName)
     }
 }

@@ -14,7 +14,7 @@ excluded:
   - DerivedData
   - "**/.build"
   # ユーザー提供のユーティリティ（不変維持のため除外）
-  - Packages/Core/Sources/Datastore/KeyChainUtil.swift
+  - Packages/Core/Sources/Datastore/KeychainClient.swift
 
 # SwiftUI の慣用と衝突するため無効化する。
 #  - multiple_closures_with_trailing_closure: AsyncImage / alert 等で複数クロージャを使う
