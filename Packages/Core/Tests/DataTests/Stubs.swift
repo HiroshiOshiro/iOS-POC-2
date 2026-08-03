@@ -27,20 +27,32 @@ final class StubTodoLocal: TodoLocalDataSource, @unchecked Sendable {
     func save(_ todos: [TodoRecord]) { records = todos }
 }
 
+enum StubError: Error { case boom }
+
 final class StubAuthRemote: AuthRemoteDataSource, @unchecked Sendable {
     let userID: String
+    let shouldThrow: Bool
     private(set) var receivedPassword: String?
-    init(userID: String = "user-1") { self.userID = userID }
+    init(userID: String = "user-1", shouldThrow: Bool = false) {
+        self.userID = userID
+        self.shouldThrow = shouldThrow
+    }
 
     func login(email: String, password: String) async throws -> String {
         receivedPassword = password
+        if shouldThrow { throw StubError.boom }
         return userID
     }
 }
 
 struct StubPasswordEncryptor: PasswordEncrypting {
+    let shouldThrow: Bool
+    init(shouldThrow: Bool = false) { self.shouldThrow = shouldThrow }
     /// 暗号化されたことを検証できるよう、前後関係の分かる変換にする。
-    func encrypt(_ password: String) throws -> String { "ENC(\(password))" }
+    func encrypt(_ password: String) throws -> String {
+        if shouldThrow { throw StubError.boom }
+        return "ENC(\(password))"
+    }
 }
 
 final class StubEmailStorage: EmailStorage, @unchecked Sendable {
@@ -53,9 +65,16 @@ final class StubEmailStorage: EmailStorage, @unchecked Sendable {
 
 final class StubUserIDStorage: UserIDStorage, @unchecked Sendable {
     private(set) var saved: String?
-    init(saved: String? = nil) { self.saved = saved }
+    let shouldThrowOnSave: Bool
+    init(saved: String? = nil, shouldThrowOnSave: Bool = false) {
+        self.saved = saved
+        self.shouldThrowOnSave = shouldThrowOnSave
+    }
 
-    func save(_ userID: String) throws { saved = userID }
+    func save(_ userID: String) throws {
+        if shouldThrowOnSave { throw StubError.boom }
+        saved = userID
+    }
     func load() throws -> String? { saved }
 }
 

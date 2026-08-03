@@ -44,10 +44,19 @@ final class LoginViewModel: ObservableObject {
                 )
                 // パスワードは保持しない。
                 self.password = ""
+            } catch let failure as LoginFailure {
+                // どの段で失敗したか（LoginFailure）で表示を切り替える。
+                log("ログイン失敗: \(failure)")
+                self.error = switch failure {
+                case .validation:  .validation
+                case .encryption:  .encryption
+                case .network:     .network
+                case .persistence: .persistence
+                }
             } catch {
-                // 技術的なエラーをユーザー向けの LocalizedError にまとめる。
-                log("ログイン失敗: \(error)")
-                self.error = .failed
+                // 想定外はまとめて unknown 表示。
+                log("ログイン失敗(想定外): \(error)")
+                self.error = .unknown
             }
             self.isLoading = false
         }

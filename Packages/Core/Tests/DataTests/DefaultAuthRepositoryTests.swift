@@ -12,16 +12,43 @@ struct DefaultAuthRepositoryTests {
     /// 依存をスタブに差し替えて SUT を作る。
     private func makeSUT(
         remote: StubAuthRemote = StubAuthRemote(),
+        encryptor: StubPasswordEncryptor = StubPasswordEncryptor(),
         email: StubEmailStorage = StubEmailStorage(),
         userID: StubUserIDStorage = StubUserIDStorage(),
         tokenStore: StubTokenStore = StubTokenStore()
     ) -> DefaultAuthRepository {
         Container.shared.authRemoteDataSource.register { remote }
-        Container.shared.passwordEncryptor.register { StubPasswordEncryptor() }
+        Container.shared.passwordEncryptor.register { encryptor }
         Container.shared.emailStorage.register { email }
         Container.shared.userIDStorage.register { userID }
         Container.shared.tokenManager.register { tokenStore }
         return DefaultAuthRepository()
+    }
+
+    // MARK: - 段別エラーへのマッピング（どこで失敗したか → LoginFailure）
+
+    @Test("Given encryption fails, when login, then it throws LoginFailure.encryption")
+    func mapsEncryptionFailure() async {
+        let sut = makeSUT(encryptor: StubPasswordEncryptor(shouldThrow: true))
+        await #expect(throws: LoginFailure.encryption) {
+            try await sut.login(email: "user@example.com", password: "pw")
+        }
+    }
+
+    @Test("Given the remote fails, when login, then it throws LoginFailure.network")
+    func mapsNetworkFailure() async {
+        let sut = makeSUT(remote: StubAuthRemote(shouldThrow: true))
+        await #expect(throws: LoginFailure.network) {
+            try await sut.login(email: "user@example.com", password: "pw")
+        }
+    }
+
+    @Test("Given the userID save fails, when login, then it throws LoginFailure.persistence")
+    func mapsPersistenceFailure() async {
+        let sut = makeSUT(userID: StubUserIDStorage(shouldThrowOnSave: true))
+        await #expect(throws: LoginFailure.persistence) {
+            try await sut.login(email: "user@example.com", password: "pw")
+        }
     }
 
     @Test("Given login, when it is called, then the password is encrypted before reaching the remote")

@@ -22,6 +22,50 @@
         }
       }
     },
+    "login.error.encryption" : {
+      "comment" : "ログインエラー（暗号化段）",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "内部エラーが発生しました。しばらくして再度お試しください"
+          }
+        }
+      }
+    },
+    "login.error.network" : {
+      "comment" : "ログインエラー（通信段）",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通信に失敗しました。接続状況をご確認ください"
+          }
+        }
+      }
+    },
+    "login.error.persistence" : {
+      "comment" : "ログインエラー（保存段）",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログイン情報の保存に失敗しました"
+          }
+        }
+      }
+    },
+    "login.error.validation" : {
+      "comment" : "ログインエラー（入力チェック）",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メールアドレスとパスワードを入力してください"
+          }
+        }
+      }
+    },
     "login.button" : {
       "comment" : "ログイン画面",
       "localizations" : {

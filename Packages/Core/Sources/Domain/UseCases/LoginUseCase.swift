@@ -16,6 +16,11 @@ public struct DefaultLoginUseCase: LoginUseCase {
     }
 
     public func execute(email: String, password: String) async throws -> Session {
-        try await repository.login(email: email, password: password)
+        // 入力チェック（UseCase の責務）。以降の段は Repository が LoginFailure に変換する。
+        let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedEmail.isEmpty, !password.isEmpty else {
+            throw LoginFailure.validation
+        }
+        return try await repository.login(email: trimmedEmail, password: password)
     }
 }

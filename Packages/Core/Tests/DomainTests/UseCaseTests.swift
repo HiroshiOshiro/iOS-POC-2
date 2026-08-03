@@ -49,6 +49,17 @@ struct LoginUseCaseTests {
 
         #expect(result == expected)
     }
+
+    @Test("Given a blank email, when execute, then it throws LoginFailure.validation (before the repository)")
+    func throwsValidationForBlankEmail() async {
+        let sut = DefaultLoginUseCase(
+            repository: StubAuthRepository(session: Session(email: "x", userID: "x"))
+        )
+        // 空白のみ → 入力チェックで弾かれ、Repository へ到達しない。
+        await #expect(throws: LoginFailure.validation) {
+            try await sut.execute(email: "   ", password: "pw")
+        }
+    }
 }
 
 struct LoadSessionUseCaseTests {

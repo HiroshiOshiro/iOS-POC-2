@@ -29,14 +29,37 @@ public actor DefaultAuthRepository: AuthRepository {
 
     public init() {}
 
+    /// 複数段（暗号化→通信→保存）を順に実行し、**失敗した段を `LoginFailure` に変換**して投げる。
+    /// これにより上位（ViewModel）は「どこで失敗したか」で表示を切り替えられる。
     public func login(email: String, password: String) async throws -> Session {
         // デモ: ログイン前の共有トークンを読む（ObjC が起動時に入れた値が見える）。
         log("TokenManager read (Swift, before): \(tokenManager.token ?? "nil")")
-        // 通信前にパスワードを暗号化する（interface 経由なので実装が ObjC か Swift かは意識しない）。
-        let encryptedPassword = try passwordEncryptor.encrypt(password)
-        let userID = try await remote.login(email: email, password: encryptedPassword)
-        emailStorage.save(email)
-        try userIDStorage.save(userID)
+
+        // 1) パスワード暗号化（interface 経由なので実装が ObjC か Swift かは意識しない）。
+        let encryptedPassword: String
+        do {
+            encryptedPassword = try passwordEncryptor.encrypt(password)
+        } catch {
+            throw LoginFailure.encryption
+        }
+
+        // 2) 通信。
+        let userID: String
+        do {
+            userID = try await remote.login(email: email, password: encryptedPassword)
+        } catch {
+            throw LoginFailure.network
+        }
+
+        emailStorage.save(email) // UserDefaults 保存（失敗しない）
+
+        // 3) 保存（userID を Keychain へ）。
+        do {
+            try userIDStorage.save(userID)
+        } catch {
+            throw LoginFailure.persistence
+        }
+
         // デモ: API から取得したトークン（を模した値）をアプリ全体の in-memory ストアへ保存。
         tokenManager.token = "api-token-\(userID)"
         log("TokenManager wrote (Swift): \(tokenManager.token ?? "nil")")
