@@ -50,8 +50,8 @@ final class LoginViewModel: ObservableObject {
                 self.error = switch failure {
                 case .validation:  .validation
                 case .encryption:  .encryption
-                case .network:     .network
                 case .persistence: .persistence
+                case .transport:   .network // Login の通信失敗はまとめて通信エラー表示
                 }
             } catch {
                 // 想定外はまとめて unknown 表示。

@@ -24,44 +24,44 @@ struct DefaultMusicRepositoryTests {
 
     // MARK: - 通信前チェック（到達性）
 
-    @Test("Given the device is offline, when search, then it throws MusicFailure.offline without calling remote")
+    @Test("Given the device is offline, when search, then it throws TransportFailure.offline without calling remote")
     func offlinePreCheckThrowsAndSkipsRemote() async {
         let remote = StubMusicRemote(dtos: [dto(trackId: 1)])
         Container.shared.musicRemoteDataSource.register { remote }
         Container.shared.networkMonitor.register { StubNetworkMonitor(isReachable: false) }
         let sut = DefaultMusicRepository()
 
-        await #expect(throws: MusicFailure.offline) {
+        await #expect(throws: TransportFailure.offline) {
             _ = try await sut.search(term: "x")
         }
         #expect(remote.receivedTerm == nil) // 前チェックで弾かれ、リモートは呼ばれない
     }
 
-    // MARK: - 段別エラーへのマッピング（どこで失敗したか → MusicFailure）
+    // MARK: - 段別エラーへのマッピング（どこで失敗したか → TransportFailure）
 
-    @Test("Given a non-2xx status, when search, then it throws MusicFailure.server")
+    @Test("Given a non-2xx status, when search, then it throws TransportFailure.server")
     func mapsHTTPStatusToServer() async {
         let sut = makeSUT(remoteError: MusicRemoteError.httpStatus(503))
-        await #expect(throws: MusicFailure.server(status: 503)) {
+        await #expect(throws: TransportFailure.server(status: 503)) {
             _ = try await sut.search(term: "x")
         }
     }
 
-    @Test("Given a connection failure, when search, then it throws MusicFailure.network")
+    @Test("Given a connection failure, when search, then it throws TransportFailure.network")
     func mapsURLErrorToNetwork() async {
         let sut = makeSUT(remoteError: URLError(.notConnectedToInternet))
-        await #expect(throws: MusicFailure.network) {
+        await #expect(throws: TransportFailure.network) {
             _ = try await sut.search(term: "x")
         }
     }
 
-    @Test("Given a decoding failure, when search, then it throws MusicFailure.decoding")
+    @Test("Given a decoding failure, when search, then it throws TransportFailure.decoding")
     func mapsDecodingErrorToDecoding() async {
         let decodingError = DecodingError.dataCorrupted(
             .init(codingPath: [], debugDescription: "test")
         )
         let sut = makeSUT(remoteError: decodingError)
-        await #expect(throws: MusicFailure.decoding) {
+        await #expect(throws: TransportFailure.decoding) {
             _ = try await sut.search(term: "x")
         }
     }

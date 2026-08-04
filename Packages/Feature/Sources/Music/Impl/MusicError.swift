@@ -1,7 +1,7 @@
 import Foundation
 
 /// Music 画面のユーザー向けエラー（`LocalizedError`）。
-/// `Model.MusicFailure`（どこで失敗したか）を表示文言へマップしたもの。
+/// `Model.TransportFailure`（どの通信段で失敗したか）を表示文言へマップしたもの。
 enum MusicError: LocalizedError {
     case offline
     case network

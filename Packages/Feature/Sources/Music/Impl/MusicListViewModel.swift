@@ -30,8 +30,8 @@ final class MusicListViewModel: ObservableObject {
             guard let self else { return }
             do {
                 self.tracks = try await self.searchMusicUseCase.execute(term: term)
-            } catch let failure as MusicFailure {
-                // どの段で失敗したか（MusicFailure）で表示を切り替える。
+            } catch let failure as TransportFailure {
+                // どの通信段で失敗したか（TransportFailure）で表示を切り替える。
                 self.tracks = []
                 self.error = switch failure {
                 case .offline:  .offline

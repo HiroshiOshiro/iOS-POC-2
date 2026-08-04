@@ -21,24 +21,25 @@ public struct DefaultMusicRepository: MusicRepository {
     public init() {}
 
     public func search(term: String) async throws -> [MusicTrack] {
+        // Music の失敗はすべて通信レイヤ（ドメイン固有の失敗が無い）ため、
+        // 共有の TransportFailure を直接投げる。
         // 通信前チェック: 端末が到達不能ならリクエストせず offline を投げる。
         guard networkMonitor.isReachable else {
-            throw MusicFailure.offline
+            throw TransportFailure.offline
         }
-        // 失敗した種別を MusicFailure に変換して投げる（上位で表示を切り替えられるように）。
         let dtos: [ITunesTrackDTO]
         do {
             dtos = try await remote.search(term: term)
         } catch let error as MusicRemoteError {
             switch error {
-            case .httpStatus(let code): throw MusicFailure.server(status: code)
-            case .invalidURL:           throw MusicFailure.network
+            case .httpStatus(let code): throw TransportFailure.server(status: code)
+            case .invalidURL:           throw TransportFailure.network
             }
         } catch is DecodingError {
-            throw MusicFailure.decoding
+            throw TransportFailure.decoding
         } catch {
             // URLError 等（オフライン/タイムアウト）。
-            throw MusicFailure.network
+            throw TransportFailure.network
         }
         // trackId が無い要素（曲以外）は除外する。
         return dtos.compactMap { dto in

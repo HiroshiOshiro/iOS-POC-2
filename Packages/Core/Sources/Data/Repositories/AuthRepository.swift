@@ -43,12 +43,12 @@ public actor DefaultAuthRepository: AuthRepository {
             throw LoginFailure.encryption
         }
 
-        // 2) 通信。
+        // 2) 通信（共有の TransportFailure を内包）。
         let userID: String
         do {
             userID = try await remote.login(email: email, password: encryptedPassword)
         } catch {
-            throw LoginFailure.network
+            throw LoginFailure.transport(.network)
         }
 
         emailStorage.save(email) // UserDefaults 保存（失敗しない）

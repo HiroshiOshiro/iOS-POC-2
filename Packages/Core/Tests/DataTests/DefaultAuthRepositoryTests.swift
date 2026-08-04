@@ -35,10 +35,10 @@ struct DefaultAuthRepositoryTests {
         }
     }
 
-    @Test("Given the remote fails, when login, then it throws LoginFailure.network")
+    @Test("Given the remote fails, when login, then it throws LoginFailure.transport(.network)")
     func mapsNetworkFailure() async {
         let sut = makeSUT(remote: StubAuthRemote(shouldThrow: true))
-        await #expect(throws: LoginFailure.network) {
+        await #expect(throws: LoginFailure.transport(.network)) {
             try await sut.login(email: "user@example.com", password: "pw")
         }
     }
