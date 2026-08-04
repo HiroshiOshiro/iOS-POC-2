@@ -36,12 +36,12 @@ flowchart TD
 
     V["View：alert 等で error.localizedDescription を表示"]
 
-    DS -- "技術的エラー" --> REPO
-    PRE -- "到達不能" --> REPO
-    REPO -- "翻訳" --> DF
-    REPO -- "翻訳" --> TF
-    UC -- "validation 等" --> DF
-    TF -. "内包 .transport(...)" .-> DF
+    DS -->|"技術的エラー"| REPO
+    PRE -->|"到達不能"| REPO
+    REPO -->|"翻訳"| DF
+    REPO -->|"翻訳"| TF
+    UC -->|"validation 等"| DF
+    TF -.->|"内包 transport"| DF
     DF --> UC --> VM
     TF --> VM
     VM --> DE --> V
