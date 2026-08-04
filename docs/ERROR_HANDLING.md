@@ -11,41 +11,21 @@
 
 ```mermaid
 flowchart TD
-    subgraph L1["インフラ層（低レベルの生エラー）"]
-        DS["データソース（リモート/ローカル）<br/>▶ 技術的エラー<br/>（通信SDK / ストレージ / URLError / DecodingError 等）"]
-        PRE["事前チェック（到達性など）"]
-    end
+    DS["インフラ層：生エラー"]
+    REPO["Repository：境界で翻訳"]
+    CAT["カテゴリ層（共有モデル）"]
+    UC["UseCase：ドメイン規則を追加"]
+    VM["ViewModel：表示へマップ"]
+    V["View：文言を表示"]
 
-    subgraph L2["Repository（Data）層：境界で翻訳"]
-        REPO["Repository<br/>do/catch で 低レベル → カテゴリ へ変換"]
-    end
-
-    subgraph L3["カテゴリ（共有ドメインモデル層）"]
-        DF["DomainFailure（per-domain）<br/>ドメイン固有の失敗 + transport 内包"]
-        TF["TransportFailure（横断で共有）<br/>offline / network / server / decoding"]
-    end
-
-    subgraph L4["UseCase（Domain）層"]
-        UC["UseCase<br/>入力チェック等のドメイン規則を追加"]
-    end
-
-    subgraph L5["Presentation（Feature）層：表示へマップ"]
-        VM["ViewModel<br/>catch → switch で カテゴリ → 表示 へ"]
-        DE["DisplayError : LocalizedError（文言を持つ）"]
-    end
-
-    V["View：alert 等で error.localizedDescription を表示"]
-
-    DS -->|"技術的エラー"| REPO
-    PRE -->|"到達不能"| REPO
-    REPO -->|"翻訳"| DF
-    REPO -->|"翻訳"| TF
-    UC -->|"validation 等"| DF
-    TF -.->|"内包 transport"| DF
-    DF --> UC --> VM
-    TF --> VM
-    VM --> DE --> V
+    DS -->|"生エラー"| REPO
+    REPO -->|"翻訳"| CAT
+    CAT --> UC --> VM
+    VM -->|"DisplayError"| V
 ```
+
+> カテゴリ層は 2 種を持つ: ドメイン固有の `DomainFailure`（per-domain）と、横断で共有する
+> `TransportFailure`（offline / network / server / decoding）。前者が後者を `transport` として内包する。
 
 ## 3 段のエラー型
 
