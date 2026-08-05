@@ -1,0 +1,107 @@
+# GitLab CI — iOS-POC-2（XcodeGen + SPM / ObjC・Swift 混在）
+#
+# 前提: Xcode 15 以上（Swift 6 ツールチェイン）が入った macOS ランナー。
+#   - GitLab SaaS の macOS ランナーを使う場合は `default.tags` を外し、
+#     各ジョブ（または default）に `image:` を指定する（ファイル末尾のコメント参照）。
+#   - セルフホストの場合はランナー登録時のタグに `default.tags` を合わせる。
+#
+# パイプライン: lint → build → test
+#   build      … アプリがシミュレータ向けにコンパイルできるか（署名なし）
+#   test:core  … Core パッケージのユニットテスト（macOS ホストで `swift test`／高速）
+#   test:app   … アプリ＋iOS-POC-2Tests をシミュレータで `xcodebuild test`
+
+stages:
+  - lint
+  - build
+  - test
+
+variables:
+  XCODE_PROJECT: "iOS-POC-2.xcodeproj"
+  SCHEME: "iOS-POC-2"
+  # テスト実行に使う iOS シミュレータ名（ランナーに存在するものへ調整）
+  SIMULATOR_NAME: "iPhone 15"
+  # SPM 依存のクローン先（ジョブ間キャッシュ対象）
+  SPM_CACHE_DIR: "$CI_PROJECT_DIR/.spm-cache"
+
+# MR と デフォルトブランチ push のみでパイプラインを回す（二重起動を防ぐ）。
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+default:
+  tags:
+    - macos            # ← セルフホストのランナータグに合わせて調整
+  before_script:
+    - sw_vers && xcodebuild -version
+    # 必要ツールを用意（無ければ Homebrew で導入）。
+    - for t in xcodegen xcbeautify; do which "$t" >/dev/null || brew install "$t"; done
+    # project.yml を正としてプロジェクトを再生成する。
+    - xcodegen generate
+  cache:
+    key: "$CI_COMMIT_REF_SLUG-spm"
+    paths:
+      - .spm-cache
+      - Packages/Core/.build
+
+lint:
+  stage: lint
+  # Lint はプロジェクト生成が不要なので before_script を差し替える。
+  before_script:
+    - which swiftlint >/dev/null || brew install swiftlint
+  script:
+    - swiftlint lint --reporter emoji
+
+build:
+  stage: build
+  script:
+    - set -o pipefail
+    - |
+      xcodebuild build \
+        -project "$XCODE_PROJECT" \
+        -scheme "$SCHEME" \
+        -destination "generic/platform=iOS Simulator" \
+        -clonedSourcePackagesDirPath "$SPM_CACHE_DIR" \
+        CODE_SIGNING_ALLOWED=NO \
+        | xcbeautify
+
+# Core は macOS もサポートするため、シミュレータ不要の `swift test` で高速に回す。
+test:core:
+  stage: test
+  before_script:
+    - swift --version
+  script:
+    - cd Packages/Core
+    - swift test --enable-code-coverage
+
+# アプリ本体と iOS-POC-2Tests（Keychain 検証を含む）をシミュレータで実行。
+test:app:
+  stage: test
+  script:
+    - set -o pipefail
+    - |
+      xcodebuild test \
+        -project "$XCODE_PROJECT" \
+        -scheme "$SCHEME" \
+        -destination "platform=iOS Simulator,name=$SIMULATOR_NAME" \
+        -clonedSourcePackagesDirPath "$SPM_CACHE_DIR" \
+        -resultBundlePath "TestResults.xcresult" \
+        CODE_SIGNING_ALLOWED=NO \
+        | xcbeautify --report junit
+  artifacts:
+    when: always
+    expire_in: 1 week
+    paths:
+      - TestResults.xcresult
+    reports:
+      junit: build/reports/junit.xml
+
+# --- GitLab SaaS の macOS ランナーを使う場合 --------------------------------
+# `default.tags` を削除し、代わりに image を指定する（利用可能なイメージは
+# GitLab のドキュメントを参照）。例:
+#
+# default:
+#   image: macos-14-xcode-15
+#   before_script:
+#     - ...
+# ---------------------------------------------------------------------------
