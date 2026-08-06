@@ -18,8 +18,10 @@ stages:
 variables:
   XCODE_PROJECT: "iOS-POC-2.xcodeproj"
   SCHEME: "iOS-POC-2"
-  # テスト実行に使う iOS シミュレータ名（ランナーに存在するものへ調整）
-  SIMULATOR_NAME: "iPhone 15"
+  # テスト実行に使う iOS シミュレータ名（ランナーに存在するものへ調整）。
+  # スナップショットテストの基準画像はこの端末/OS で記録している。ランナーが別端末/OS の
+  # 場合は同じ端末を用意するか、基準画像を再記録すること（端末/OS 差で画像がズレるため）。
+  SIMULATOR_NAME: "iPhone 17"
   # SPM 依存のクローン先（ジョブ間キャッシュ対象）
   SPM_CACHE_DIR: "$CI_PROJECT_DIR/.spm-cache"
 

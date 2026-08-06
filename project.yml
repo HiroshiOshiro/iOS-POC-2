@@ -17,10 +17,17 @@ packages:
   Factory:
     url: https://github.com/hmlongco/Factory.git
     from: 3.3.2
+  # スクリーンショット（スナップショット）テスト。iOS-POC-2Tests から使う。
+  SnapshotTesting:
+    url: https://github.com/pointfreeco/swift-snapshot-testing
+    from: 1.17.0
 settings:
   base:
     MARKETING_VERSION: "1.0"
     CURRENT_PROJECT_VERSION: "1"
+    # 明示モジュール（Xcode 16）を無効化。SnapshotTesting が WebKit を引き込む際に
+    # 明示モジュールで os_object / WebKit の PCM ビルドが失敗する不具合を回避する。
+    SWIFT_ENABLE_EXPLICIT_MODULES: NO
 targets:
   iOS-POC-2:
     type: application
@@ -89,6 +96,20 @@ targets:
       - target: iOS-POC-2
       - package: Core
         product: Datastore
+      # スナップショットテスト用。公開 *ScreenFactory を撮るため impl と、
+      # スタブ UseCase を DI 登録するため Domain/Model/Factory/SnapshotTesting に依存する。
+      - package: SnapshotTesting
+        product: SnapshotTesting
+      - package: Feature
+        product: LoginImpl
+      - package: Feature
+        product: MusicImpl
+      - package: Core
+        product: Domain
+      - package: Core
+        product: Model
+      - package: Factory
+        product: FactoryKit
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.iOS-POC-2.tests
