@@ -1,5 +1,5 @@
 import Testing
-import Network
+import Networking
 
 /// フェイクのリモートデータソース（成功／サンプル用の失敗トリガー）の挙動を検証する。
 struct FakeAuthRemoteDataSourceTests {

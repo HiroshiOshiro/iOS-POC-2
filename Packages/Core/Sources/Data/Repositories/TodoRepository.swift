@@ -1,7 +1,7 @@
 import Foundation
 import FactoryKit
 import Model
-import Network
+import Networking
 import Database
 
 /// Todo の永続化を抽象化したリポジトリ。

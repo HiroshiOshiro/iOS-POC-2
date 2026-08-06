@@ -2,7 +2,7 @@ import Foundation
 import Common
 import FactoryKit
 import Model
-import Network
+import Networking
 import Datastore
 
 /// 認証まわりの通信・永続化を抽象化したリポジトリ。

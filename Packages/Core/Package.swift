@@ -13,7 +13,7 @@ let package = Package(
         .library(name: "Common", targets: ["Common"]),
         .library(name: "Model", targets: ["Model"]),
         .library(name: "Domain", targets: ["Domain"]),
-        .library(name: "Network", targets: ["Network"]),
+        .library(name: "Networking", targets: ["Networking"]),
         .library(name: "Database", targets: ["Database"]),
         .library(name: "Datastore", targets: ["Datastore"]),
         .library(name: "Data", targets: ["Data"]),
@@ -32,10 +32,11 @@ let package = Package(
         // Model: アプリ全体で使うドメインモデル。他層に依存しない葉。
         .target(name: "Model", dependencies: ["Common"]),
 
-        // Network: リモートデータソース。プリミティブ/DTO のみを扱う。
+        // Networking: リモートデータソース。プリミティブ/DTO のみを扱う。
         // 自分のデータソースを DI 登録するため FactoryKit に依存（NiA の NetworkModule 相当）。
+        // ※ モジュール名は Apple の Network.framework と衝突するため `Networking` にしている。
         .target(
-            name: "Network",
+            name: "Networking",
             dependencies: ["Common", .product(name: "FactoryKit", package: "Factory")]
         ),
 
@@ -57,7 +58,7 @@ let package = Package(
             dependencies: [
                 "Common",
                 "Model",
-                "Network",
+                "Networking",
                 "Database",
                 "Datastore",
                 .product(name: "FactoryKit", package: "Factory"),
@@ -78,10 +79,10 @@ let package = Package(
         // MARK: - Tests（UI 非依存のため macOS ホストで `swift test` 可能）
 
         .testTarget(name: "ModelTests", dependencies: ["Model"]),
-        .testTarget(name: "NetworkTests", dependencies: ["Network"]),
+        .testTarget(name: "NetworkTests", dependencies: ["Networking"]),
         .testTarget(
             name: "DataTests",
-            dependencies: ["Data", "Model", "Network", "Database", "Datastore"]
+            dependencies: ["Data", "Model", "Networking", "Database", "Datastore"]
         ),
         .testTarget(name: "DomainTests", dependencies: ["Domain", "Data", "Model"]),
     ],

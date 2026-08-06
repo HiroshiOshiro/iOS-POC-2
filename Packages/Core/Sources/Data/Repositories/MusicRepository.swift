@@ -2,7 +2,7 @@ import Foundation
 import FactoryKit
 import Common
 import Model
-import Network
+import Networking
 
 /// 楽曲検索を抽象化したリポジトリ。
 /// NiA 相当: core:data の `TopicsRepository`（リポジトリ抽象）。

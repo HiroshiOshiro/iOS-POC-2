@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import Network
+@testable import Networking
 
 /// iTunes Search API クライアント（`ITunesMusicRemoteDataSource`）を、
 /// `URLProtocol` で実ネットワークを差し替えて検証する。

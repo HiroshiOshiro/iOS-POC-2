@@ -1,7 +1,7 @@
 import Foundation
 import Common
 import Model
-import Network
+import Networking
 import Database
 import Datastore
 @testable import Data

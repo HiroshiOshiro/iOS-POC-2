@@ -2,7 +2,7 @@ import Testing
 import Foundation
 import FactoryKit
 import Model
-import Network
+import Networking
 @testable import Data
 
 /// `DefaultMusicRepository` の DTO→モデル変換・フィルタリング・段別エラー変換を検証する。
