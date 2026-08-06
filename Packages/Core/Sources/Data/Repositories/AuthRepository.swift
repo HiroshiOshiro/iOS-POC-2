@@ -29,8 +29,8 @@ public actor DefaultAuthRepository: AuthRepository {
 
     public init() {}
 
-    /// 複数段（暗号化→通信→保存）を順に実行し、**失敗した段を `LoginFailure` に変換**して投げる。
-    /// これにより上位（ViewModel）は「どこで失敗したか」で表示を切り替えられる。
+    /// 複数段（暗号化→通信→保存）を順に実行し、**失敗した段を `AuthDataError` に変換**して投げる。
+    /// これは Data 層の語彙。上位（UseCase）が `AuthError` へ再変換して受け取る。
     public func login(email: String, password: String) async throws -> Session {
         // デモ: ログイン前の共有トークンを読む（ObjC が起動時に入れた値が見える）。
         log("TokenManager read (Swift, before): \(tokenManager.token ?? "nil")")
@@ -40,7 +40,7 @@ public actor DefaultAuthRepository: AuthRepository {
         do {
             encryptedPassword = try passwordEncryptor.encrypt(password)
         } catch {
-            throw LoginFailure.encryption
+            throw AuthDataError.encryption
         }
 
         // 2) 通信（共有の TransportFailure を内包）。
@@ -48,7 +48,7 @@ public actor DefaultAuthRepository: AuthRepository {
         do {
             userID = try await remote.login(email: email, password: encryptedPassword)
         } catch {
-            throw LoginFailure.transport(.network)
+            throw AuthDataError.transport(.network)
         }
 
         emailStorage.save(email) // UserDefaults 保存（失敗しない）
@@ -57,7 +57,7 @@ public actor DefaultAuthRepository: AuthRepository {
         do {
             try userIDStorage.save(userID)
         } catch {
-            throw LoginFailure.persistence
+            throw AuthDataError.persistence
         }
 
         // デモ: API から取得したトークン（を模した値）をアプリ全体の in-memory ストアへ保存。

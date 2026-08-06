@@ -25,28 +25,28 @@ struct DefaultAuthRepositoryTests {
         return DefaultAuthRepository()
     }
 
-    // MARK: - 段別エラーへのマッピング（どこで失敗したか → LoginFailure）
+    // MARK: - 段別エラーへのマッピング（どこで失敗したか → AuthDataError）
 
-    @Test("Given encryption fails, when login, then it throws LoginFailure.encryption")
+    @Test("Given encryption fails, when login, then it throws AuthDataError.encryption")
     func mapsEncryptionFailure() async {
         let sut = makeSUT(encryptor: StubPasswordEncryptor(shouldThrow: true))
-        await #expect(throws: LoginFailure.encryption) {
+        await #expect(throws: AuthDataError.encryption) {
             try await sut.login(email: "user@example.com", password: "pw")
         }
     }
 
-    @Test("Given the remote fails, when login, then it throws LoginFailure.transport(.network)")
+    @Test("Given the remote fails, when login, then it throws AuthDataError.transport(.network)")
     func mapsNetworkFailure() async {
         let sut = makeSUT(remote: StubAuthRemote(shouldThrow: true))
-        await #expect(throws: LoginFailure.transport(.network)) {
+        await #expect(throws: AuthDataError.transport(.network)) {
             try await sut.login(email: "user@example.com", password: "pw")
         }
     }
 
-    @Test("Given the userID save fails, when login, then it throws LoginFailure.persistence")
+    @Test("Given the userID save fails, when login, then it throws AuthDataError.persistence")
     func mapsPersistenceFailure() async {
         let sut = makeSUT(userID: StubUserIDStorage(shouldThrowOnSave: true))
-        await #expect(throws: LoginFailure.persistence) {
+        await #expect(throws: AuthDataError.persistence) {
             try await sut.login(email: "user@example.com", password: "pw")
         }
     }

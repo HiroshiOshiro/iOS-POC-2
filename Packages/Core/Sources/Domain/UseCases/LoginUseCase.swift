@@ -16,11 +16,16 @@ public struct DefaultLoginUseCase: LoginUseCase {
     }
 
     public func execute(email: String, password: String) async throws -> Session {
-        // 入力チェック（UseCase の責務）。以降の段は Repository が LoginFailure に変換する。
+        // 入力チェック（UseCase 固有の責務。Data 層には無い失敗）。
         let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedEmail.isEmpty, !password.isEmpty else {
-            throw LoginFailure.validation
+            throw AuthError.validation
         }
-        return try await repository.login(email: trimmedEmail, password: password)
+        // Repository（Data 層）は AuthDataError を投げる。Domain の語彙 AuthError へ変換する。
+        do {
+            return try await repository.login(email: trimmedEmail, password: password)
+        } catch let error as AuthDataError {
+            throw AuthError(dataError: error)
+        }
     }
 }

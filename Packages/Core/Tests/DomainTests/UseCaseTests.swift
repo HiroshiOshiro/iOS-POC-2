@@ -17,6 +17,14 @@ final class StubAuthRepository: AuthRepository, @unchecked Sendable {
     func currentSession() async -> Session? { session }
 }
 
+/// login が必ず指定エラーを投げるスタブ（Data→Domain のエラー変換検証用）。
+final class ThrowingAuthRepository: AuthRepository, @unchecked Sendable {
+    let error: Error
+    init(error: Error) { self.error = error }
+    func login(email: String, password: String) async throws -> Session { throw error }
+    func currentSession() async -> Session? { nil }
+}
+
 final class StubMusicRepository: MusicRepository, @unchecked Sendable {
     let tracks: [MusicTrack]
     private(set) var receivedTerm: String?
@@ -50,14 +58,30 @@ struct LoginUseCaseTests {
         #expect(result == expected)
     }
 
-    @Test("Given a blank email, when execute, then it throws LoginFailure.validation (before the repository)")
+    @Test("Given a blank email, when execute, then it throws AuthError.validation (before the repository)")
     func throwsValidationForBlankEmail() async {
         let sut = DefaultLoginUseCase(
             repository: StubAuthRepository(session: Session(email: "x", userID: "x"))
         )
         // 空白のみ → 入力チェックで弾かれ、Repository へ到達しない。
-        await #expect(throws: LoginFailure.validation) {
+        await #expect(throws: AuthError.validation) {
             try await sut.execute(email: "   ", password: "pw")
+        }
+    }
+
+    @Test("Given the repository throws AuthDataError.persistence, when execute, then it is converted to AuthError.persistence")
+    func convertsDataErrorToDomainError() async {
+        let sut = DefaultLoginUseCase(repository: ThrowingAuthRepository(error: AuthDataError.persistence))
+        await #expect(throws: AuthError.persistence) {
+            try await sut.execute(email: "user@example.com", password: "pw")
+        }
+    }
+
+    @Test("Given the repository throws AuthDataError.transport, when execute, then the TransportFailure is carried over")
+    func carriesTransportFailureThrough() async {
+        let sut = DefaultLoginUseCase(repository: ThrowingAuthRepository(error: AuthDataError.transport(.server(status: 503))))
+        await #expect(throws: AuthError.transport(.server(status: 503))) {
+            try await sut.execute(email: "user@example.com", password: "pw")
         }
     }
 }

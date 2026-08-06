@@ -5,7 +5,7 @@ import Foundation
 /// `LocalizedError` に準拠し、エラー自身が表示文言（`errorDescription`）を持つ。
 /// これにより View 側は `error.localizedDescription` を表示するだけでよく、
 /// 文言をハードコードしない（Swift 推奨のエラー設計）。
-/// `Model.LoginFailure`（どこで失敗したか）を、画面表示（文言）へマップした表示用エラー。
+/// `Domain.AuthError`（どこで失敗したか）を、画面表示（文言）へマップした表示用エラー。
 enum LoginError: LocalizedError {
     case validation
     case encryption
