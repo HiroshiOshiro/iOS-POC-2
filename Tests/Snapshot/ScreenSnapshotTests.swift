@@ -5,6 +5,7 @@ import UIKit
 import FactoryKit
 import Model
 import Domain
+import Datastore
 import LoginImpl
 import MusicImpl
 import ConfirmApi
@@ -30,10 +31,38 @@ struct ScreenSnapshotTests {
 
     @Test("Login screen — default (light / dark)")
     func loginScreen() {
+        // 保存メールを消し、セッション無し（＝保存済みブロック非表示）の既定状態に固定する。
+        UserDefaults.standard.removeObject(forKey: StorageKeys.loginEmail)
         Container.shared.loginUseCase.register { StubLoginUseCase() }
         Container.shared.loadSessionUseCase.register { StubLoadSessionUseCase() }
 
         let vc = LoginScreenFactory.makeLoginScreen()
+
+        assertSnapshot(
+            of: vc,
+            as: .image(on: config, perceptualPrecision: perceptualPrecision,
+                       traits: .init(userInterfaceStyle: .light)),
+            named: "light"
+        )
+        assertSnapshot(
+            of: vc,
+            as: .image(on: config, perceptualPrecision: perceptualPrecision,
+                       traits: .init(userInterfaceStyle: .dark)),
+            named: "dark"
+        )
+    }
+
+    @Test("Login screen — session restored (light / dark)")
+    func loginScreenSessionRestored() async {
+        // 保存済みメール＋復元セッションあり → 画面下部に「保存済み」ブロックが出る状態。
+        UserDefaults.standard.set("user@example.com", forKey: StorageKeys.loginEmail)
+        Container.shared.loginUseCase.register { StubLoginUseCase() }
+        Container.shared.loadSessionUseCase.register {
+            StubLoadSessionUseCase(session: Session(email: "user@example.com", userID: "user-1"))
+        }
+
+        let vc = LoginScreenFactory.makeLoginScreen()
+        await hostAndSettle(vc) // onAppear の loadSession を完了させ、保存済みブロックを表示させる
 
         assertSnapshot(
             of: vc,
@@ -59,6 +88,28 @@ struct ScreenSnapshotTests {
 
         let vc = MusicScreenFactory.makeMusicScreen()
         // onAppear の非同期検索（スタブは即時）を完了させてから撮る。
+        await hostAndSettle(vc)
+
+        assertSnapshot(
+            of: vc,
+            as: .image(on: config, perceptualPrecision: perceptualPrecision,
+                       traits: .init(userInterfaceStyle: .light)),
+            named: "light"
+        )
+        assertSnapshot(
+            of: vc,
+            as: .image(on: config, perceptualPrecision: perceptualPrecision,
+                       traits: .init(userInterfaceStyle: .dark)),
+            named: "dark"
+        )
+    }
+
+    @Test("Music list — empty / no results (light / dark)")
+    func musicListScreenEmpty() async {
+        // 検索が 0 件を返す → hasSearched=true かつ空 → 「該当なし」表示になる状態。
+        Container.shared.searchMusicUseCase.register { StubSearchMusicUseCase(tracks: []) }
+
+        let vc = MusicScreenFactory.makeMusicScreen()
         await hostAndSettle(vc)
 
         assertSnapshot(
@@ -178,7 +229,8 @@ private struct StubLoginUseCase: LoginUseCase {
 }
 
 private struct StubLoadSessionUseCase: LoadSessionUseCase {
-    func execute() async -> Session? { nil }
+    var session: Session? = nil
+    func execute() async -> Session? { session }
 }
 
 private struct StubSearchMusicUseCase: SearchMusicUseCase {
