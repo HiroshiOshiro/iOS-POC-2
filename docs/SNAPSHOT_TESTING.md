@@ -67,6 +67,10 @@ rm Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/musicListScreen.*.png
   再生成しないと `.xcodeproj` に反映されない（コードの中身変更だけなら不要）。
 - **明示モジュール無効化が必須**。`project.yml` の `SWIFT_ENABLE_EXPLICIT_MODULES: NO` を外すと、
   SnapshotTesting が WebKit を引く際に `os_object`/WebKit の PCM ビルドが失敗する。
+- **基準 PNG はビルド入力から除外済み**。`project.yml` の `iOS-POC-2Tests` で
+  `Snapshot/__Snapshots__/**` を `excludes` している。これが無いと XcodeGen が PNG を
+  リソースとして取り込み、記録貼り替えで PNG を消したとき
+  `Build input file cannot be found` になる（消したら `xcodegen generate` が必要になる）。
 - **モジュール名 `Network` は使わない**。Apple の `Network.framework` と衝突するため
   `Networking` にリネーム済み。同様に**システムフレームワーク名と被る自作モジュール名は避ける**。
 - **古いビルド生成物で誤った衝突エラーが出たら DerivedData をクリーン**して再実行する。

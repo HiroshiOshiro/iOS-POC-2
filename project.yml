@@ -91,7 +91,12 @@ targets:
     platform: iOS
     deploymentTarget: "16.0"
     sources:
-      - Tests
+      # 基準 PNG はビルド入力（リソース）にしない。SnapshotTesting が実行時に
+      # ファイルパスで直接読み書きするため。含めると、記録の貼り替えで PNG を
+      # 削除したとき「Build input file cannot be found」になる。
+      - path: Tests
+        excludes:
+          - "Snapshot/__Snapshots__/**"
     dependencies:
       - target: iOS-POC-2
       - package: Core
