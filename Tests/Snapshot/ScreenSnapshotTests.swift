@@ -7,6 +7,8 @@ import Model
 import Domain
 import LoginImpl
 import MusicImpl
+import ConfirmApi
+@testable import ConfirmImpl
 
 /// 主要画面の見た目をスナップショット（基準 PNG）で固定し、レイアウト/テーマの回帰を検知する。
 ///
@@ -59,6 +61,48 @@ struct ScreenSnapshotTests {
         // onAppear の非同期検索（スタブは即時）を完了させてから撮る。
         await hostAndSettle(vc)
 
+        assertSnapshot(
+            of: vc,
+            as: .image(on: config, perceptualPrecision: perceptualPrecision,
+                       traits: .init(userInterfaceStyle: .light)),
+            named: "light"
+        )
+        assertSnapshot(
+            of: vc,
+            as: .image(on: config, perceptualPrecision: perceptualPrecision,
+                       traits: .init(userInterfaceStyle: .dark)),
+            named: "dark"
+        )
+    }
+
+    // MARK: - Confirm（内部 View を @testable で直接生成。init で state を注入）
+
+    @Test("Confirm1 — default (light / dark)")
+    func confirm1Screen() {
+        let vc = UIHostingController(
+            rootView: Confirm1View(text: "牛乳を買う", router: StubConfirmRouter(), onNext: {})
+        )
+        assertSnapshot(
+            of: vc,
+            as: .image(on: config, perceptualPrecision: perceptualPrecision,
+                       traits: .init(userInterfaceStyle: .light)),
+            named: "light"
+        )
+        assertSnapshot(
+            of: vc,
+            as: .image(on: config, perceptualPrecision: perceptualPrecision,
+                       traits: .init(userInterfaceStyle: .dark)),
+            named: "dark"
+        )
+    }
+
+    @Test("Confirm2 — default (light / dark)")
+    func confirm2Screen() {
+        Container.shared.submitTodoUseCase.register { StubSubmitTodoUseCase() }
+
+        let vc = UIHostingController(
+            rootView: Confirm2View(text: "牛乳を買う", router: StubConfirmRouter(), onBack: {})
+        )
         assertSnapshot(
             of: vc,
             as: .image(on: config, perceptualPrecision: perceptualPrecision,
@@ -140,4 +184,15 @@ private struct StubLoadSessionUseCase: LoadSessionUseCase {
 private struct StubSearchMusicUseCase: SearchMusicUseCase {
     let tracks: [MusicTrack]
     func execute(term: String) async throws -> [MusicTrack] { tracks }
+}
+
+private struct StubSubmitTodoUseCase: SubmitTodoUseCase {
+    func execute(text: String) async throws {}
+}
+
+/// 遷移を伴わない no-op Router（撮影は既定表示のみのため何もしない）。
+@MainActor
+private final class StubConfirmRouter: ConfirmFlowRouter {
+    func navigateToComplete() {}
+    func navigateBack() {}
 }

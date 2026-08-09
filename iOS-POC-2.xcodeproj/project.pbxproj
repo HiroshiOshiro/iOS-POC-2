@@ -16,7 +16,8 @@
 		29BA494D9C0877C8A399FEB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 490CAFEFD142F5F55773DD5A /* main.m */; };
 		2B295E93E05B9C1F4BA84C20 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = 71C50C9A8D92BD21FD0504B6 /* Common */; };
 		31036B4E971EE2E1E6CD416B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 78244000FBFCFC6FDAC1B193 /* AppDelegate.m */; };
-		3E61AC5287C4D2B8E0CFCD78 /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 4D7B49F104190E48F8EB9D7E /* Domain */; };
+		3E61AC5287C4D2B8E0CFCD78 /* ConfirmImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 5F17ECB82605072C6CA4EB03 /* ConfirmImpl */; };
+		404430DF55956561EEAA06BE /* Model in Frameworks */ = {isa = PBXBuildFile; productRef = E490DDECD032CA57F1D79735 /* Model */; };
 		55C2DD5C117538D6E9995FB4 /* TodoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A04008AB61FCF78C7A66E588 /* TodoItem.m */; };
 		569FF400FAA181D1DED5D43A /* TodoInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F226B36ACDEA14D59749F0 /* TodoInputViewController.m */; };
 		619C31AA69E13AD4362FFCA3 /* MusicImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 46D70A4839703CB6C9EFC1F5 /* MusicImpl */; };
@@ -26,12 +27,13 @@
 		7E0609DDFF4E7EEBD36E133C /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CA953C9A11285818AE6B933F /* Localizable.xcstrings */; };
 		7E9C0127313980908BD0103B /* LoginImpl in Frameworks */ = {isa = PBXBuildFile; productRef = D51341FC79BBA772FDD7786B /* LoginImpl */; };
 		9DB406632E0947BEED37FEEF /* ConfirmApi in Frameworks */ = {isa = PBXBuildFile; productRef = 5431171A5738A902984EFB08 /* ConfirmApi */; };
+		A200167F3A29CACF80BFE36E /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6396DDC9F1A4ECD21C0FE6DB /* FactoryKit */; };
 		A29B176DF1DF0BC96D9126D6 /* AppDependencyRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0447D56BDA0066263C2B8F7 /* AppDependencyRegistration.swift */; };
 		A332279BE72718269A3FBAD4 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */; };
 		A36475B073B6BC272702B906 /* PasswordCryptoUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D4A35EE7F36B9DD08232943A /* PasswordCryptoUtil.m */; };
 		A40DBE450C47AE4F901997AB /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = F9178A246ED1187935D0CC02 /* FactoryKit */; };
 		AFC09C7F42F47088AC711707 /* Data in Frameworks */ = {isa = PBXBuildFile; productRef = 1E354F85C0C28280746745C7 /* Data */; };
-		B2FD56D8A8C4C1E7D9AC356A /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6396DDC9F1A4ECD21C0FE6DB /* FactoryKit */; };
+		B2FD56D8A8C4C1E7D9AC356A /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 4D7B49F104190E48F8EB9D7E /* Domain */; };
 		B615EA39A85174DDB143DD63 /* Ui in Frameworks */ = {isa = PBXBuildFile; productRef = 0030EDD55E6E191E652143B3 /* Ui */; };
 		BEA687FA575283685E999006 /* LoginImpl in Frameworks */ = {isa = PBXBuildFile; productRef = 354C09B4BB6585AC9CA57E35 /* LoginImpl */; };
 		C073964661109D3840AC1155 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D8DB2E43966D9FC1A986BE69 /* CustomNavigationBar.m */; };
@@ -41,7 +43,7 @@
 		DF103D10608CF5D48F3FE63D /* ScreenSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1ACF725F02F0F6D567DC5A /* ScreenSnapshotTests.swift */; };
 		EBCC64F32185BE8CB8EC4FAD /* ConfirmImpl in Frameworks */ = {isa = PBXBuildFile; productRef = D5D011E96E8D16E956B06DC3 /* ConfirmImpl */; };
 		F96BCC5493AE35799B108072 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = AAE793A76381C649893AB101 /* SnapshotTesting */; };
-		FB5DA32807616871A5BD14EE /* Model in Frameworks */ = {isa = PBXBuildFile; productRef = E490DDECD032CA57F1D79735 /* Model */; };
+		FB5DA32807616871A5BD14EE /* ConfirmApi in Frameworks */ = {isa = PBXBuildFile; productRef = A3CF3C36310E175AE6529F7F /* ConfirmApi */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,9 +107,11 @@
 				F96BCC5493AE35799B108072 /* SnapshotTesting in Frameworks */,
 				7E9C0127313980908BD0103B /* LoginImpl in Frameworks */,
 				055E981203700662A0910F7A /* MusicImpl in Frameworks */,
-				3E61AC5287C4D2B8E0CFCD78 /* Domain in Frameworks */,
-				FB5DA32807616871A5BD14EE /* Model in Frameworks */,
-				B2FD56D8A8C4C1E7D9AC356A /* FactoryKit in Frameworks */,
+				3E61AC5287C4D2B8E0CFCD78 /* ConfirmImpl in Frameworks */,
+				FB5DA32807616871A5BD14EE /* ConfirmApi in Frameworks */,
+				B2FD56D8A8C4C1E7D9AC356A /* Domain in Frameworks */,
+				404430DF55956561EEAA06BE /* Model in Frameworks */,
+				A200167F3A29CACF80BFE36E /* FactoryKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +271,8 @@
 				AAE793A76381C649893AB101 /* SnapshotTesting */,
 				D51341FC79BBA772FDD7786B /* LoginImpl */,
 				389C7B303740BE1B38EC6D3C /* MusicImpl */,
+				5F17ECB82605072C6CA4EB03 /* ConfirmImpl */,
+				A3CF3C36310E175AE6529F7F /* ConfirmApi */,
 				4D7B49F104190E48F8EB9D7E /* Domain */,
 				E490DDECD032CA57F1D79735 /* Model */,
 				6396DDC9F1A4ECD21C0FE6DB /* FactoryKit */,
@@ -729,6 +735,10 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = ConfirmApi;
 		};
+		5F17ECB82605072C6CA4EB03 /* ConfirmImpl */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ConfirmImpl;
+		};
 		6396DDC9F1A4ECD21C0FE6DB /* FactoryKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 38D96FEF95EDC61DDC1CC727 /* XCRemoteSwiftPackageReference "Factory" */;
@@ -741,6 +751,10 @@
 		A2E8C11CB3066DBFCAE57DD5 /* Datastore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Datastore;
+		};
+		A3CF3C36310E175AE6529F7F /* ConfirmApi */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ConfirmApi;
 		};
 		AAE793A76381C649893AB101 /* SnapshotTesting */ = {
 			isa = XCSwiftPackageProductDependency;

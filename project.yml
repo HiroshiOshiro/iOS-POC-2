@@ -109,6 +109,11 @@ targets:
         product: LoginImpl
       - package: Feature
         product: MusicImpl
+      # Confirm は内部 View を @testable で撮るため Impl、Router 型のため Api に依存。
+      - package: Feature
+        product: ConfirmImpl
+      - package: Feature
+        product: ConfirmApi
       - package: Core
         product: Domain
       - package: Core
