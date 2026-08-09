@@ -8,9 +8,94 @@
 - ライブラリ: [pointfreeco/swift-snapshot-testing](https://github.com/pointfreeco/swift-snapshot-testing)
 - テスト: `Tests/Snapshot/ScreenSnapshotTests.swift`（アプリ test バンドル `iOS-POC-2Tests` に同居）
 - 基準画像: `Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/*.png`（**Git 管理**）
-- 撮影対象: 公開窓口 `LoginScreenFactory` / `MusicScreenFactory` が返す `UIViewController`
-- 決定論: 固定 `ViewImageConfig(.iPhone13)` ＋ `perceptualPrecision 0.98`、
-  各画面の `#Preview` と同じ要領で Factory にスタブ UseCase を register してオフライン化
+- 撮影対象（3 つのアクセス方法）:
+  - **SwiftUI・公開 Factory**: `LoginScreenFactory` / `MusicScreenFactory` が返す `UIViewController`
+  - **SwiftUI・内部 View**: `@testable import ConfirmImpl` で `Confirm1View` / `Confirm2View` を直接生成
+  - **ObjC/UIKit**: テスト用ブリッジヘッダ経由で `TodoInputViewController` を生成
+- 現状のカバレッジ（各 light/dark）: Login（既定 / セッション復元）, Music（一覧 / 空）,
+  Confirm1, Confirm2, Todo 入力（空）
+- 決定論: 固定 `ViewImageConfig(.iPhone13)` ＋ `perceptualPrecision 0.98`。各画面の `#Preview` と
+  同じ要領で Factory にスタブ UseCase を register してオフライン化。onAppear 駆動の状態は
+  ウィンドウに載せて非同期を待ってから撮る（`hostAndSettle`）
+
+## 導入手順（ゼロから）
+
+このプロジェクトに実際に導入したときの順序。既存の `iOS-POC-2Tests`（アプリ test バンドル）に
+同居させることで、**新しいスキームや CI ジョブを増やさず**既存の `test:app` で回している。
+
+### 1. ライブラリ依存を追加（`project.yml`）
+
+`packages:` に追加：
+
+```yaml
+SnapshotTesting:
+  url: https://github.com/pointfreeco/swift-snapshot-testing
+  from: 1.17.0
+```
+
+`iOS-POC-2Tests` の `dependencies:` に、撮影に必要な分を追加：
+`SnapshotTesting` 本体、対象画面の Feature モジュール（`LoginImpl` / `MusicImpl` / `ConfirmImpl` /
+`ConfirmApi`）、スタブ登録用の `Domain` / `Model` / `Datastore` / `FactoryKit`。
+
+### 2. 事前に必要なビルド設定（`project.yml`）
+
+- **明示モジュールを無効化**（プロジェクト共通 `settings.base`）：
+  `SWIFT_ENABLE_EXPLICIT_MODULES: NO`。無いと SnapshotTesting が WebKit を引く際に
+  `os_object` / WebKit の PCM ビルドが失敗する。
+- **基準 PNG をビルド入力から除外**（`iOS-POC-2Tests.sources`）：
+  ```yaml
+  sources:
+    - path: Tests
+      excludes:
+        - "Snapshot/__Snapshots__/**"
+  ```
+  無いと PNG がリソースとして取り込まれ、記録貼り替えで PNG を消したとき
+  `Build input file cannot be found` になる。
+- **システムフレームワークと衝突するモジュール名を避ける**：自作 `Network` は Apple の
+  `Network.framework` と衝突したため `Networking` にリネームした（衝突していると SnapshotTesting が
+  AVFoundation/WebKit を引いた瞬間にビルドが壊れる）。
+
+### 3. テストを書く（`Tests/Snapshot/ScreenSnapshotTests.swift`）
+
+Swift Testing（`import Testing`）で `assertSnapshot` を呼ぶ。共通方針：
+固定 `config`（`.iPhone13`）＋ `perceptualPrecision 0.98`、light/dark を `named:` で 2 枚、
+`Container.shared` にスタブ UseCase を register してオフライン・固定内容にする。
+
+対象の作り方は 3 パターン：
+
+- **SwiftUI・公開 Factory**（例: Login/Music）: `LoginScreenFactory.makeLoginScreen()` を撮る。
+  内部 View 非公開でも公開窓口経由なので `@testable` 不要。
+- **SwiftUI・内部 View**（例: Confirm1/2）: `@testable import <Impl>` で内部 `View` を直接生成。
+  `init(text:router:…)` があるので状態を注入でき、Router は no-op スタブを渡す。
+- **ObjC/UIKit**（例: Todo）: **テスト用ブリッジヘッダ**を用意し `project.yml` に設定：
+  ```yaml
+  SWIFT_OBJC_BRIDGING_HEADER: Tests/iOS-POC-2Tests-Bridging-Header.h
+  HEADER_SEARCH_PATHS:
+    - "$(SRCROOT)/iOS-POC-2/Controllers"
+  ```
+  ブリッジヘッダに `#import "TodoInputViewController.h"` を書けば Swift テストから生成できる。
+
+決定論のコツ：
+
+- **onAppear で非同期ロードする画面**（Music/Todo/Login のセッション復元）は、VC を実ウィンドウに
+  載せて `viewWillAppear`/`onAppear` を発火させ、ロード完了まで待ってから撮る（ヘルパ `hostAndSettle`）。
+- **`AsyncImage`** はリモート取得で不安定になるので、スタブのデータで URL を `nil` にしてプレースホルダ固定。
+- **スピナー（`ProgressView`）やエラー `alert` は撮らない**：前者はアニメーションで非決定論、後者は
+  別コンテキスト提示で `UIHostingController` の画像に写らない。
+
+### 4. プロジェクト再生成 → 基準記録
+
+```
+xcodegen generate
+```
+
+その後は下記「実行手順」の記録フロー（初回は自動記録で fail → 目視 → 再実行でパス確定）で
+基準 PNG を作り、コミットする。
+
+### 5. CI 連携
+
+追加ジョブは不要（`.gitlab-ci.yml` の `test:app` がそのまま実行する）。
+**`SIMULATOR_NAME` を、基準画像を記録した端末/OS に合わせる**ことだけ必須（現状 `iPhone 17`）。
 
 ## 実行手順
 
