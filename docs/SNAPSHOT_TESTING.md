@@ -38,8 +38,9 @@
 </tr>
 </table>
 
-他の基準画像はすべて `Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/` にある
-（light/dark 各画面分。ここに無いものは未対応）。
+上の3枚は例。実際にはこのフォルダ（`Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/`）に
+撮影対象ごとの light/dark 2枚ずつが入っている。逆に言えば、**このフォルダに PNG が無い画面は
+まだスナップショット未対応**ということ。
 
 ## 導入手順（ゼロから）
 
@@ -62,21 +63,33 @@ SnapshotTesting:
 
 ### 2. 事前に必要なビルド設定（`project.yml`）
 
-- **明示モジュールを無効化**（プロジェクト共通 `settings.base`）：
-  `SWIFT_ENABLE_EXPLICIT_MODULES: NO`。無いと SnapshotTesting が WebKit を引く際に
-  `os_object` / WebKit の PCM ビルドが失敗する。
-- **基準 PNG をビルド入力から除外**（`iOS-POC-2Tests.sources`）：
+- **明示モジュール（Explicit Modules）を無効にする**：`settings.base` に
+  `SWIFT_ENABLE_EXPLICIT_MODULES: NO` を追加する。
+
+  「明示モジュール」は Xcode 16 以降の既定のビルド方式で、依存モジュールを1つずつ
+  事前ビルド（プリコンパイル）してから使う。この方式のまま SnapshotTesting を組み込むと、
+  テストのビルド時に **`module 'os_object' is needed but has not been provided` という
+  エラーで失敗する**（SnapshotTesting のコード自体が悪いのではなく、依存先をたどった先で
+  WebKit フレームワークの事前ビルドに失敗する、Xcode 16 の明示モジュール機能側の不具合）。
+  `NO` にすると、事前ビルドをしない従来方式のビルドに戻り、この失敗を回避できる。
+- **基準 PNG をビルド入力（テストバンドルのリソース）から外す**：`iOS-POC-2Tests.sources` に
+  `excludes` を追加する。
   ```yaml
   sources:
     - path: Tests
       excludes:
         - "Snapshot/__Snapshots__/**"
   ```
-  無いと PNG がリソースとして取り込まれ、記録貼り替えで PNG を消したとき
-  `Build input file cannot be found` になる。
-- **システムフレームワークと衝突するモジュール名を避ける**：自作 `Network` は Apple の
-  `Network.framework` と衝突したため `Networking` にリネームした（衝突していると SnapshotTesting が
-  AVFoundation/WebKit を引いた瞬間にビルドが壊れる）。
+  これが無いと、XcodeGen が `Tests/` 配下を丸ごとスキャンして PNG までテストバンドルの
+  リソースとして取り込んでしまう。その状態で基準 PNG を消す（記録し直すために）と、
+  `.xcodeproj` 側にはまだ「このファイルをバンドルに入れる」という参照が残っているため
+  `Build input file cannot be found` でビルドが失敗する。
+- **自作モジュールに、Apple のシステムフレームワークと同じ名前を付けない**：本プロジェクトでは
+  データ層のモジュールに `Network` という名前を付けていたが、これは Apple の
+  `Network.framework` と同名だった。SnapshotTesting の依存グラフをたどると
+  AVFoundation・WebKit 経由でこの `Network.framework` を参照する箇所があり、そこで
+  「どちらの `Network` を指しているか」が衝突してビルドが壊れる。回避策は**衝突しない名前へ
+  リネームする**こと（本プロジェクトは `Networking` に変更した）。
 
 ### 3. テストを書く（`Tests/Snapshot/ScreenSnapshotTests.swift`）
 
@@ -103,10 +116,16 @@ Swift Testing（`import Testing`）で `assertSnapshot` を呼ぶ。共通方針
 - **onAppear で非同期ロードする画面**（Music/Todo/Login のセッション復元）は、VC を実ウィンドウに
   載せて `viewWillAppear`/`onAppear` を発火させ、ロード完了まで待ってから撮る（ヘルパ `hostAndSettle`）。
 - **`AsyncImage`** はリモート取得で不安定になるので、スタブのデータで URL を `nil` にしてプレースホルダ固定。
-- **スピナー（`ProgressView`）やエラー `alert` は撮らない**：前者はアニメーションで非決定論、後者は
-  別コンテキスト提示で `UIHostingController` の画像に写らない。
+- **スピナー（`ProgressView`）やエラー `alert` は撮らない**。
+  スピナーはアニメーションが回転し続けるため、撮るたびに絵が変わり基準と一致しない。
+  `alert` は SwiftUI が別ウィンドウ相当のレイヤーに重ねて表示する仕組みで、撮影対象の
+  `UIHostingController`（元の画面）をそのまま画像化しても alert 自体は写り込まない
+  （＝alert だけ撮っても意味のある画像にならない）。
 
 ### 4. プロジェクト再生成 → 基準記録
+
+`xcodegen generate` は XcodeGen という別ツールのコマンドで、Xcode の GUI に相当する操作は無い
+（`project.yml` を Xcode プロジェクトへ変換する処理そのものなので、必ずターミナルで実行する）。
 
 ```
 xcodegen generate
@@ -122,13 +141,22 @@ xcodegen generate
 
 ## 実行手順
 
-CI の `test:app` がそのまま実行するため、ローカルでも同じ `xcodebuild test` で回す。
-**基準記録時と CI 実行は同じシミュレータ端末/OS に揃える**こと（`.gitlab-ci.yml` の
-`SIMULATOR_NAME`。現状 `iPhone 17`）。ズレると、レイアウトは同じでも
+コマンドを打つより Xcode の GUI で操作した方が楽な作業が多いので、**Xcode での操作を基本手順
+とし、CLI（ターミナル）はその等価コマンドとして併記する**。CI や自動化で使うのは CLI 側。
+
+共通の注意点: **実行に使うシミュレータ端末は、基準画像を記録した端末/OS に揃える**
+（`.gitlab-ci.yml` の `SIMULATOR_NAME`。現状 `iPhone 17`）。ズレると、レイアウトは同じでも
 **OS のレンダリング差**（フォント・アンチエイリアス等）で不一致になることがある
-（微小差は `perceptualPrecision` で吸収するが、端末/OSを変えたら基準ごと再記録するのが安全）。
+（微小差は `perceptualPrecision` で吸収するが、端末/OS を変えたら基準ごと再記録するのが安全）。
 
 ### 1. 実行（既存の基準と照合）
+
+**Xcode**: 実行先デバイス（ウィンドウ上部のスキーム/デバイス選択）を `iPhone 17` にする →
+テストナビゲータ（左サイドバー、フラスコのアイコン。ショートカット **⌘6**）を開く →
+`iOS-POC-2Tests` の中の `ScreenSnapshotTests` を探し、行にカーソルを合わせると出る
+**◇ をクリック**（スイート全体を実行）。プロジェクト全体のテストでよければ **⌘U**。
+
+**CLI（同じことをターミナルで）**:
 
 ```
 xcodebuild test -project iOS-POC-2.xcodeproj -scheme iOS-POC-2 \
@@ -142,31 +170,50 @@ xcodebuild test -project iOS-POC-2.xcodeproj -scheme iOS-POC-2 \
 
 ### 2. 初回・新規画面の基準記録
 
-基準 PNG が無い状態で実行すると、**自動で記録して “fail” 扱い**になる
-（`No reference was found on disk. Automatically recorded snapshot`）。
-記録された PNG を目視確認 → もう一度 1. を実行してパスすれば確定。
+GUI・CLI どちらで実行しても、基準 PNG が無い状態で実行すると**自動で記録して “fail” 扱い**に
+なる（`No reference was found on disk. Automatically recorded snapshot`）。
+記録された PNG を目視確認 → もう一度「1. 実行」を行ってパスすれば確定。
 
 ### 3. 意図した UI 変更で基準を貼り替える
 
-見た目を意図的に変えたら基準を更新する。いずれかの方法で再記録 → 目視 → コミット。
+見た目を意図的に変えたら基準を更新する。以下のいずれかで再記録 → 目視 → コミット。
 
-```
-# 方法A: 環境変数で全再記録
-SNAPSHOT_TESTING_RECORD=all xcodebuild test -project iOS-POC-2.xcodeproj -scheme iOS-POC-2 \
-  -destination 'platform=iOS Simulator,name=iPhone 17' \
-  -only-testing:iOS-POC-2Tests/ScreenSnapshotTests CODE_SIGNING_ALLOWED=NO
-```
+**方法A（対象の基準だけ消す）** — 一部の画面だけ更新したいとき向き。
 
-```
-# 方法B: 対象の基準 PNG を消してから 1. を実行（消した分だけ再記録される）
-rm Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/musicListScreen.*.png
-```
+- **Finder**: `Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/` を開き、対象の PNG
+  （light/dark）をゴミ箱へ。
+- そのあと「1. 実行」と同じ操作（Xcode なら ◇ クリックまたは ⌘U）をすれば、消した分だけ
+  自動で再記録される。
+- CLI でファイルを消すなら：
+  ```
+  rm Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/musicListScreen.*.png
+  ```
+
+**方法B（環境変数で強制的に全再記録）** — 触れたテストの基準を**まとめて**撮り直したいとき向き
+（ファイルが既にあっても上書きされる）。
+
+- **Xcode**: メニュー **Product ▸ Scheme ▸ Edit Scheme…**（**⌘<**）→ 左のリストで **Test** を
+  選択 → **Arguments** タブ → 下段 **Environment Variables** の **+** で行を追加し、
+  Name に `SNAPSHOT_TESTING_RECORD`、Value に `all` を入力してチェックを **ON** → **Close**。
+  この状態で対象テストを実行すると全て再記録される。**記録が終わったら、同じ画面で
+  チェックを OFF に戻すこと**（つけたままだと以後ずっと「比較」ではなく「記録」動作になり、
+  UI が壊れても気づけなくなる）。
+- **CLI**:
+  ```
+  SNAPSHOT_TESTING_RECORD=all xcodebuild test -project iOS-POC-2.xcodeproj -scheme iOS-POC-2 \
+    -destination 'platform=iOS Simulator,name=iPhone 17' \
+    -only-testing:iOS-POC-2Tests/ScreenSnapshotTests CODE_SIGNING_ALLOWED=NO
+  ```
+  （CLI は実行のたびに指定するだけなので、Xcode のように戻し忘れる心配が無い）
 
 ## 結果の確認方法
 
-### 合否（ターミナル出力）
+### 合否
 
-全部パスすると、各テストの `✔` と末尾の `** TEST SUCCEEDED **` が出る：
+**Xcode**: テストナビゲータの各行に付く緑チェック/赤バツ、または実行後に自動で開く
+**Report ナビゲータ**（左サイドバー、**⌘9**）のサマリー（パス数/フェイル数）。
+
+**CLI（ターミナル出力）**: 全部パスすると、各テストの `✔` と末尾の `** TEST SUCCEEDED **` が出る：
 
 ```
 ✔ Test "Login screen — default (light / dark)" passed after 0.141 seconds.
@@ -188,7 +235,18 @@ rm Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/musicListScreen.*.png
 ### 差分の中身を見る
 
 失敗時、参照（reference）・実測（failure）・差分（difference）の PNG が生成される。
-CLI では `-resultBundlePath` を付けて実行し、`.xcresult` から書き出すと画像として取り出せる：
+
+**Xcode**（実際にこの手順で差分を確認できることを確認済み）:
+
+1. **Report ナビゲータ**（**⌘9**）を開き、直近のテスト実行を選ぶ。
+2. 「Test Failures」に並ぶ失敗テスト（例: `Login screen — default (light / dark)`）を
+   **ダブルクリック**。
+3. 開いた詳細画面の左側「Activities」リストに `Added attachment name reference.png` /
+   `failure.png` / `difference.png` が並ぶので、それぞれクリックすると右側に画像が
+   プレビューされる。`difference.png` を選ぶと、基準とのズレが分かる差分画像が見られる。
+
+**CLI**（スクリプトでまとめて取り出したいとき向き）: `-resultBundlePath` を付けて実行し、
+`.xcresult` から書き出す。
 
 ```
 xcodebuild test -project iOS-POC-2.xcodeproj -scheme iOS-POC-2 \
@@ -204,16 +262,10 @@ xcrun xcresulttool export attachments --path /tmp/snap.xcresult --output-path /t
 書き出し先の `manifest.json` に「テスト名 → 添付ファイル名」の対応が入っているので、
 `difference_*.png` を探して開けば差分が見える。
 
-GUI なら、実行後に生成された `.xcresult`（または Xcode のテストナビゲータの失敗テスト）を開き、
-添付（reference / failure / difference の各 PNG）をそのままプレビューできる。
-
 ### 基準画像そのもの
 
+**Finder**（または Xcode のプロジェクトナビゲータ）で
 `Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/` の PNG を直接開く（「構成」の表の画像も同じもの）。
-
-### Xcode GUI で回す場合
-
-対象スキームで **⌘U**（該当テストのみ実行も可、テストナビゲータの ◇ をクリック）。
 
 ## つまずきどころ（このリポジトリ固有）
 
@@ -222,7 +274,7 @@ GUI なら、実行後に生成された `.xcresult`（または Xcode のテス
 | 症状（エラーメッセージ） | 原因 | 対処 |
 |---|---|---|
 | `project.yml` を変えたのに反映されない | `.xcodeproj` は生成物 | `xcodegen generate` を実行する |
-| `os_object`/WebKit の PCM ビルド失敗 | 明示モジュールが有効 | 導入手順§2の `SWIFT_ENABLE_EXPLICIT_MODULES: NO` を確認 |
+| `module 'os_object' is needed but has not been provided` | 明示モジュールが有効（WebKit の事前ビルドに失敗） | 導入手順§2の `SWIFT_ENABLE_EXPLICIT_MODULES: NO` を確認 |
 | `Build input file cannot be found`（PNG） | PNG がビルド入力に取り込まれている | 導入手順§2の `excludes` 設定を確認。それでも起きたら `xcodegen generate` |
 | `Network.h` 系のビルド失敗 | 自作モジュール名がシステムフレームワークと衝突（例: `Network`） | 衝突しない名前にリネーム（本プロジェクトは `Networking`） |
 | 上記の衝突/欠落エラーが**設定を直したのに**まだ出る | 古いビルド生成物が残っている | DerivedData をクリーンして再実行 |
