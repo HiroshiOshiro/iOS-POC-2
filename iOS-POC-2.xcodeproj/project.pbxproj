@@ -70,6 +70,7 @@
 		7725781789FA6AB8F53D91EF /* ObjCPasswordEncryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjCPasswordEncryptor.swift; sourceTree = "<group>"; };
 		78244000FBFCFC6FDAC1B193 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7A7E03CA416D902B3066101D /* Feature */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Feature; path = Packages/Feature; sourceTree = SOURCE_ROOT; };
+		85B52C9DE0AD38E38A7F74B3 /* iOS-POC-2Tests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOS-POC-2Tests-Bridging-Header.h"; sourceTree = "<group>"; };
 		877457870B130E67DC41C2D4 /* TodoItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodoItem.h; sourceTree = "<group>"; };
 		907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
 		9479B3E459B418E462263324 /* iOS-POC-2Tests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = "iOS-POC-2Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,6 +219,7 @@
 		A90D72E8BF1683CBD12AE4C6 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				85B52C9DE0AD38E38A7F74B3 /* iOS-POC-2Tests-Bridging-Header.h */,
 				EC91EED817FD4E4B8E1C53BB /* KeychainClientTests.swift */,
 				404E3E0F3508AE6EA9A7A10B /* Snapshot */,
 			);
@@ -547,6 +549,9 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/iOS-POC-2/Controllers",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -555,6 +560,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.iOS-POC-2.tests";
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/iOS-POC-2Tests-Bridging-Header.h";
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOS-POC-2.app/iOS-POC-2";
@@ -566,6 +572,9 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/iOS-POC-2/Controllers",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -574,6 +583,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.example.iOS-POC-2.tests";
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/iOS-POC-2Tests-Bridging-Header.h";
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOS-POC-2.app/iOS-POC-2";

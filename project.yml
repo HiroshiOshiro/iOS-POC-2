@@ -120,3 +120,8 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.iOS-POC-2.tests
         GENERATE_INFOPLIST_FILE: YES
         SWIFT_VERSION: "6.0"
+        # 未 Swift 化の ObjC 画面（TodoInputViewController 等）を Swift テストから参照するための
+        # ブリッジヘッダ。ヘッダ本体の場所は HEADER_SEARCH_PATHS で解決する。
+        SWIFT_OBJC_BRIDGING_HEADER: Tests/iOS-POC-2Tests-Bridging-Header.h
+        HEADER_SEARCH_PATHS:
+          - "$(SRCROOT)/iOS-POC-2/Controllers"

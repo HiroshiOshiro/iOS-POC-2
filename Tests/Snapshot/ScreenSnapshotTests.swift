@@ -73,6 +73,30 @@ struct ScreenSnapshotTests {
         )
     }
 
+    // MARK: - Todo（ObjC/UIKit・未移行画面。ブリッジヘッダ経由で参照）
+
+    @Test("Todo input — empty (light / dark)")
+    func todoInputScreenEmpty() async {
+        // TodoStore は NSUserDefaults(standard) のキー todo_items を読む。空状態に固定する。
+        UserDefaults.standard.removeObject(forKey: "todo_items")
+
+        let vc = TodoInputViewController()
+        await hostAndSettle(vc) // viewWillAppear→reloadItems を発火させる
+
+        assertSnapshot(
+            of: vc,
+            as: .image(on: config, perceptualPrecision: perceptualPrecision,
+                       traits: .init(userInterfaceStyle: .light)),
+            named: "light"
+        )
+        assertSnapshot(
+            of: vc,
+            as: .image(on: config, perceptualPrecision: perceptualPrecision,
+                       traits: .init(userInterfaceStyle: .dark)),
+            named: "dark"
+        )
+    }
+
     // MARK: - Helpers
 
     /// VC を実ウィンドウに載せて `onAppear` を発火させ、非同期ロードが落ち着くまで待つ。
