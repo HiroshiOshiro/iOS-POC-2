@@ -20,6 +20,41 @@ XcodeGen（`project.yml`）を使わず、`.xcodeproj` を直接編集・管理�
 
 これで `.xcodeproj`（`project.pbxproj`）に依存が書き込まれ、`Package.resolved` も自動生成される。
 
+### アプリ本体プロジェクトに外部 SPM 依存を直接追加できない場合
+
+社内ネットワーク制限などで、アプリ本体プロジェクトから外部 URL（GitHub 等）を直接
+解決できないことがある（一方で、内部の SPM パッケージの `Package.swift` に書く分には
+問題なく解決できる、というケースが多い）。その場合は、**外部 URL を内部パッケージの中に
+隠すラッパー**を作り、アプリ本体はその内部パッケージ（ローカルパス参照）だけに依存する。
+
+1. リポジトリ内の好きな場所に、薄いローカルパッケージを作る
+   （Xcode の **File ▸ New ▸ Package…**、または `swift package init --type library`）。
+   例: `SnapshotTestingSupport/`
+2. そのパッケージの `Package.swift` に、通常どおり外部依存を追加する：
+   ```swift
+   dependencies: [
+       .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.17.0")
+   ],
+   targets: [
+       .target(
+           name: "SnapshotTestingSupport",
+           dependencies: [.product(name: "SnapshotTesting", package: "swift-snapshot-testing")]
+       )
+   ]
+   ```
+3. ターゲットのソースファイルは1行だけ： `@_exported import SnapshotTesting`
+   （これで `import SnapshotTestingSupport` するだけで `assertSnapshot` 等がそのまま使える）
+4. アプリ本体側では、上記の手順1〜4の代わりに：
+   - テストターゲットを選び、**File ▸ Add Package Dependencies…**
+   - 画面右下の **Add Local…** を選び、手順1で作ったパッケージのフォルダを選択
+
+こうすると、`.pbxproj` に書き込まれるのはローカルパス参照（`XCLocalSwiftPackageReference`）
+だけになり、**外部 URL への参照はラッパーパッケージの `Package.swift`／`Package.resolved` の
+中に閉じる**。アプリ本体プロジェクトの依存グラフ上には外部 URL が一切現れない。
+
+以降の「2. 事前に必要なビルド設定」「3. テストを書く」は変わらない（`import SnapshotTesting`
+の代わりに `import SnapshotTestingSupport` と書く点だけが違う）。
+
 ## 2. 事前に必要なビルド設定
 
 テストターゲットの **Build Settings** タブで設定する。
