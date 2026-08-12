@@ -50,6 +50,17 @@
                ReferencedContainer = "container:iOS-POC-2.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FeatureSnapshotTests"
+               BuildableName = "FeatureSnapshotTests"
+               BlueprintName = "FeatureSnapshotTests"
+               ReferencedContainer = "container:Packages/Feature">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

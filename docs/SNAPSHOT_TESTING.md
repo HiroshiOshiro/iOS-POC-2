@@ -12,9 +12,19 @@
 ## 構成
 
 - ライブラリ: [pointfreeco/swift-snapshot-testing](https://github.com/pointfreeco/swift-snapshot-testing)
-- テスト: `Tests/Snapshot/ScreenSnapshotTests.swift`（アプリ test バンドル `iOS-POC-2Tests` に同居）
-- 基準画像: `Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/*.png`（**Git 管理**）
-- 撮影対象（3 つのアクセス方法）:
+- テストは**画面の実装がどこにあるかで置き場所を分けている**（下表）。ObjC のまま残っている
+  画面は「アプリ本体ターゲット側にしか無いコード」なので、パッケージ側のテストからは
+  到達できない。逆に SPM パッケージへ移った画面は、アプリ本体側に居る必要が無い。
+
+| 画面の実装 | テストの置き場所 | 基準画像 |
+|---|---|---|
+| Login / Music / Confirm（SwiftUI・`Packages/Feature` 内） | `Packages/Feature/Tests/FeatureSnapshotTests/ScreenSnapshotTests.swift` | 同ディレクトリの `__Snapshots__/ScreenSnapshotTests/*.png` |
+| Todo（ObjC/UIKit・アプリ本体ターゲット） | `Tests/Snapshot/ScreenSnapshotTests.swift`（アプリ test バンドル `iOS-POC-2Tests`） | `Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/*.png` |
+
+**ObjC→Swift/SPM 化が進むたびに、その画面のテストもアプリ本体側からパッケージ側へ移す**
+運用にしている（最後の1画面が移り切ったら、アプリ本体側のこのテストファイル自体が不要になる）。
+
+- 撮影対象（3 つのアクセス方法。画面がどちらの場所にあっても考え方は同じ）:
   - **SwiftUI・公開 Factory**: `LoginScreenFactory` / `MusicScreenFactory` が返す `UIViewController`
   - **SwiftUI・内部 View**: `@testable import ConfirmImpl` で `Confirm1View` / `Confirm2View` を直接生成
   - **ObjC/UIKit**: テスト用ブリッジヘッダ経由で `TodoInputViewController` を生成
@@ -23,6 +33,13 @@
 - 決定論: 固定 `ViewImageConfig(.iPhone13)` ＋ `perceptualPrecision 0.98`。各画面の `#Preview` と
   同じ要領で Factory にスタブ UseCase を register してオフライン化。onAppear 駆動の状態は
   ウィンドウに載せて非同期を待ってから撮る（`hostAndSettle`）
+
+> **注意**: 基準画像は「どのテストターゲット（＝ホストプロセス）で撮ったか」に紐付く。
+> 同じ View のコードでも、アプリ本体側のテストからパッケージ側のテストへ移すと、
+> レンダリングを担うホストプロセスが変わるため、**サブピクセル単位でわずかにレンダリング結果が
+> 変わり、旧ホストで撮った基準とは一致しなくなる**ことを実際に確認した（見た目は人の目には
+> 区別できないレベル）。画面の置き場所を移したら、**基準画像も移動先で撮り直す**こと
+> （中身をコピーして持ってきても一致しない）。
 
 ### 基準画像の例
 
@@ -35,38 +52,72 @@
 <th>Todo（空・ObjC/UIKit）</th>
 </tr>
 <tr>
-<td><a href="../Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/loginScreen.light.png"><img src="../Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/loginScreen.light.png" width="200"></a></td>
-<td><a href="../Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/musicListScreenEmpty.light.png"><img src="../Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/musicListScreenEmpty.light.png" width="200"></a></td>
+<td><a href="../Packages/Feature/Tests/FeatureSnapshotTests/__Snapshots__/ScreenSnapshotTests/loginScreen.light.png"><img src="../Packages/Feature/Tests/FeatureSnapshotTests/__Snapshots__/ScreenSnapshotTests/loginScreen.light.png" width="200"></a></td>
+<td><a href="../Packages/Feature/Tests/FeatureSnapshotTests/__Snapshots__/ScreenSnapshotTests/musicListScreenEmpty.light.png"><img src="../Packages/Feature/Tests/FeatureSnapshotTests/__Snapshots__/ScreenSnapshotTests/musicListScreenEmpty.light.png" width="200"></a></td>
 <td><a href="../Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/todoInputScreenEmpty.light.png"><img src="../Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/todoInputScreenEmpty.light.png" width="200"></a></td>
 </tr>
 </table>
 
-上の3枚は例。実際にはこのフォルダ（`Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/`）に
-撮影対象ごとの light/dark 2枚ずつが入っている。逆に言えば、**このフォルダに PNG が無い画面は
-まだスナップショット未対応**ということ。
+上の3枚は例。実際には2つのフォルダ（上表参照）に、撮影対象ごとの light/dark 2枚ずつが
+入っている。逆に言えば、**両フォルダのどちらにも PNG が無い画面はまだスナップショット
+未対応**ということ。
 
 ## 導入手順（ゼロから）
 
-このプロジェクトに実際に導入したときの順序。既存の `iOS-POC-2Tests`（アプリ test バンドル）に
-同居させることで、**新しいスキームや CI ジョブを増やさず**既存の `test:app` で回している。
+このプロジェクトに実際に導入したときの順序。**新しい CI ジョブは増やしていない**
+（後述のとおり、既存 scheme の `testTargets` に1エントリ追加するだけで済んでいる）。
 
-### 1. ライブラリ依存を追加（`project.yml`）
+### 1. ライブラリ依存を追加
 
-`packages:` に追加：
+外部 URL（`pointfreeco/swift-snapshot-testing`）は、**`Packages/DependencyManager` という
+薄いラッパーパッケージの `Package.swift` にのみ書く**。アプリ本体プロジェクト（`project.yml`）
+にも `Packages/Feature` にも外部 URL は直接書かない。
 
-```yaml
-SnapshotTesting:
-  url: https://github.com/pointfreeco/swift-snapshot-testing
-  from: 1.17.0
+```
+Packages/DependencyManager/
+├── Package.swift                                    # 外部 URL はここにだけある
+└── Sources/SnapshotTestingSupport/
+    └── SnapshotTestingSupport.swift                  # @_exported import SnapshotTesting の1行だけ
 ```
 
-`iOS-POC-2Tests` の `dependencies:` に、撮影に必要な分を追加：
-`SnapshotTesting` 本体、対象画面の Feature モジュール（`LoginImpl` / `MusicImpl` / `ConfirmImpl` /
-`ConfirmApi`）、スタブ登録用の `Domain` / `Model` / `Datastore` / `FactoryKit`。
+```swift
+// Packages/DependencyManager/Package.swift
+dependencies: [
+    .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.17.0")
+],
+targets: [
+    .target(
+        name: "SnapshotTestingSupport",
+        dependencies: [.product(name: "SnapshotTesting", package: "swift-snapshot-testing")]
+    )
+]
+```
+
+利用側は `import SnapshotTestingSupport` するだけで `assertSnapshot` 等がそのまま使える
+（`@_exported import` による再エクスポート）。
+
+**SPM パッケージ内の画面（Login/Music/Confirm）**: `Packages/Feature/Package.swift` の
+`dependencies:` に `.package(path: "../DependencyManager")` を追加し、テストターゲット
+（`FeatureSnapshotTests`）から `.product(name: "SnapshotTestingSupport", package:
+"DependencyManager")` に依存する（スタブ登録用の `LoginImpl`/`MusicImpl`/`ConfirmImpl`/
+`ConfirmApi`/`Domain`/`Model`/`Datastore`/`FactoryKit` も同様に追加）。
+
+**アプリ本体ターゲットにしか無い画面（Todo=ObjC）**: `project.yml` の `packages:` に
+`DependencyManager: path: Packages/DependencyManager` を追加し、`iOS-POC-2Tests` の
+`dependencies:` から `package: DependencyManager / product: SnapshotTestingSupport` を
+参照する（Todo は Factory の DI を使わないため、上記のような Domain/Model 等の追加は不要）。
+
+このパターンの背景は
+[SNAPSHOT_TESTING_WITHOUT_PROJECT_YML.md](SNAPSHOT_TESTING_WITHOUT_PROJECT_YML.md) の
+「アプリ本体プロジェクトに外部 SPM 依存を直接追加できない場合」を参照。社内ネットワーク制限などで
+**アプリ本体プロジェクトへ外部 URL を直接追加できない**環境でも、内部パッケージ
+（`Package.swift`）は外部 URL を問題なく解決できることが多く、その差を利用した回避策になっている。
+本プロジェクト自体にはその制限は無いが、**将来別の外部依存を追加するときの置き場所**としても
+`DependencyManager` を使い回せる（パッケージ名を機能特化にしていないのはそのため）。
 
 ### 2. 事前に必要なビルド設定（`project.yml`）
 
-- **明示モジュール（Explicit Modules）を無効にする**：`settings.base` に
+- **明示モジュール（Explicit Modules）を無効にする**：`settings.base`（プロジェクト全体の既定値）に
   `SWIFT_ENABLE_EXPLICIT_MODULES: NO` を追加する。
 
   「明示モジュール」は Xcode 16 以降の既定のビルド方式で、依存モジュールを1つずつ
@@ -75,18 +126,36 @@ SnapshotTesting:
   エラーで失敗する**（SnapshotTesting のコード自体が悪いのではなく、依存先をたどった先で
   WebKit フレームワークの事前ビルドに失敗する、Xcode 16 の明示モジュール機能側の不具合）。
   `NO` にすると、事前ビルドをしない従来方式のビルドに戻り、この失敗を回避できる。
-- **基準 PNG をビルド入力（テストバンドルのリソース）から外す**：`iOS-POC-2Tests.sources` に
-  `excludes` を追加する。
-  ```yaml
-  sources:
-    - path: Tests
-      excludes:
-        - "Snapshot/__Snapshots__/**"
-  ```
-  これが無いと、XcodeGen が `Tests/` 配下を丸ごとスキャンして PNG までテストバンドルの
-  リソースとして取り込んでしまう。その状態で基準 PNG を消す（記録し直すために）と、
-  `.xcodeproj` 側にはまだ「このファイルをバンドルに入れる」という参照が残っているため
-  `Build input file cannot be found` でビルドが失敗する。
+
+  この設定は `project.yml` の `settings.base`（プロジェクト全体）に1箇所書くだけで、
+  `iOS-POC-2Tests`（アプリ本体側）だけでなく `Packages/Feature` 内のテストターゲット
+  （`FeatureSnapshotTests`）にも効くことを確認済み。`Package.swift` 側で個別に設定し直す
+  必要は無い。
+- **基準 PNG をビルド入力（テストバンドルのリソース）から外す**：場所によって書き方が違う。
+  - `iOS-POC-2Tests`（`project.yml` 管理）: `sources:` に `excludes` を追加する。
+    ```yaml
+    sources:
+      - path: Tests
+        excludes:
+          - "Snapshot/__Snapshots__/**"
+    ```
+    これが無いと、XcodeGen が `Tests/` 配下を丸ごとスキャンして PNG までテストバンドルの
+    リソースとして取り込んでしまう。その状態で基準 PNG を消す（記録し直すために）と、
+    `.xcodeproj` 側にはまだ「このファイルをバンドルに入れる」という参照が残っているため
+    `Build input file cannot be found` でビルドが失敗する。
+  - `FeatureSnapshotTests`（`Package.swift` 管理）: テストターゲットの `exclude:` に
+    `__Snapshots__` を指定する。
+    ```swift
+    .testTarget(
+        name: "FeatureSnapshotTests",
+        dependencies: [...],
+        path: "Tests/FeatureSnapshotTests",
+        exclude: ["__Snapshots__"]
+    )
+    ```
+    無くても `Build input file cannot be found` は起きない（SwiftPM は `resources:` で
+    明示しない限り非ソースファイルを自動でバンドルしない）が、`__Snapshots__` 配下の PNG を
+    「扱われないファイル」として警告されるので、`exclude` で静める。
 - **自作モジュールに、Apple のシステムフレームワークと同じ名前を付けない**：本プロジェクトでは
   データ層のモジュールに `Network` という名前を付けていたが、これは Apple の
   `Network.framework` と同名だった。SnapshotTesting の依存グラフをたどると
@@ -94,13 +163,15 @@ SnapshotTesting:
   「どちらの `Network` を指しているか」が衝突してビルドが壊れる。回避策は**衝突しない名前へ
   リネームする**こと（本プロジェクトは `Networking` に変更した）。
 
-### 3. テストを書く（`Tests/Snapshot/ScreenSnapshotTests.swift`）
+### 3. テストを書く
 
 Swift Testing（`import Testing`）で `assertSnapshot` を呼ぶ。共通方針：
 固定 `config`（`.iPhone13`）＋ `perceptualPrecision 0.98`、light/dark を `named:` で 2 枚、
 `Container.shared` にスタブ UseCase を register してオフライン・固定内容にする。
 
-対象の作り方は 3 パターン：
+対象の作り方は 3 パターン。**SwiftUI の2パターンは `Packages/Feature/Tests/
+FeatureSnapshotTests/ScreenSnapshotTests.swift`、ObjC は `Tests/Snapshot/
+ScreenSnapshotTests.swift`（アプリ本体側）に書く。**
 
 - **SwiftUI・公開 Factory**（例: Login/Music）: `LoginScreenFactory.makeLoginScreen()` を撮る。
   内部 View 非公開でも公開窓口経由なので `@testable` 不要。
@@ -139,8 +210,23 @@ xcodegen generate
 
 ### 5. CI 連携
 
-追加ジョブは不要（`.gitlab-ci.yml` の `test:app` がそのまま実行する）。
-**`SIMULATOR_NAME` を、基準画像を記録した端末/OS に合わせる**ことだけ必須（現状 `iPhone 17`）。
+追加ジョブは不要（`.gitlab-ci.yml` の `test:app` がそのまま実行する）。ただし
+`FeatureSnapshotTests`（SPM パッケージ側のテストターゲット）は、`test:app` が使っている
+scheme の `testTargets` に**明示的に載せないと実行されない**。`project.yml` で：
+
+```yaml
+scheme:
+  testTargets:
+    - iOS-POC-2Tests
+    - package: Feature/FeatureSnapshotTests
+```
+
+**ハマりどころ**: SPM パッケージのテストターゲットは、`testTargets` に単なる文字列
+（`Feature/FeatureSnapshotTests`）を書いても `Spec validation error: ... invalid test` に
+なる。**`package: <PackageName>/<TargetName>` という形で書く必要がある**（XcodeGen の
+[Testable Target Reference](https://github.com/yonaskolb/XcodeGen/blob/master/Docs/ProjectSpec.md#testable-target-reference) 仕様）。
+
+**`SIMULATOR_NAME` を、基準画像を記録した端末/OS に合わせる**ことも必須（現状 `iPhone 17`）。
 
 ## 実行手順
 
@@ -154,22 +240,30 @@ xcodegen generate
 
 ### 1. 実行（既存の基準と照合）
 
+テストは2つのスイート（`iOS-POC-2Tests/ScreenSnapshotTests`＝Todo と
+`FeatureSnapshotTests`＝Login/Music/Confirm）に分かれている。両方回してよい。
+
 **Xcode**: 実行先デバイス（ウィンドウ上部のスキーム/デバイス選択）を `iPhone 17` にする →
 テストナビゲータ（左サイドバー、フラスコのアイコン。ショートカット **⌘6**）を開く →
-`iOS-POC-2Tests` の中の `ScreenSnapshotTests` を探し、行にカーソルを合わせると出る
-**◇ をクリック**（スイート全体を実行）。プロジェクト全体のテストでよければ **⌘U**。
+`iOS-POC-2Tests` の中の `ScreenSnapshotTests`、および `FeatureSnapshotTests` の中の
+`ScreenSnapshotTests` を探し、行にカーソルを合わせると出る**◇ をクリック**
+（スイート単位で実行）。プロジェクト全体のテストでよければ **⌘U**。
 
-**CLI（同じことをターミナルで）**:
+**CLI（同じことをターミナルで）**: 両方まとめて指定できる。
 
 ```
 xcodebuild test -project iOS-POC-2.xcodeproj -scheme iOS-POC-2 \
   -destination 'platform=iOS Simulator,name=iPhone 17' \
-  -only-testing:iOS-POC-2Tests/ScreenSnapshotTests CODE_SIGNING_ALLOWED=NO
+  -only-testing:iOS-POC-2Tests/ScreenSnapshotTests \
+  -only-testing:FeatureSnapshotTests CODE_SIGNING_ALLOWED=NO
 ```
 
 - `-only-testing` は**スイート単位**（`.../ScreenSnapshotTests`）で指定する。
   Swift Testing のため、関数名までの指定（`.../ScreenSnapshotTests/loginScreen`）は
   マッチせず「0 tests」になる。
+- `FeatureSnapshotTests` は SPM パッケージのテストターゲットなので、
+  `-only-testing:FeatureSnapshotTests` のようにターゲット名だけで指定する
+  （`iOS-POC-2Tests` のようにアプリ側 bundle ID を前置する必要は無い）。
 
 ### 2. 初回・新規画面の基準記録
 
@@ -181,15 +275,20 @@ GUI・CLI どちらで実行しても、基準 PNG が無い状態で実行す�
 
 見た目を意図的に変えたら基準を更新する。以下のいずれかで再記録 → 目視 → コミット。
 
+> 画面をアプリ本体側からパッケージ側へ移した直後は、内容を変えていなくても
+> **基準を必ず撮り直す**必要がある（「構成」の注意を参照）。以下の方法A/Bはそのまま使える。
+
 **方法A（対象の基準だけ消す）** — 一部の画面だけ更新したいとき向き。
 
-- **Finder**: `Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/` を開き、対象の PNG
+- **Finder**: 対象の基準フォルダ（Login/Music/Confirm なら
+  `Packages/Feature/Tests/FeatureSnapshotTests/__Snapshots__/ScreenSnapshotTests/`、
+  Todo なら `Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/`）を開き、対象の PNG
   （light/dark）をゴミ箱へ。
 - そのあと「1. 実行」と同じ操作（Xcode なら ◇ クリックまたは ⌘U）をすれば、消した分だけ
   自動で再記録される。
 - CLI でファイルを消すなら：
   ```
-  rm Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/musicListScreen.*.png
+  rm Packages/Feature/Tests/FeatureSnapshotTests/__Snapshots__/ScreenSnapshotTests/musicListScreen.*.png
   ```
 
 **方法B（環境変数で強制的に全再記録）** — 触れたテストの基準を**まとめて**撮り直したいとき向き
@@ -205,9 +304,10 @@ GUI・CLI どちらで実行しても、基準 PNG が無い状態で実行す�
   ```
   SNAPSHOT_TESTING_RECORD=all xcodebuild test -project iOS-POC-2.xcodeproj -scheme iOS-POC-2 \
     -destination 'platform=iOS Simulator,name=iPhone 17' \
-    -only-testing:iOS-POC-2Tests/ScreenSnapshotTests CODE_SIGNING_ALLOWED=NO
+    -only-testing:FeatureSnapshotTests CODE_SIGNING_ALLOWED=NO
   ```
-  （CLI は実行のたびに指定するだけなので、Xcode のように戻し忘れる心配が無い）
+  （CLI は実行のたびに指定するだけなので、Xcode のように戻し忘れる心配が無い。対象を
+  `-only-testing:iOS-POC-2Tests/ScreenSnapshotTests` に変えれば Todo 側も同様）
 
 ## 結果の確認方法
 
@@ -254,7 +354,8 @@ GUI・CLI どちらで実行しても、基準 PNG が無い状態で実行す�
 ```
 xcodebuild test -project iOS-POC-2.xcodeproj -scheme iOS-POC-2 \
   -destination 'platform=iOS Simulator,name=iPhone 17' \
-  -only-testing:iOS-POC-2Tests/ScreenSnapshotTests CODE_SIGNING_ALLOWED=NO \
+  -only-testing:iOS-POC-2Tests/ScreenSnapshotTests \
+  -only-testing:FeatureSnapshotTests CODE_SIGNING_ALLOWED=NO \
   -resultBundlePath /tmp/snap.xcresult
 ```
 
@@ -267,8 +368,8 @@ xcrun xcresulttool export attachments --path /tmp/snap.xcresult --output-path /t
 
 ### 基準画像そのもの
 
-**Finder**（または Xcode のプロジェクトナビゲータ）で
-`Tests/Snapshot/__Snapshots__/ScreenSnapshotTests/` の PNG を直接開く（「構成」の表の画像も同じもの）。
+**Finder**（または Xcode のプロジェクトナビゲータ）で、対象の基準フォルダ（「構成」の表を参照）
+の PNG を直接開く。
 
 ## つまずきどころ（このリポジトリ固有）
 
@@ -282,3 +383,5 @@ xcrun xcresulttool export attachments --path /tmp/snap.xcresult --output-path /t
 | `Network.h` 系のビルド失敗 | 自作モジュール名がシステムフレームワークと衝突（例: `Network`） | 衝突しない名前にリネーム（本プロジェクトは `Networking`） |
 | 上記の衝突/欠落エラーが**設定を直したのに**まだ出る | 古いビルド生成物が残っている | DerivedData をクリーンして再実行 |
 | Keychain 系テストが `-34018` で失敗 | 署名なし（`CODE_SIGNING_ALLOWED=NO`）で entitlement 不足 | スナップショットとは別問題。署名を有効にして実行すれば通る |
+| `Spec validation error: ... scheme has invalid test "..."` | `scheme.testTargets` に SPM パッケージのテストターゲットを裸の文字列で書いた | 導入手順§5の `package: <PackageName>/<TargetName>` 形式に直す |
+| 中身を変えていないのに `does not match reference`（画面の実装をパッケージへ移した直後） | レンダリングするホストプロセスが変わり、サブピクセル単位で結果が変わる（バグではない） | 「構成」の注意を参照。移動先で基準を撮り直す（元のPNGを流用しない） |

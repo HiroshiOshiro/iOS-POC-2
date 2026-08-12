@@ -19,6 +19,9 @@ let package = Package(
         .package(path: "../Design"),
         // DI コンテナ。Core は非依存のままにし、コンポジションルートである Feature 側で使う。
         .package(url: "https://github.com/hmlongco/Factory.git", from: "3.3.2"),
+        // 外部 SPM 依存を内部パッケージ経由に閉じ込めるラッパー。FeatureSnapshotTests から
+        // SnapshotTesting を使うために依存する（外部URLはここには出てこない）。
+        .package(path: "../DependencyManager"),
     ],
     targets: [
         // 共通 UI は独立パッケージ Design（import 名 `Ui`）。
@@ -96,6 +99,25 @@ let package = Package(
                 .product(name: "FactoryKit", package: "Factory"),
             ],
             path: "Tests/FeatureTests"
+        ),
+
+        // スクリーンショットテスト。ObjC のまま残っている画面（アプリ本体ターゲット側）を除く、
+        // パッケージ化済みの画面（Login/Music/Confirm）はここで撮る。
+        .testTarget(
+            name: "FeatureSnapshotTests",
+            dependencies: [
+                "LoginImpl",
+                "MusicImpl",
+                "ConfirmImpl",
+                "ConfirmApi",
+                .product(name: "Model", package: "Core"),
+                .product(name: "Domain", package: "Core"),
+                .product(name: "Datastore", package: "Core"),
+                .product(name: "FactoryKit", package: "Factory"),
+                .product(name: "SnapshotTestingSupport", package: "DependencyManager"),
+            ],
+            path: "Tests/FeatureSnapshotTests",
+            exclude: ["__Snapshots__"]
         ),
     ],
     // 言語モードを明示（tools 6.0 の既定と同じだが、意図を固定しアプリの SWIFT_VERSION 6.0 と揃える）。

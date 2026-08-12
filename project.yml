@@ -17,10 +17,11 @@ packages:
   Factory:
     url: https://github.com/hmlongco/Factory.git
     from: 3.3.2
-  # スクリーンショット（スナップショット）テスト。iOS-POC-2Tests から使う。
-  SnapshotTesting:
-    url: https://github.com/pointfreeco/swift-snapshot-testing
-    from: 1.17.0
+  # 外部 SPM 依存を内部パッケージ経由に閉じ込めるラッパー置き場。アプリ本体
+  # プロジェクトには外部 URL を直接書かず、ここ（内部パッケージ）だけが持つ。
+  # iOS-POC-2Tests から Todo（ObjC）のスナップショットテストに使う。
+  DependencyManager:
+    path: Packages/DependencyManager
 settings:
   base:
     MARKETING_VERSION: "1.0"
@@ -70,6 +71,8 @@ targets:
     scheme:
       testTargets:
         - iOS-POC-2Tests
+        # Login/Music/Confirm のスナップショットテスト（Packages/Feature 側）。
+        - package: Feature/FeatureSnapshotTests
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.iOS-POC-2
@@ -101,25 +104,9 @@ targets:
       - target: iOS-POC-2
       - package: Core
         product: Datastore
-      # スナップショットテスト用。公開 *ScreenFactory を撮るため impl と、
-      # スタブ UseCase を DI 登録するため Domain/Model/Factory/SnapshotTesting に依存する。
-      - package: SnapshotTesting
-        product: SnapshotTesting
-      - package: Feature
-        product: LoginImpl
-      - package: Feature
-        product: MusicImpl
-      # Confirm は内部 View を @testable で撮るため Impl、Router 型のため Api に依存。
-      - package: Feature
-        product: ConfirmImpl
-      - package: Feature
-        product: ConfirmApi
-      - package: Core
-        product: Domain
-      - package: Core
-        product: Model
-      - package: Factory
-        product: FactoryKit
+      # Todo（ObjC）のスナップショットテスト用。外部URLは DependencyManager 側に閉じている。
+      - package: DependencyManager
+        product: SnapshotTestingSupport
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.iOS-POC-2.tests
