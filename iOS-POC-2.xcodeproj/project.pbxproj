@@ -22,6 +22,7 @@
 		7140B1D585C3B4A0D2DC37A9 /* LocalizationSharingDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F120496F84F121CDC05822B7 /* LocalizationSharingDemoScreen.swift */; };
 		7CBD0BC40A0F71F5C53DE408 /* UIViewController+CustomNavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E46FA10B7F4B73C8E98EBD04 /* UIViewController+CustomNavBar.m */; };
 		7E0609DDFF4E7EEBD36E133C /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = CA953C9A11285818AE6B933F /* Localizable.xcstrings */; };
+		7E9C0127313980908BD0103B /* SnapshotTestHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = F028459B1D4BB23F2B73D734 /* SnapshotTestHelpers */; };
 		9DB406632E0947BEED37FEEF /* ConfirmApi in Frameworks */ = {isa = PBXBuildFile; productRef = 5431171A5738A902984EFB08 /* ConfirmApi */; };
 		A29B176DF1DF0BC96D9126D6 /* AppDependencyRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0447D56BDA0066263C2B8F7 /* AppDependencyRegistration.swift */; };
 		A332279BE72718269A3FBAD4 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907A9326A0E2B0A13C5BB8C8 /* MainTabBarController.m */; };
@@ -99,6 +100,7 @@
 			files = (
 				0A16FCA1532D8030ADCB3D61 /* Datastore in Frameworks */,
 				F96BCC5493AE35799B108072 /* SnapshotTestingSupport in Frameworks */,
+				7E9C0127313980908BD0103B /* SnapshotTestHelpers in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +259,7 @@
 			packageProductDependencies = (
 				A2E8C11CB3066DBFCAE57DD5 /* Datastore */,
 				514DBAFBC01FDB9BF0D88D58 /* SnapshotTestingSupport */,
+				F028459B1D4BB23F2B73D734 /* SnapshotTestHelpers */,
 			);
 			productName = "iOS-POC-2Tests";
 			productReference = 9479B3E459B418E462263324 /* iOS-POC-2Tests.xctest */;
@@ -719,6 +722,10 @@
 		D5D011E96E8D16E956B06DC3 /* ConfirmImpl */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ConfirmImpl;
+		};
+		F028459B1D4BB23F2B73D734 /* SnapshotTestHelpers */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SnapshotTestHelpers;
 		};
 		F9178A246ED1187935D0CC02 /* FactoryKit */ = {
 			isa = XCSwiftPackageProductDependency;

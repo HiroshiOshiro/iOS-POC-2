@@ -14,6 +14,9 @@ let package = Package(
     ],
     products: [
         .library(name: "SnapshotTestingSupport", targets: ["SnapshotTestingSupport"]),
+        // スナップショットテスト間で共通の小さな UIKit ヘルパー（hostAndSettle 等）。
+        // アプリ本体側・Packages/Feature 側の両テストから使う（重複コピーを避けるため）。
+        .library(name: "SnapshotTestHelpers", targets: ["SnapshotTestHelpers"]),
     ],
     dependencies: [
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.19.4"),
@@ -25,6 +28,7 @@ let package = Package(
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
             ]
         ),
+        .target(name: "SnapshotTestHelpers"),
     ],
     swiftLanguageModes: [.v6]
 )

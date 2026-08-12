@@ -107,6 +107,9 @@ targets:
       # Todo（ObjC）のスナップショットテスト用。外部URLは DependencyManager 側に閉じている。
       - package: DependencyManager
         product: SnapshotTestingSupport
+      # hostAndSettle 等の共通ヘルパー（FeatureSnapshotTests と共有）。
+      - package: DependencyManager
+        product: SnapshotTestHelpers
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.iOS-POC-2.tests

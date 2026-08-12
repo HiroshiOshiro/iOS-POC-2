@@ -1,5 +1,6 @@
 import Testing
 import SnapshotTestingSupport
+import SnapshotTestHelpers
 import SwiftUI
 import UIKit
 import FactoryKit
@@ -173,16 +174,6 @@ struct ScreenSnapshotTests {
     }
 
     // MARK: - Helpers
-
-    /// VC を実ウィンドウに載せて `onAppear` を発火させ、非同期ロードが落ち着くまで待つ。
-    private func hostAndSettle(_ vc: UIViewController, seconds: Double = 0.8) async {
-        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 390, height: 844))
-        window.rootViewController = vc
-        window.makeKeyAndVisible()
-        vc.view.setNeedsLayout()
-        vc.view.layoutIfNeeded()
-        try? await Task.sleep(for: .seconds(seconds))
-    }
 
     /// artworkUrl100 は nil（AsyncImage を確実にプレースホルダにして決定論化）。
     private static let sampleTracks: [MusicTrack] = [

@@ -115,6 +115,7 @@ let package = Package(
                 .product(name: "Datastore", package: "Core"),
                 .product(name: "FactoryKit", package: "Factory"),
                 .product(name: "SnapshotTestingSupport", package: "DependencyManager"),
+                .product(name: "SnapshotTestHelpers", package: "DependencyManager"),
             ],
             path: "Tests/FeatureSnapshotTests",
             exclude: ["__Snapshots__"]

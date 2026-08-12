@@ -1,5 +1,6 @@
 import Testing
 import SnapshotTestingSupport
+import SnapshotTestHelpers
 import UIKit
 
 /// ObjC/UIKit の Todo 画面（アプリ本体ターゲットにしか無いコード）のスナップショット。
@@ -38,17 +39,5 @@ struct ScreenSnapshotTests {
                        traits: .init(userInterfaceStyle: .dark)),
             named: "dark"
         )
-    }
-
-    // MARK: - Helpers
-
-    /// VC を実ウィンドウに載せて `onAppear` を発火させ、非同期ロードが落ち着くまで待つ。
-    private func hostAndSettle(_ vc: UIViewController, seconds: Double = 0.8) async {
-        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 390, height: 844))
-        window.rootViewController = vc
-        window.makeKeyAndVisible()
-        vc.view.setNeedsLayout()
-        vc.view.layoutIfNeeded()
-        try? await Task.sleep(for: .seconds(seconds))
     }
 }
