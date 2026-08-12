@@ -10,7 +10,6 @@ import UIKit
 /// - 端末サイズ非依存にするため固定 `ViewImageConfig`（`.iPhone13`）で撮る。微小なレンダ差は
 ///   `perceptualPrecision` で吸収する。**基準画像は CI と同じシミュレータ/OS で記録すること。**
 @MainActor
-@Suite(.serialized)
 struct ScreenSnapshotTests {
 
     /// 固定 config（レイアウトを実機サイズに依存させない）と許容誤差。
