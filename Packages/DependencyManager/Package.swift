@@ -16,7 +16,7 @@ let package = Package(
         .library(name: "SnapshotTestingSupport", targets: ["SnapshotTestingSupport"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.17.0"),
+        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.19.4"),
     ],
     targets: [
         .target(
