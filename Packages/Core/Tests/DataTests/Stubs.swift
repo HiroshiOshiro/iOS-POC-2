@@ -33,6 +33,7 @@ enum StubError: Error { case boom }
 final class StubAuthRemote: AuthRemoteDataSource, @unchecked Sendable {
     let userID: String
     let shouldThrow: Bool
+    let shouldThrowCancellation: Bool
     let permissionResult: Bool
     let shouldThrowOnPermissionCheck: Bool
     private(set) var receivedPassword: String?
@@ -40,17 +41,20 @@ final class StubAuthRemote: AuthRemoteDataSource, @unchecked Sendable {
     init(
         userID: String = "user-1",
         shouldThrow: Bool = false,
+        shouldThrowCancellation: Bool = false,
         permissionResult: Bool = true,
         shouldThrowOnPermissionCheck: Bool = false
     ) {
         self.userID = userID
         self.shouldThrow = shouldThrow
+        self.shouldThrowCancellation = shouldThrowCancellation
         self.permissionResult = permissionResult
         self.shouldThrowOnPermissionCheck = shouldThrowOnPermissionCheck
     }
 
     func login(email: String, password: String) async throws -> String {
         receivedPassword = password
+        if shouldThrowCancellation { throw CancellationError() }
         if shouldThrow { throw StubError.boom }
         return userID
     }

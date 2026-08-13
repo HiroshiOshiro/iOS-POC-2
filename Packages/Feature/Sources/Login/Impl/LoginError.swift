@@ -6,7 +6,9 @@ import Foundation
 /// これにより View 側は `error.localizedDescription` を表示するだけでよく、
 /// 文言をハードコードしない（Swift 推奨のエラー設計）。
 /// `Domain.AuthError`（どこで失敗したか）を、画面表示（文言）へマップした表示用エラー。
-enum LoginError: LocalizedError {
+/// `Equatable` は View 側で「ネットワークエラーのときだけリトライ button を出す」ような
+/// 表示分岐（`error == .network`）に使う。
+enum LoginError: LocalizedError, Equatable {
     case validation
     case encryption
     case network

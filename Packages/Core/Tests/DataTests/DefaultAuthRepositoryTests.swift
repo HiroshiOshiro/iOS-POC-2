@@ -43,6 +43,14 @@ struct DefaultAuthRepositoryTests {
         }
     }
 
+    @Test("Given the remote is cancelled, when login, then it throws CancellationError (not wrapped as AuthDataError)")
+    func propagatesCancellationUnwrapped() async {
+        let sut = makeSUT(remote: StubAuthRemote(shouldThrowCancellation: true))
+        await #expect(throws: CancellationError.self) {
+            try await sut.login(email: "user@example.com", password: "pw")
+        }
+    }
+
     @Test("Given the userID save fails, when login, then it throws AuthDataError.persistence")
     func mapsPersistenceFailure() async {
         let sut = makeSUT(userID: StubUserIDStorage(shouldThrowOnSave: true))

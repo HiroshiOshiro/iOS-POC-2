@@ -26,8 +26,10 @@ public struct FakeAuthRemoteDataSource: AuthRemoteDataSource {
         // 通信ログ（パスワードは秘匿情報のため出力しない）。
         log("▶ Request POST /auth/login email=\(email)")
         let start = Date()
-        // ネットワーク遅延を模して 1 秒待つ。
-        try? await Task.sleep(nanoseconds: 1_000_000_000)
+        // ネットワーク遅延を模して 1 秒待つ。`try?` にすると Task がキャンセルされても
+        // CancellationError が握りつぶされてこの関数が「成功」扱いで完走してしまう
+        // （＝画面を閉じてもログインAPIの呼び出しが実質止まらない）ため、`try` のまま伝播させる。
+        try await Task.sleep(nanoseconds: 1_000_000_000)
         let elapsedMs = Int(Date().timeIntervalSince(start) * 1000)
         // エラー処理のサンプル: メールアドレスに "fail" を含むときは認証失敗を模す。
         // （パスワードは Repository で暗号化されてから届くため、判定はメールで行う）

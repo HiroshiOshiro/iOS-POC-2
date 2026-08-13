@@ -20,6 +20,15 @@ final class LoginViewModel: ObservableObject {
     @Injected(\.loadSessionUseCase) private var loadSessionUseCase
     @Injected(\.checkAccessPermissionUseCase) private var checkAccessPermissionUseCase
 
+    /// 実行中のログイン処理。画面を閉じたときにキャンセルできるよう保持しておく。
+    private var loginTask: Task<Void, Never>?
+    /// alert の「リトライ」がどの処理を再実行すべきかの記録。
+    private enum FailedOperation {
+        case login
+        case accessCheck
+    }
+    private var lastFailedOperation: FailedOperation?
+
     var canSubmit: Bool {
         !email.isEmpty && !password.isEmpty && !isLoading
     }
@@ -44,36 +53,60 @@ final class LoginViewModel: ObservableObject {
             let allowed = try await checkAccessPermissionUseCase.execute()
             if !allowed {
                 log("アクセス権限チェック: 拒否")
+                self.lastFailedOperation = .accessCheck
                 self.error = .accessDenied
             }
         } catch let failure as AuthError {
             log("アクセス権限チェック失敗: \(failure)")
+            self.lastFailedOperation = .accessCheck
             self.error = switch failure {
             case .transport: .network
             default:         .unknown
             }
         } catch {
             log("アクセス権限チェック失敗(想定外): \(error)")
+            self.lastFailedOperation = .accessCheck
             self.error = .unknown
         }
+    }
+
+    /// 画面が非表示になったとき（タブ切り替え等）に呼ぶ。実行中のログイン処理を中断する。
+    func onDisappear() {
+        loginTask?.cancel()
     }
 
     func loginButtonTapped() {
         guard canSubmit else { return }
         isLoading = true
         error = nil
-        Task { [weak self] in
+        // 前回分がまだ残っていれば（通常は無いはずだが念のため）キャンセルしてから差し替える。
+        loginTask?.cancel()
+        loginTask = Task { [weak self] in
             guard let self else { return }
             do {
-                self.session = try await self.loginUseCase.execute(
+                let session = try await self.loginUseCase.execute(
                     email: self.email,
                     password: self.password
                 )
+                // execute() が返ってきた直後にキャンセルされている可能性があるので、
+                // 結果を UI へ反映する前にもう一度だけ確認する。
+                guard !Task.isCancelled else {
+                    self.isLoading = false
+                    return
+                }
+                self.session = session
                 // パスワードは保持しない。
                 self.password = ""
+            } catch is CancellationError {
+                // 画面を閉じた等で中断された。UI へは何も反映しない。
+                log("ログインAPI呼び出しをキャンセル")
+                self.isLoading = false
+                return
             } catch let failure as AuthError {
+                guard !Task.isCancelled else { self.isLoading = false; return }
                 // どの段で失敗したか（Domain の AuthError）で表示を切り替える。
                 log("ログイン失敗: \(failure)")
+                self.lastFailedOperation = .login
                 self.error = switch failure {
                 case .validation:   .validation
                 case .encryption:   .encryption
@@ -83,16 +116,33 @@ final class LoginViewModel: ObservableObject {
                 case .unknown:      .unknown
                 }
             } catch {
+                guard !Task.isCancelled else { self.isLoading = false; return }
                 // 想定外はまとめて unknown 表示。
                 log("ログイン失敗(想定外): \(error)")
+                self.lastFailedOperation = .login
                 self.error = .unknown
             }
             self.isLoading = false
         }
     }
 
+    /// ネットワークエラーの alert から「リトライ」が押されたときに、失敗した処理を再実行する。
+    func retryButtonTapped() {
+        switch lastFailedOperation {
+        case .login:
+            loginButtonTapped()
+        case .accessCheck:
+            Task { [weak self] in
+                await self?.checkAccessPermission()
+            }
+        case nil:
+            break
+        }
+    }
+
     /// アラートを閉じたときにエラー状態を解除する。
     func dismissError() {
         error = nil
+        lastFailedOperation = nil
     }
 }

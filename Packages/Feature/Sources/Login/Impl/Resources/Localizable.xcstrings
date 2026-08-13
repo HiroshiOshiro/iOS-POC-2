@@ -44,6 +44,28 @@
         }
       }
     },
+    "login.error.retry" : {
+      "comment" : "通信エラー時のリトライボタン",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "リトライ"
+          }
+        }
+      }
+    },
+    "login.error.retry_cancel" : {
+      "comment" : "通信エラー時のリトライ確認でキャンセルする側のボタン",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キャンセル"
+          }
+        }
+      }
+    },
     "login.error.persistence" : {
       "comment" : "ログインエラー（保存段）",
       "localizations" : {

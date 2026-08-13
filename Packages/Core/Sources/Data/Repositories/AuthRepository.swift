@@ -49,6 +49,10 @@ public actor DefaultAuthRepository: AuthRepository {
         let userID: String
         do {
             userID = try await remote.login(email: email, password: encryptedPassword)
+        } catch is CancellationError {
+            // 画面を閉じた等でキャンセルされた場合は Data 層の失敗ではないので、
+            // AuthDataError に変換せずそのまま伝播させる（呼び出し元がキャンセルとして扱う）。
+            throw CancellationError()
         } catch {
             throw AuthDataError.transport(.network)
         }

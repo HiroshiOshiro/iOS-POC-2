@@ -87,6 +87,14 @@ struct LoginUseCaseTests {
             try await sut.execute(email: "user@example.com", password: "pw")
         }
     }
+
+    @Test("Given the repository throws CancellationError, when execute, then it passes through unwrapped (not AuthError)")
+    func passesThroughCancellationUnwrapped() async {
+        let sut = DefaultLoginUseCase(repository: ThrowingAuthRepository(error: CancellationError()))
+        await #expect(throws: CancellationError.self) {
+            try await sut.execute(email: "user@example.com", password: "pw")
+        }
+    }
 }
 
 struct LoadSessionUseCaseTests {
