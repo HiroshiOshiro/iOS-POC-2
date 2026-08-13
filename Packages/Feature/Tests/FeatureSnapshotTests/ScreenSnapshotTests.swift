@@ -34,7 +34,7 @@ struct ScreenSnapshotTests {
 
     // MARK: - Login
 
-    @Test("Login screen — default (light / dark)")
+    @Test("Given no saved email and no session, when the Login screen is rendered, then it matches the default snapshot (light / dark)")
     func loginScreen() {
         // 保存メールを消し、セッション無し（＝保存済みブロック非表示）の既定状態に固定する。
         UserDefaults.standard.removeObject(forKey: StorageKeys.loginEmail)
@@ -58,7 +58,7 @@ struct ScreenSnapshotTests {
         )
     }
 
-    @Test("Login screen — session restored (light / dark)")
+    @Test("Given a saved email and a restored session, when the Login screen is rendered, then it matches the session-restored snapshot (light / dark)")
     func loginScreenSessionRestored() async {
         // 保存済みメール＋復元セッションあり → 画面下部に「保存済み」ブロックが出る状態。
         UserDefaults.standard.set("user@example.com", forKey: StorageKeys.loginEmail)
@@ -87,7 +87,7 @@ struct ScreenSnapshotTests {
 
     // MARK: - Music
 
-    @Test("Music list — populated (light / dark)")
+    @Test("Given the search returns tracks, when the Music screen is rendered, then it matches the populated snapshot (light / dark)")
     func musicListScreen() async {
         Container.shared.searchMusicUseCase.register {
             StubSearchMusicUseCase(tracks: Self.sampleTracks)
@@ -111,7 +111,7 @@ struct ScreenSnapshotTests {
         )
     }
 
-    @Test("Music list — empty / no results (light / dark)")
+    @Test("Given the search returns no tracks, when the Music screen is rendered, then it matches the empty snapshot (light / dark)")
     func musicListScreenEmpty() async {
         // 検索が 0 件を返す → hasSearched=true かつ空 → 「該当なし」表示になる状態。
         Container.shared.searchMusicUseCase.register { StubSearchMusicUseCase(tracks: []) }
@@ -135,7 +135,7 @@ struct ScreenSnapshotTests {
 
     // MARK: - Confirm（内部 View を @testable で直接生成。init で state を注入）
 
-    @Test("Confirm1 — default (light / dark)")
+    @Test("Given a todo text, when the Confirm1 screen is rendered, then it matches the default snapshot (light / dark)")
     func confirm1Screen() {
         let vc = UIHostingController(
             rootView: Confirm1View(text: "牛乳を買う", router: StubConfirmRouter(), onNext: {})
@@ -154,7 +154,7 @@ struct ScreenSnapshotTests {
         )
     }
 
-    @Test("Confirm2 — default (light / dark)")
+    @Test("Given a todo text, when the Confirm2 screen is rendered, then it matches the default snapshot (light / dark)")
     func confirm2Screen() {
         Container.shared.submitTodoUseCase.register { StubSubmitTodoUseCase() }
 

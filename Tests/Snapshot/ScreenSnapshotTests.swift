@@ -19,7 +19,7 @@ struct ScreenSnapshotTests {
 
     // MARK: - Todo（ObjC/UIKit・未移行画面。ブリッジヘッダ経由で参照）
 
-    @Test("Todo input — empty (light / dark)")
+    @Test("Given no saved todo items, when the Todo input screen is rendered, then it matches the empty snapshot (light / dark)")
     func todoInputScreenEmpty() async {
         // TodoStore は NSUserDefaults(standard) のキー todo_items を読む。空状態に固定する。
         UserDefaults.standard.removeObject(forKey: "todo_items")
