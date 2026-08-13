@@ -22,12 +22,14 @@ final class LoginViewModel: ObservableObject {
 
     /// 実行中のログイン処理。画面を閉じたときにキャンセルできるよう保持しておく。
     private var loginTask: Task<Void, Never>?
-    /// alert の「リトライ」がどの処理を再実行すべきかの記録。
-    private enum FailedOperation {
-        case login
-        case accessCheck
-    }
-    private var lastFailedOperation: FailedOperation?
+    /// alert の「リトライ」が押されたときに実行する処理。失敗した箇所で都度差し替える。
+    /// - 循環参照を避けるため必ず `[weak self]` で捕まえる（`self` がこのクロージャを
+    ///   プロパティとして保持するため、強参照だと循環してしまう）。
+    /// - 失敗した**瞬間の値**（例: 当時の email/password）は絶対にキャプチャしない。
+    ///   `loginButtonTapped()` 自身が呼ばれた時点の `self.email`/`self.password` を
+    ///   読み直す作りなので、ここではそれをそのまま呼ぶだけにする。値をキャプチャすると、
+    ///   「エラー表示中に入力し直してからリトライ」しても古い値で再送してしまうバグになる。
+    private var retryAction: (() -> Void)?
 
     var canSubmit: Bool {
         !email.isEmpty && !password.isEmpty && !isLoading
@@ -53,20 +55,29 @@ final class LoginViewModel: ObservableObject {
             let allowed = try await checkAccessPermissionUseCase.execute()
             if !allowed {
                 log("アクセス権限チェック: 拒否")
-                self.lastFailedOperation = .accessCheck
-                self.error = .accessDenied
+                self.setRetryableAccessCheckError(.accessDenied)
             }
         } catch let failure as AuthError {
             log("アクセス権限チェック失敗: \(failure)")
-            self.lastFailedOperation = .accessCheck
-            self.error = switch failure {
+            let mapped: LoginError = switch failure {
             case .transport: .network
             default:         .unknown
             }
+            self.setRetryableAccessCheckError(mapped)
         } catch {
             log("アクセス権限チェック失敗(想定外): \(error)")
-            self.lastFailedOperation = .accessCheck
-            self.error = .unknown
+            self.setRetryableAccessCheckError(.unknown)
+        }
+    }
+
+    /// アクセス許可チェックの失敗を表示し、「リトライ」で同じチェックをもう一度実行できるようにする。
+    private func setRetryableAccessCheckError(_ error: LoginError) {
+        self.error = error
+        self.retryAction = { [weak self] in
+            Task { [weak self] in
+                guard let self else { return }
+                await self.checkAccessPermission()
+            }
         }
     }
 
@@ -106,8 +117,7 @@ final class LoginViewModel: ObservableObject {
                 guard !Task.isCancelled else { self.isLoading = false; return }
                 // どの段で失敗したか（Domain の AuthError）で表示を切り替える。
                 log("ログイン失敗: \(failure)")
-                self.lastFailedOperation = .login
-                self.error = switch failure {
+                let mapped: LoginError = switch failure {
                 case .validation:   .validation
                 case .encryption:   .encryption
                 case .persistence:  .persistence
@@ -115,34 +125,33 @@ final class LoginViewModel: ObservableObject {
                 case .missingToken: .unknown // ログイン処理自体では起きない段だが網羅性のため
                 case .unknown:      .unknown
                 }
+                self.setRetryableLoginError(mapped)
             } catch {
                 guard !Task.isCancelled else { self.isLoading = false; return }
                 // 想定外はまとめて unknown 表示。
                 log("ログイン失敗(想定外): \(error)")
-                self.lastFailedOperation = .login
-                self.error = .unknown
+                self.setRetryableLoginError(.unknown)
             }
             self.isLoading = false
         }
     }
 
+    /// ログイン失敗を表示し、「リトライ」でログインをもう一度実行できるようにする。
+    private func setRetryableLoginError(_ error: LoginError) {
+        self.error = error
+        self.retryAction = { [weak self] in
+            self?.loginButtonTapped()
+        }
+    }
+
     /// ネットワークエラーの alert から「リトライ」が押されたときに、失敗した処理を再実行する。
     func retryButtonTapped() {
-        switch lastFailedOperation {
-        case .login:
-            loginButtonTapped()
-        case .accessCheck:
-            Task { [weak self] in
-                await self?.checkAccessPermission()
-            }
-        case nil:
-            break
-        }
+        retryAction?()
     }
 
     /// アラートを閉じたときにエラー状態を解除する。
     func dismissError() {
         error = nil
-        lastFailedOperation = nil
+        retryAction = nil
     }
 }
