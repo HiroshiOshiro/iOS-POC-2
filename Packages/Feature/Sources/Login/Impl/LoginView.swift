@@ -117,8 +117,13 @@ private struct PreviewLoadSessionUseCase: LoadSessionUseCase {
     func execute() async -> Session? { nil }
 }
 
+private struct PreviewCheckAccessPermissionUseCase: CheckAccessPermissionUseCase {
+    func execute() async throws -> Bool { true }
+}
+
 #Preview {
     let _ = Container.shared.loginUseCase.register { PreviewLoginUseCase() }
     let _ = Container.shared.loadSessionUseCase.register { PreviewLoadSessionUseCase() }
+    let _ = Container.shared.checkAccessPermissionUseCase.register { PreviewCheckAccessPermissionUseCase() }
     LoginView()
 }

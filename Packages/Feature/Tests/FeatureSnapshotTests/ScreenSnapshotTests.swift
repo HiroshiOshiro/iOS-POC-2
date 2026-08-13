@@ -40,6 +40,7 @@ struct ScreenSnapshotTests {
         UserDefaults.standard.removeObject(forKey: StorageKeys.loginEmail)
         Container.shared.loginUseCase.register { StubLoginUseCase() }
         Container.shared.loadSessionUseCase.register { StubLoadSessionUseCase() }
+        Container.shared.checkAccessPermissionUseCase.register { StubCheckAccessPermissionUseCase() }
 
         let vc = LoginScreenFactory.makeLoginScreen()
 
@@ -65,6 +66,7 @@ struct ScreenSnapshotTests {
         Container.shared.loadSessionUseCase.register {
             StubLoadSessionUseCase(session: Session(email: "user@example.com", userID: "user-1"))
         }
+        Container.shared.checkAccessPermissionUseCase.register { StubCheckAccessPermissionUseCase() }
 
         let vc = LoginScreenFactory.makeLoginScreen()
         await hostAndSettle(vc) // onAppear の loadSession を完了させ、保存済みブロックを表示させる
@@ -202,6 +204,11 @@ private struct StubLoginUseCase: LoginUseCase {
 private struct StubLoadSessionUseCase: LoadSessionUseCase {
     var session: Session? = nil
     func execute() async -> Session? { session }
+}
+
+private struct StubCheckAccessPermissionUseCase: CheckAccessPermissionUseCase {
+    var allowed: Bool = true
+    func execute() async throws -> Bool { allowed }
 }
 
 private struct StubSearchMusicUseCase: SearchMusicUseCase {

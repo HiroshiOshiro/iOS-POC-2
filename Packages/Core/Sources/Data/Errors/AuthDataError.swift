@@ -11,8 +11,10 @@ import Model
 /// - `encryption`: パスワード暗号化に失敗
 /// - `persistence`: 保存（Keychain 等）に失敗
 /// - `transport`: 通信レイヤの失敗（共有 `TransportFailure`）
+/// - `missingToken`: アクセス許可チェックに使うトークンが無い（通信を試みる前の前提条件）
 public enum AuthDataError: Error, Sendable, Equatable {
     case encryption
     case persistence
     case transport(TransportFailure)
+    case missingToken
 }

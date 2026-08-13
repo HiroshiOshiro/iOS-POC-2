@@ -55,6 +55,17 @@
         }
       }
     },
+    "login.error.access_denied" : {
+      "comment" : "ログインエラー（アクセス権限チェック）",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アクセス権限がありません"
+          }
+        }
+      }
+    },
     "login.error.validation" : {
       "comment" : "ログインエラー（入力チェック）",
       "localizations" : {

@@ -11,15 +11,17 @@ enum LoginError: LocalizedError {
     case encryption
     case network
     case persistence
+    case accessDenied
     case unknown
 
     var errorDescription: String? {
         switch self {
-        case .validation:  return L("login.error.validation")
-        case .encryption:  return L("login.error.encryption")
-        case .network:     return L("login.error.network")
-        case .persistence: return L("login.error.persistence")
-        case .unknown:     return L("login.error")
+        case .validation:   return L("login.error.validation")
+        case .encryption:   return L("login.error.encryption")
+        case .network:      return L("login.error.network")
+        case .persistence:  return L("login.error.persistence")
+        case .accessDenied: return L("login.error.access_denied")
+        case .unknown:      return L("login.error")
         }
     }
 }

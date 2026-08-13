@@ -12,17 +12,20 @@ final class StubTodoRepository: TodoRepository, @unchecked Sendable {
 
 final class StubAuthRepository: AuthRepository, @unchecked Sendable {
     let session: Session
+    var permissionResult: Bool = true
     init(session: Session) { self.session = session }
     func login(email: String, password: String) async throws -> Session { session }
     func currentSession() async -> Session? { session }
+    func checkAccessPermission() async throws -> Bool { permissionResult }
 }
 
-/// login が必ず指定エラーを投げるスタブ（Data→Domain のエラー変換検証用）。
+/// login/checkAccessPermission が必ず指定エラーを投げるスタブ（Data→Domain のエラー変換検証用）。
 final class ThrowingAuthRepository: AuthRepository, @unchecked Sendable {
     let error: Error
     init(error: Error) { self.error = error }
     func login(email: String, password: String) async throws -> Session { throw error }
     func currentSession() async -> Session? { nil }
+    func checkAccessPermission() async throws -> Bool { throw error }
 }
 
 final class StubMusicRepository: MusicRepository, @unchecked Sendable {
@@ -95,6 +98,35 @@ struct LoadSessionUseCaseTests {
         let result = await sut.execute()
 
         #expect(result == expected)
+    }
+}
+
+struct CheckAccessPermissionUseCaseTests {
+    @Test("Given execute, when called, then it returns the repository's result")
+    func returnsRepositoryResult() async throws {
+        let repository = StubAuthRepository(session: Session(email: "x", userID: "x"))
+        repository.permissionResult = false
+        let sut = DefaultCheckAccessPermissionUseCase(repository: repository)
+
+        let result = try await sut.execute()
+
+        #expect(result == false)
+    }
+
+    @Test("Given the repository throws AuthDataError.missingToken, when execute, then it is converted to AuthError.missingToken")
+    func convertsMissingTokenError() async {
+        let sut = DefaultCheckAccessPermissionUseCase(repository: ThrowingAuthRepository(error: AuthDataError.missingToken))
+        await #expect(throws: AuthError.missingToken) {
+            try await sut.execute()
+        }
+    }
+
+    @Test("Given the repository throws AuthDataError.transport, when execute, then the TransportFailure is carried over")
+    func carriesTransportFailureThrough() async {
+        let sut = DefaultCheckAccessPermissionUseCase(repository: ThrowingAuthRepository(error: AuthDataError.transport(.server(status: 503))))
+        await #expect(throws: AuthError.transport(.server(status: 503))) {
+            try await sut.execute()
+        }
     }
 }
 

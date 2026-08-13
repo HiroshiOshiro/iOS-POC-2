@@ -12,6 +12,8 @@ public protocol AuthRepository: Sendable {
     func login(email: String, password: String) async throws -> Session
     /// 保存済みのセッションを返す（未ログインなら nil）。
     func currentSession() async -> Session?
+    /// 現在保持しているトークンをアクセス許可 API に送り、許可の有無を返す。
+    func checkAccessPermission() async throws -> Bool
 }
 
 /// `AuthRepository` の実装。
@@ -76,5 +78,18 @@ public actor DefaultAuthRepository: AuthRepository {
             return nil
         }
         return Session(email: email, userID: userID)
+    }
+
+    /// 通信前チェック（`MusicRepository.search` の `networkMonitor.isReachable` と同じ型）：
+    /// トークンが無ければ通信を試みずに失敗させる。
+    public func checkAccessPermission() async throws -> Bool {
+        guard let token = tokenManager.token else {
+            throw AuthDataError.missingToken
+        }
+        do {
+            return try await remote.checkAccessPermission(token: token)
+        } catch {
+            throw AuthDataError.transport(.network)
+        }
     }
 }

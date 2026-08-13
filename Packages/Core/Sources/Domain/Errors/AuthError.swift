@@ -10,12 +10,14 @@ import Data
 /// - `validation`: 入力チェック（Domain 固有。Data 層には対応する失敗が無い）
 /// - `encryption` / `persistence`: Data 層の同名失敗を写した段
 /// - `transport`: 通信レイヤの失敗（共有 `TransportFailure`）
+/// - `missingToken`: アクセス許可チェックに使うトークンが無い
 /// - `unknown`: 想定外（未知の失敗の受け皿）
 public enum AuthError: Error, Sendable, Equatable {
     case validation
     case encryption
     case persistence
     case transport(TransportFailure)
+    case missingToken
     case unknown
 
     /// Data 層の失敗を Domain 層の語彙へ変換する。
@@ -24,6 +26,7 @@ public enum AuthError: Error, Sendable, Equatable {
         case .encryption:             self = .encryption
         case .persistence:            self = .persistence
         case .transport(let failure): self = .transport(failure)
+        case .missingToken:           self = .missingToken
         }
     }
 }

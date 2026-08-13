@@ -96,4 +96,38 @@ struct DefaultAuthRepositoryTests {
 
         #expect(session == nil)
     }
+
+    // MARK: - checkAccessPermission
+
+    @Test("Given a stored token, when checkAccessPermission, then it forwards the token and returns the remote's result")
+    func forwardsTokenAndReturnsRemoteResult() async throws {
+        let remote = StubAuthRemote(permissionResult: false)
+        let sut = makeSUT(remote: remote, tokenStore: StubTokenStore(token: "api-token-x"))
+
+        let allowed = try await sut.checkAccessPermission()
+
+        #expect(remote.receivedToken == "api-token-x")
+        #expect(allowed == false)
+    }
+
+    @Test("Given no stored token, when checkAccessPermission, then it throws AuthDataError.missingToken")
+    func throwsMissingTokenWhenNoToken() async {
+        let sut = makeSUT(tokenStore: StubTokenStore(token: nil))
+
+        await #expect(throws: AuthDataError.missingToken) {
+            try await sut.checkAccessPermission()
+        }
+    }
+
+    @Test("Given the remote fails, when checkAccessPermission, then it throws AuthDataError.transport(.network)")
+    func mapsPermissionCheckNetworkFailure() async {
+        let sut = makeSUT(
+            remote: StubAuthRemote(shouldThrowOnPermissionCheck: true),
+            tokenStore: StubTokenStore(token: "api-token-x")
+        )
+
+        await #expect(throws: AuthDataError.transport(.network)) {
+            try await sut.checkAccessPermission()
+        }
+    }
 }

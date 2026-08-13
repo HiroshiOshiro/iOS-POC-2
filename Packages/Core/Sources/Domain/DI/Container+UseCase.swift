@@ -19,6 +19,10 @@ public extension Container {
         self { DefaultLoadSessionUseCase(repository: self.authRepository()) }
     }
 
+    var checkAccessPermissionUseCase: Factory<any CheckAccessPermissionUseCase> {
+        self { DefaultCheckAccessPermissionUseCase(repository: self.authRepository()) }
+    }
+
     var searchMusicUseCase: Factory<any SearchMusicUseCase> {
         self { DefaultSearchMusicUseCase(repository: self.musicRepository()) }
     }
