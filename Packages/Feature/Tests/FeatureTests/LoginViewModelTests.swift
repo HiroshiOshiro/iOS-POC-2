@@ -4,7 +4,9 @@ import Model
 import Domain
 @testable import LoginImpl
 
+// @Injected は Container.shared から解決するため、スタブは register で差し替える。
 @MainActor
+@Suite(.serialized)
 struct LoginViewModelTests {
 
     // MARK: Stubs
@@ -80,6 +82,6 @@ struct LoginViewModelTests {
 
     @Test("LoginError provides a localized description")
     func loginErrorIsLocalized() {
-        #expect(LoginError.failed.errorDescription == "ログインに失敗しました")
+        #expect(LoginError.unknown.errorDescription == "ログインに失敗しました")
     }
 }

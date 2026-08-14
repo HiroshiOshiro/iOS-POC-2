@@ -4,7 +4,9 @@ import Domain
 import ConfirmApi
 @testable import ConfirmImpl
 
+// @Injected は Container.shared から解決するため、スタブは register で差し替える。
 @MainActor
+@Suite(.serialized)
 struct Confirm2ViewModelTests {
 
     // MARK: Stubs
