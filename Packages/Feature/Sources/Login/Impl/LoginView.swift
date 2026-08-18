@@ -92,7 +92,7 @@ struct LoginView: View {
         }
         .onAppear { viewModel.onAppear() }
         .onDisappear { viewModel.onDisappear() }
-        .alert(
+        .customAlert(
             L("error.title"),
             isPresented: Binding(
                 get: { viewModel.error != nil },
@@ -102,13 +102,15 @@ struct LoginView: View {
         ) { error in
             // ネットワークエラーのときだけ、リトライするかどうかを選べるようにする。
             if error == .network {
-                Button(L("login.error.retry")) { viewModel.retryButtonTapped() }
-                Button(L("login.error.retry_cancel"), role: .cancel) {}
+                [
+                    CustomAlertAction(L("login.error.retry")) { viewModel.retryButtonTapped() },
+                    CustomAlertAction(L("login.error.retry_cancel"), role: .cancel),
+                ]
             } else {
-                Button("OK", role: .cancel) {}
+                [CustomAlertAction("OK", role: .cancel)]
             }
         } message: { error in
-            Text(error.localizedDescription)
+            error.localizedDescription
         }
     }
 }
