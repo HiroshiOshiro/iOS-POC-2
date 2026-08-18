@@ -1,25 +1,25 @@
 import Testing
 import Foundation
-import FactoryKit
 import Model
 import Networking
 @testable import Data
 
 /// `DefaultMusicRepository` の DTO→モデル変換・フィルタリング・段別エラー変換を検証する。
-/// @Injected は Container.shared から解決するため、スタブは register で差し替える（直列実行）。
-@Suite(.serialized)
+/// コンストラクタへスタブを直接渡すため、Container には一切触れない。
 struct DefaultMusicRepositoryTests {
 
     private func makeSUT(dtos: [ITunesTrackDTO]) -> DefaultMusicRepository {
-        Container.shared.musicRemoteDataSource.register { StubMusicRemote(dtos: dtos) }
-        Container.shared.networkMonitor.register { StubNetworkMonitor(isReachable: true) }
-        return DefaultMusicRepository()
+        DefaultMusicRepository(
+            remote: StubMusicRemote(dtos: dtos),
+            networkMonitor: StubNetworkMonitor(isReachable: true)
+        )
     }
 
     private func makeSUT(remoteError: Error) -> DefaultMusicRepository {
-        Container.shared.musicRemoteDataSource.register { StubMusicRemote(errorToThrow: remoteError) }
-        Container.shared.networkMonitor.register { StubNetworkMonitor(isReachable: true) }
-        return DefaultMusicRepository()
+        DefaultMusicRepository(
+            remote: StubMusicRemote(errorToThrow: remoteError),
+            networkMonitor: StubNetworkMonitor(isReachable: true)
+        )
     }
 
     // MARK: - 通信前チェック（到達性）
@@ -27,9 +27,10 @@ struct DefaultMusicRepositoryTests {
     @Test("Given the device is offline, when search, then it throws TransportFailure.offline without calling remote")
     func offlinePreCheckThrowsAndSkipsRemote() async {
         let remote = StubMusicRemote(dtos: [dto(trackId: 1)])
-        Container.shared.musicRemoteDataSource.register { remote }
-        Container.shared.networkMonitor.register { StubNetworkMonitor(isReachable: false) }
-        let sut = DefaultMusicRepository()
+        let sut = DefaultMusicRepository(
+            remote: remote,
+            networkMonitor: StubNetworkMonitor(isReachable: false)
+        )
 
         await #expect(throws: TransportFailure.offline) {
             _ = try await sut.search(term: "x")

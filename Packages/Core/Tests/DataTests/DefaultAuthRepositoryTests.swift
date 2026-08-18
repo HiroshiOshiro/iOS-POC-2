@@ -1,15 +1,12 @@
 import Testing
-import FactoryKit
 import Model
 import Networking
 import Datastore
 @testable import Data
 
-// @Injected は Container.shared から解決するため、スタブは register で差し替える。
-@Suite(.serialized)
 struct DefaultAuthRepositoryTests {
 
-    /// 依存をスタブに差し替えて SUT を作る。
+    /// コンストラクタへスタブを直接渡して SUT を作る（Container には一切触れない）。
     private func makeSUT(
         remote: StubAuthRemote = StubAuthRemote(),
         encryptor: StubPasswordEncryptor = StubPasswordEncryptor(),
@@ -17,12 +14,13 @@ struct DefaultAuthRepositoryTests {
         userID: StubUserIDStorage = StubUserIDStorage(),
         tokenStore: StubTokenStore = StubTokenStore()
     ) -> DefaultAuthRepository {
-        Container.shared.authRemoteDataSource.register { remote }
-        Container.shared.passwordEncryptor.register { encryptor }
-        Container.shared.emailStorage.register { email }
-        Container.shared.userIDStorage.register { userID }
-        Container.shared.tokenManager.register { tokenStore }
-        return DefaultAuthRepository()
+        DefaultAuthRepository(
+            remote: remote,
+            passwordEncryptor: encryptor,
+            emailStorage: email,
+            userIDStorage: userID,
+            tokenManager: tokenStore
+        )
     }
 
     // MARK: - 段別エラーへのマッピング（どこで失敗したか → AuthDataError）

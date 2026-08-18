@@ -1,5 +1,4 @@
 import Foundation
-import FactoryKit
 import Common
 import Model
 import Networking
@@ -14,11 +13,15 @@ public protocol MusicRepository: Sendable {
 /// `MusicRepository` の実装。リモート（iTunes API）で検索し、DTO をモデルへ変換する。
 /// NiA 相当: core:data の `OfflineFirstTopicsRepository`（リポジトリ実装）。
 public struct DefaultMusicRepository: MusicRepository {
-    // 依存は Factory から直接注入する（@Injected）。テストは Container に register して差し替える。
-    @Injected(\.musicRemoteDataSource) private var remote
-    @Injected(\.networkMonitor) private var networkMonitor
+    // 依存はコンストラクタで受け取る。解決は Container の登録クロージャ（Container+Repository.swift）が担う。
+    // テストは Container に触れず、直接スタブを渡して組み立てられる。
+    private let remote: any MusicRemoteDataSource
+    private let networkMonitor: any NetworkMonitoring
 
-    public init() {}
+    public init(remote: any MusicRemoteDataSource, networkMonitor: any NetworkMonitoring) {
+        self.remote = remote
+        self.networkMonitor = networkMonitor
+    }
 
     public func search(term: String) async throws -> [MusicTrack] {
         // Music の失敗はすべて通信レイヤ（ドメイン固有の失敗が無い）ため、

@@ -1,6 +1,5 @@
 import Foundation
 import Common
-import FactoryKit
 import Model
 import Networking
 import Datastore
@@ -21,15 +20,29 @@ public protocol AuthRepository: Sendable {
 /// userID は Keychain に保存する。
 /// NiA 相当: core:data の `OfflineFirstUserDataRepository`（リポジトリ実装）。
 public actor DefaultAuthRepository: AuthRepository {
-    // 依存は Factory から直接注入する（@Injected）。テストは Container に register して差し替える。
-    @Injected(\.authRemoteDataSource) private var remote
-    @Injected(\.passwordEncryptor) private var passwordEncryptor
-    @Injected(\.emailStorage) private var emailStorage
-    @Injected(\.userIDStorage) private var userIDStorage
-    // tokenManager は Container 経由で解決すると ObjC が使う `.shared` と同一インスタンスになる。
-    @Injected(\.tokenManager) private var tokenManager
+    // 依存はコンストラクタで受け取る。解決は Container の登録クロージャ（Container+Repository.swift）が担う。
+    // テストは Container に触れず、直接スタブを渡して組み立てられる。
+    private let remote: any AuthRemoteDataSource
+    private let passwordEncryptor: any PasswordEncrypting
+    private let emailStorage: any EmailStorage
+    private let userIDStorage: any UserIDStorage
+    // tokenManager は Container 経由で解決すると ObjC が使う `.shared` と同一インスタンスになる
+    // （その解決は登録クロージャ側が担う。ここでは渡された実体をそのまま使うだけ）。
+    private let tokenManager: any TokenStoring
 
-    public init() {}
+    public init(
+        remote: any AuthRemoteDataSource,
+        passwordEncryptor: any PasswordEncrypting,
+        emailStorage: any EmailStorage,
+        userIDStorage: any UserIDStorage,
+        tokenManager: any TokenStoring
+    ) {
+        self.remote = remote
+        self.passwordEncryptor = passwordEncryptor
+        self.emailStorage = emailStorage
+        self.userIDStorage = userIDStorage
+        self.tokenManager = tokenManager
+    }
 
     /// 複数段（暗号化→通信→保存）を順に実行し、**失敗した段を `AuthDataError` に変換**して投げる。
     /// これは Data 層の語彙。上位（UseCase）が `AuthError` へ再変換して受け取る。

@@ -1,14 +1,11 @@
 import Testing
 import Foundation
-import FactoryKit
 import Model
 import Networking
 import Database
 @testable import Data
 
-// @Injected は Container.shared から解決するため、スタブは register で差し替える。
-// 共有コンテナを使うので直列実行にして register の競合を避ける。
-@Suite(.serialized)
+// コンストラクタへスタブを直接渡すため、Container には一切触れない。
 struct DefaultTodoRepositoryTests {
 
     @Test("Given submit succeeds, when submit is called, then the new record is saved at the top")
@@ -17,9 +14,7 @@ struct DefaultTodoRepositoryTests {
         let local = StubTodoLocal(
             records: [TodoRecord(text: "old", createdAt: Date(timeIntervalSince1970: 0))]
         )
-        Container.shared.todoRemoteDataSource.register { remote }
-        Container.shared.todoLocalDataSource.register { local }
-        let sut = DefaultTodoRepository()
+        let sut = DefaultTodoRepository(remote: remote, local: local)
 
         try await sut.submit(Todo(text: "new"))
 
@@ -32,9 +27,7 @@ struct DefaultTodoRepositoryTests {
     func doesNotSaveWhenRemoteFails() async {
         let remote = StubTodoRemote(shouldThrow: true)
         let local = StubTodoLocal()
-        Container.shared.todoRemoteDataSource.register { remote }
-        Container.shared.todoLocalDataSource.register { local }
-        let sut = DefaultTodoRepository()
+        let sut = DefaultTodoRepository(remote: remote, local: local)
 
         await #expect(throws: TodoRemoteError.self) {
             try await sut.submit(Todo(text: "x"))
