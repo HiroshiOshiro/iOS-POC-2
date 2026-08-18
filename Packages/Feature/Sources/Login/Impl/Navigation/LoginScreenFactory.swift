@@ -9,6 +9,6 @@ import SwiftUI
 @objc public final class LoginScreenFactory: NSObject {
 
     @objc public static func makeLoginScreen() -> UIViewController {
-        UIHostingController(rootView: LoginView())
+        UIHostingController(rootView: LoginFlowView())
     }
 }

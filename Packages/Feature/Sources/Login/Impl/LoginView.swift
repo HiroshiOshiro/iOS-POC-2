@@ -9,7 +9,7 @@ import Datastore
 /// ログイン画面。メールアドレス／パスワードを入力し、モック API でログインする。
 /// NiA 相当: feature:*:impl の Screen（`TopicScreen` / `InterestsScreen`）。
 struct LoginView: View {
-    @StateObject private var viewModel = LoginViewModel()
+    @StateObject private var viewModel: LoginViewModel
 
     /// メールアドレスは LocalStorage 層が UserDefaults の同じキーへ保存するため、
     /// ここでは @AppStorage で購読して表示する（保存後に自動で反映される）。
@@ -17,6 +17,10 @@ struct LoginView: View {
 
     /// 利用規約アコーディオンの開閉状態。
     @State private var isTermsExpanded = false
+
+    init(onLoginSuccess: @escaping (Session) -> Void) {
+        _viewModel = StateObject(wrappedValue: LoginViewModel(onLoginSuccess: onLoginSuccess))
+    }
 
     var body: some View {
         CustomNavigationBarView(title: L("login.title")) {
@@ -134,5 +138,5 @@ private struct PreviewCheckAccessPermissionUseCase: CheckAccessPermissionUseCase
     let _ = Container.shared.loginUseCase.register { PreviewLoginUseCase() }
     let _ = Container.shared.loadSessionUseCase.register { PreviewLoadSessionUseCase() }
     let _ = Container.shared.checkAccessPermissionUseCase.register { PreviewCheckAccessPermissionUseCase() }
-    LoginView()
+    LoginView(onLoginSuccess: { _ in })
 }

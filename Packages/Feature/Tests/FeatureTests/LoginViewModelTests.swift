@@ -24,10 +24,13 @@ struct LoginViewModelTests {
         func execute() async -> Session? { nil }
     }
 
-    private func makeSUT(session: Session?) -> LoginViewModel {
+    private func makeSUT(
+        session: Session?,
+        onLoginSuccess: @escaping (Session) -> Void = { _ in }
+    ) -> LoginViewModel {
         Container.shared.loginUseCase.register { StubLoginUseCase(session: session) }
         Container.shared.loadSessionUseCase.register { StubLoadSessionUseCase() }
-        return LoginViewModel()
+        return LoginViewModel(onLoginSuccess: onLoginSuccess)
     }
 
     // MARK: canSubmit
@@ -76,6 +79,33 @@ struct LoginViewModelTests {
 
         #expect(sut.error != nil)
         #expect(sut.session == nil)
+    }
+
+    @Test("Given login succeeds, when login is tapped, then onLoginSuccess is called with the session")
+    func loginSuccessNotifiesOnLoginSuccess() async {
+        let session = Session(email: "user@example.com", userID: "user-1")
+        var received: Session?
+        let sut = makeSUT(session: session, onLoginSuccess: { received = $0 })
+        sut.email = "user@example.com"
+        sut.password = "pw"
+
+        sut.loginButtonTapped()
+        await waitUntil { !sut.isLoading }
+
+        #expect(received == session)
+    }
+
+    @Test("Given login fails, when login is tapped, then onLoginSuccess is not called")
+    func loginFailureDoesNotNotifyOnLoginSuccess() async {
+        var called = false
+        let sut = makeSUT(session: nil, onLoginSuccess: { _ in called = true })
+        sut.email = "user@example.com"
+        sut.password = "pw"
+
+        sut.loginButtonTapped()
+        await waitUntil { !sut.isLoading }
+
+        #expect(called == false)
     }
 
     // MARK: LocalizedError

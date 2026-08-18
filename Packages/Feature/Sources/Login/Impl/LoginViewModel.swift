@@ -31,6 +31,13 @@ final class LoginViewModel: ObservableObject {
     ///   「エラー表示中に入力し直してからリトライ」しても古い値で再送してしまうバグになる。
     private var retryAction: (() -> Void)?
 
+    /// ログイン成功（このボタン操作起点。復元セッションでは呼ばない）時に画面遷移を依頼する。
+    private let onLoginSuccess: (Session) -> Void
+
+    init(onLoginSuccess: @escaping (Session) -> Void) {
+        self.onLoginSuccess = onLoginSuccess
+    }
+
     var canSubmit: Bool {
         !email.isEmpty && !password.isEmpty && !isLoading
     }
@@ -108,6 +115,8 @@ final class LoginViewModel: ObservableObject {
                 self.session = session
                 // パスワードは保持しない。
                 self.password = ""
+                // 復元セッション（onAppear 起点）ではなく、このボタン操作での成功時のみ遷移する。
+                self.onLoginSuccess(session)
             } catch is CancellationError {
                 // 画面を閉じた等で中断された。UI へは何も反映しない。
                 log("ログインAPI呼び出しをキャンセル")

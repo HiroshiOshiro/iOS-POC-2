@@ -99,6 +99,39 @@
         }
       }
     },
+    "login.complete.back" : {
+      "comment" : "ログイン完了画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "戻る"
+          }
+        }
+      }
+    },
+    "login.complete.message" : {
+      "comment" : "ログイン完了画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログインしました"
+          }
+        }
+      }
+    },
+    "login.complete.title" : {
+      "comment" : "ログイン完了画面",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ログイン完了"
+          }
+        }
+      }
+    },
     "login.button" : {
       "comment" : "ログイン画面",
       "localizations" : {
